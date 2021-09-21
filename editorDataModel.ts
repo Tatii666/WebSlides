@@ -4,33 +4,42 @@ type EditorType = {
 	fontPicker: fontPickerType,
 	figurePicker: figurePickerType,
 	Presentation: PresentationType,
+    log: unknown, //TODO,
+    selectedSlides: Array<id: string>,
+    selectedElement: elementType,
+    activeSlide: number,
+
 };
+
 type PresentationType = {
     title: string,
-    log: unknown, //TODO,
-    activeSlide: number,
-    selectedSlides: Array<number>,
+    slidesOrder: Array<{id: string}>,
     slides: Array<slideType>,
 };
+
 type elementType = {
-    id: number,
+    id: string,
     type: 'i'|'t'|'f',
 };
+
 type slideType = {
+    id: string
     elements: Array<elementType>,
 	imageBlocks: Array<imageBlockType>,
 	textBlocks: Array<textBlockType>,
 	figureBlocks: Array<figureBlockType>,
 };
+
 type imageBlockType = {
-    id: number,
+    id: string,
     position: pointType,
     width: number,
     height: number,
     image: File,
 };
+
 type textBlockType = {
-    id: number,
+    id: string,
     position: pointType,
     value: string,
     width: number,
@@ -40,8 +49,9 @@ type textBlockType = {
         size: number,
     }
 };
+
 type figureBlockType = {
-    id: number,
+    id: string,
     type: 't'|'c'|'r',
     position: pointType,
     width: number,
@@ -56,19 +66,23 @@ type colorType  = {
     b: number
 };
 type colorsType = Array<colorType>;
+
 type palettePickerType = {
     colors: colorsType,
     defaultColor: colorType,
     defaultBackgroundColor: colorType,
     activeColor: colorType,
 };
+
 type fontPickerType = {
     sizes: Array<number>,
     defaultSize: number,
     defaultFont: string,
     activeSize: number,
 };
+
 type figurePickerType = Array<triangleType|circleType|rectangleType>; //TODO
+
 type triangleType = {
     figureType: 't',     //TODO
     topLeft: pointType,
@@ -76,6 +90,7 @@ type triangleType = {
     borderColor: colorType,
     fillColor: colorType,
 };
+
 type circleType = {
     figureType: 'c',    //TODO
     center: pointType,
@@ -83,6 +98,7 @@ type circleType = {
     borderColor: colorType,
     fillColor: colorType,
 };
+
 type rectangleType = { 
     figureType: 'r',    //TODO
     topLeft: pointType,
@@ -90,6 +106,7 @@ type rectangleType = {
     borderColor: colorType,
     fillColor: colorType,
 };
+
 type pointType = {
     x: number,
     y: number
