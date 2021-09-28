@@ -1,45 +1,50 @@
-type EditorType = {
+export type EditorType = {
     mode: ('view'|'edit'),
 	palettePicker: palettePickerType,
 	fontPicker: fontPickerType,
 	figurePicker: figurePickerType,
 	Presentation: PresentationType,
-    log: unknown, //TODO,
-    selectedSlides: Array<id: string>,
+    editLog: editLogType,
+    selectedSlides: Array<idType>,
     selectedElement: elementType,
     activeSlide: number,
-
 };
 
-type PresentationType = {
+
+export type editLogType = {
+    undoStack: Array<PresentationType>,
+    redoStack: Array<PresentationType>,
+}
+
+export type PresentationType = {
     title: string,
-    slidesOrder: Array<{id: string}>,
+    slidesOrder: Array<{id: idType}>,
     slides: Array<slideType>,
 };
 
-type elementType = {
-    id: string,
+export type elementType = {
+    id: idType,
     type: 'i'|'t'|'f',
 };
 
-type slideType = {
-    id: string
+export type slideType = {
+    id: idType
     elements: Array<elementType>,
 	imageBlocks: Array<imageBlockType>,
 	textBlocks: Array<textBlockType>,
 	figureBlocks: Array<figureBlockType>,
 };
 
-type imageBlockType = {
-    id: string,
+export type imageBlockType = {
+    id: idType,
     position: pointType,
     width: number,
     height: number,
     image: File,
 };
 
-type textBlockType = {
-    id: string,
+export type textBlockType = {
+    id: idType,
     position: pointType,
     value: string,
     width: number,
@@ -50,8 +55,8 @@ type textBlockType = {
     }
 };
 
-type figureBlockType = {
-    id: string,
+export type figureBlockType = {
+    id: idType,
     type: 't'|'c'|'r',
     position: pointType,
     width: number,
@@ -60,7 +65,7 @@ type figureBlockType = {
     fillColor: colorType,
 };
 
-type colorType  = {
+export type colorType  = {
     r: number,
     g: number,
     b: number
@@ -111,3 +116,7 @@ type pointType = {
     x: number,
     y: number
 };
+
+
+
+type idType = string;
