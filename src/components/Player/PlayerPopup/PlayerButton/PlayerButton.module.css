@@ -1,0 +1,8 @@
+.playerButton
+{
+    width: 64px;
+    height: 64px;
+    background-color: #4682B4;
+    margin: 0 5px;
+    border-radius: 5px;
+}
