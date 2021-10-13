@@ -1,10 +1,15 @@
 import React from 'react';
-import './Player.module.css';
+import s from './Player.module.css';
+import {SlideContent} from "./SlideContent/SlideContent";
+import {PlayerPopup} from "./PlayerPopup/PlayerPopup";
 
 function Player() {
     return (
-        <div className="player">
-            Наш Плеер
+        <div className={s.player}>
+            <div className={s.slideContainer}>
+                <SlideContent />
+            </div>
+            <PlayerPopup />
         </div>
     );
 }
