@@ -11,6 +11,7 @@ let mode = 'edit';
 function isEditMode(): boolean {
     return mode === 'edit'
 }
+
 function isPlayerMode(): boolean {
     return mode === 'view'
 }
@@ -23,5 +24,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;

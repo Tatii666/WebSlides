@@ -4,6 +4,8 @@ import {ToolBar} from "./ToolBar/ToolBar";
 import {SideBar} from "./SideBar/SideBar";
 import {EditorArea} from "./EditorArea/EditorArea";
 
+const slides = ['slide1','slide2','slide3','slide4','slide5','slide6','slide7','slide8','slide9','slide10',]
+
 function Editor() {
     return (
         <div className={s.editor}>
@@ -11,7 +13,7 @@ function Editor() {
                 <ToolBar />
             </header>
             <div className={s.container}>
-                <SideBar />
+                <SideBar slides={slides}/>
                 <EditorArea />
             </div>
         </div>
