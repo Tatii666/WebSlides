@@ -3,9 +3,9 @@ import s from './CloseButton.module.css';
 
 function CloseButton (){
     return (
-        <div className={s.closeButton}>
-
-        </div>
+        <button className={s.closeButton}>
+            X
+        </button>
     );
 }
 

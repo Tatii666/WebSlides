@@ -1,0 +1,25 @@
+.newFileButton
+{
+    margin: 0 10px;
+    padding: 0 10px;
+    width: 64px;
+}
+
+.buttonIcon
+{
+    width: 64px;
+    height: 64px;
+    background-color: lightgoldenrodyellow;
+}
+
+.buttonText
+{
+    text-align: center;
+}
+
+.newFileButton:hover
+{
+    background-color: #3e3e3e;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}

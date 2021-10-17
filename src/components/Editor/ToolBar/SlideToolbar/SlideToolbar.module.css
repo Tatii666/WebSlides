@@ -1,0 +1,8 @@
+.slideToolbar
+{
+    width: 140px;
+    border-right: 2px solid #535355;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

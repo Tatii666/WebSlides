@@ -1,0 +1,16 @@
+.fontToolbar
+{
+    border-right: 2px solid #535355;
+    display: flex;
+    position: relative;
+    width: 100px;
+}
+
+.toolbarText
+{
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    color: #909090;
+}

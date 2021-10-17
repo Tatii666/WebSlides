@@ -1,0 +1,18 @@
+.fileToolbar
+{
+    width: 440px;
+    border-right: 2px solid #535355;
+}
+
+.fileToolbarButtons
+{
+    display: flex;
+}
+
+.undoRedoButtons
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 0 22px 0;
+}

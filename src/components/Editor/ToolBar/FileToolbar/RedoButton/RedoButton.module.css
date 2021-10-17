@@ -1,0 +1,13 @@
+.redoButton
+{
+    width: 64px;
+    height: 24px;
+    background-color: mistyrose;
+    margin: 0 10px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+.redoButton:hover
+{
+    background-color: #f7c0ba;
+}

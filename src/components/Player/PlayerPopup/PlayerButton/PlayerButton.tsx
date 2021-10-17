@@ -5,9 +5,9 @@ import s from './PlayerButton.module.css';
 function PlayerButton(props: any) {
 
     return (
-        <div className={s.playerButton}>
+        <button className={s.playerButton}>
             {props.value}
-        </div>
+        </button>
     );
 }
 

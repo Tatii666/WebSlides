@@ -1,0 +1,28 @@
+.newSlideButton
+{
+    margin: 0 10px;
+    padding: 0 10px;
+    width: 88px;
+    height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttonIcon
+{
+    width: 64px;
+    height: 64px;
+    background-color: #6699cc;
+    color: #ffffff;
+    text-align: center;
+    line-height: 1.9;
+}
+
+
+.newSlideButton:hover
+{
+    background-color: #3e3e3e;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}

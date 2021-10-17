@@ -1,0 +1,29 @@
+.fileTitle
+{
+    padding: 10px 5px;
+}
+
+.fileTitleInput
+{
+    padding: 5px;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 20px;
+    color: #ffffff;
+    background-color: #535355;
+    border: 2px solid #3e3e3e;
+    border-radius: 3px;
+}
+
+.fileTitleInput:hover
+{
+    color: #3e3e3e;
+    background-color: #cdcdcd;
+}
+
+.fileTitleInput:focus
+{
+    color: #000000;
+    background-color: #f7f7f7;
+}
