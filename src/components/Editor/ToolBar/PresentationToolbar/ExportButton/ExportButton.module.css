@@ -1,0 +1,25 @@
+.exportButton
+{
+    box-sizing: border-box;
+    margin: 0 10px;
+    width: 100%;
+    max-width: 250px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #c3c3c3;
+    color: #000000;
+}
+
+.exportButton:hover
+{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    background-color: #b1b0b0;
+}
+
+.exportButton:active
+{
+    background-color: #efefef;
+}

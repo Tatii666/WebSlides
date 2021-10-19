@@ -4,6 +4,8 @@ import {FileToolbar} from "./FileToolbar/FileToolbar";
 import {SlideToolbar} from "./SlideToolbar/SlideToolbar";
 import {InsertToolbar} from "./InsertToolbar/InsertToolbar";
 import {FontToolbar} from "./FontToolbar/FontToolbar";
+import {ColorToolbar} from "./ColorToolbar/ColorToolbar";
+import {PresentationToolbar} from "./PresentationToolbar/PresentationToolbar";
 
 function ToolBar() {
     return (
@@ -12,6 +14,8 @@ function ToolBar() {
             <SlideToolbar/>
             <InsertToolbar/>
             <FontToolbar/>
+            <ColorToolbar />
+            <PresentationToolbar />
         </div>
     );
 }
