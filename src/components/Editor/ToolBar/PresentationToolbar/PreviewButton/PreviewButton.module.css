@@ -1,0 +1,25 @@
+.previewButton
+{
+    box-sizing: border-box;
+    margin: 10px 10px 10px;
+    width: 100%;
+    max-width: 250px;
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #6699cc;
+}
+
+.previewButton:hover
+{
+    background-color: #6699cc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    background-color: #537faa;
+}
+
+.previewButton:active
+{
+    background-color: #1160af;
+}

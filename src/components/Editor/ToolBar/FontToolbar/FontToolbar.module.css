@@ -1,16 +1,13 @@
 .fontToolbar
 {
     border-right: 2px solid #535355;
-    display: flex;
     position: relative;
-    width: 100px;
+    width: 100%;
+    min-width: 150px;
+    flex-shrink: 1;
 }
 
-.toolbarText
+.fontToolbarButtons
 {
-    position: absolute;
-    bottom: 5px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    color: #909090;
+    margin: 0 0 22px 0;
 }

@@ -1,10 +1,9 @@
 .insertToolbar
 {
-    border-right: 2px solid #535355;
     display: flex;
+    flex-direction: column;
     width: 500px;
     position: relative;
-    display: flex;
 }
 
 .toolbarText
@@ -14,4 +13,14 @@
     left: 50%;
     transform: translate(-50%, 0);
     color: #909090;
+}
+
+.insertButtons
+{
+    display: flex;
+}
+
+.buttonText
+{
+    text-align: center;
 }
