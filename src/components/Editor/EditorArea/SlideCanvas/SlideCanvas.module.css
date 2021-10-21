@@ -1,4 +1,5 @@
 .slideCanvas
 {
     background-color: #ffffff;
+    z-index: 0;
 }

@@ -3,4 +3,6 @@
     position: relative;
     height: 148px;
     display: flex;
+    z-index: 1;
+    background-color: #474747;
 }
