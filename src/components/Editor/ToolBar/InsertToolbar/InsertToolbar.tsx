@@ -1,17 +1,18 @@
 import React from 'react';
 import s from './InsertToolbar.module.css';
 import {ToolbarText} from "../ToolbarText/ToolbarText";
-import {PictureInsertButton} from "./PictureInsertButton/PictureInsertButton";
 import {FigureInsertButtons} from "./FigureInsertButtons/FigureInsertButtons";
-import {TextInsertButton} from "./TextInsertButton/TextInsertButton";
+import {InsertButtons} from "./InsertButtons/InsertButtons";
+import ImageIcon from "../../../../img/addImage.png";
+import TextIcon from "../../../../img/addText.png";
 
 function InsertToolbar() {
     return (
         <div className={s.insertToolbar}>
             <ToolbarText text='вставка' />
-                <PictureInsertButton />
-                <FigureInsertButtons />
-                <TextInsertButton />
+            <InsertButtons text="PICTURE" iconSrc={ImageIcon} />
+            <FigureInsertButtons />
+            <InsertButtons text="TEXT" iconSrc={TextIcon} />
         </div>
     );
 }

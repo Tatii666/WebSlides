@@ -2,12 +2,13 @@
 {
     width: 64px;
     height: 24px;
-    background-color: mistyrose;
     margin: 0 10px;
     padding: 0 10px;
     cursor: pointer;
 }
 .redoButton:hover
 {
-    background-color: #f7c0ba;
+    background-color: #3e3e3e;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
 }
