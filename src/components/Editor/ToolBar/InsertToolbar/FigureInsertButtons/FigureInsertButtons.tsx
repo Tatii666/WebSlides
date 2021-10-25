@@ -1,16 +1,17 @@
 import React from 'react';
 import s from './FigureInsertButtons.module.css';
-import {RectangleInsertButton} from "./RectangleInsertButton/RectangleInsertButton";
-import {CircleInsertButton} from "./CircleInsertButton/CircleInsertButton";
-import {TriangleInsertButton} from "./TriangleInsertButton/TriangleInsertButton";
+import {FigureButtons} from "./FigureButtons/FigureButtons";
+import CircleIcon from "../../../../../img/addCircle.png";
+import RectangleIcon from "../../../../../img/addRectangle.png";
+import TriangleIcon from "../../../../../img/addTriangle.png";
 
 function FigureInsertButtons() {
     return (
-        <div className={s.insertToolbar}>
+        <div className={s.figureInsertButtons}>
             <div className={s.insertButtons}>
-                <RectangleInsertButton />
-                <CircleInsertButton />
-                <TriangleInsertButton />
+                <FigureButtons iconSrc={RectangleIcon}/>
+                <FigureButtons iconSrc={CircleIcon}/>
+                <FigureButtons iconSrc={TriangleIcon}/>
             </div>
             <div className={s.buttonText}>FIGURE</div>
         </div>
