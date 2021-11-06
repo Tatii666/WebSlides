@@ -5,7 +5,7 @@ import Redo from '../../../../../img/Redo.png'
 function RedoButton() {
     return (
         <div className={s.redoButton} onClick={()=>console.log('redo')}>
-            <img src={Redo}/>
+            <img src={Redo} alt={'undo icon'}/>
         </div>
     );
 }

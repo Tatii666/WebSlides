@@ -5,7 +5,7 @@ import Undo from '../../../../../img/Undo.png'
 function UndoButton() {
     return (
         <div className={s.undoButton} onClick={()=>console.log('undo')}>
-            <img src={Undo}/>
+            <img src={Undo} alt={'undo icon'}/>
         </div>
     );
 }
