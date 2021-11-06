@@ -9,9 +9,9 @@ function FigureInsertButtons() {
     return (
         <div className={s.figureInsertButtons}>
             <div className={s.insertButtons}>
-                <FigureButtons iconSrc={RectangleIcon}/>
-                <FigureButtons iconSrc={CircleIcon}/>
-                <FigureButtons iconSrc={TriangleIcon}/>
+                <FigureButtons iconSrc={RectangleIcon} text={'rectangle'}/>
+                <FigureButtons iconSrc={CircleIcon} text={'circle'}/>
+                <FigureButtons iconSrc={TriangleIcon} text={'triangle'}/>
             </div>
             <div className={s.buttonText}>FIGURE</div>
         </div>

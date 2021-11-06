@@ -5,7 +5,7 @@ function FigureButtons(props: any) {
     return (
         <div className={s.FigureButtons}>
             <div className={s.buttonIcon}>
-                <img src={props.iconSrc}/>
+                <img src={props.iconSrc} alt={props.text + ' icon'}/>
             </div>
         </div>
     );
