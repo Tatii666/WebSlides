@@ -1,13 +1,19 @@
 import React from 'react';
 import s from './FileButtons.module.css';
 
-function FileButtons(props: any) {
+type propsType = {
+    text: string,
+    iconSrc: string,
+    onClick: () => void,
+}
+
+function FileButtons({text, iconSrc, onClick}: propsType) {
     return (
-        <div className={s.FileButtons}>
+        <div className={s.FileButtons} onClick={onClick}>
             <div className={s.buttonIcon}>
-                <img src={props.iconSrc} alt={props.text + ' icon'}/>
+                <img src={iconSrc} alt={text + ' icon'}/>
             </div>
-            <div className={s.buttonText}>{props.text}</div>
+            <div className={s.buttonText}>{text}</div>
         </div>
     );
 }

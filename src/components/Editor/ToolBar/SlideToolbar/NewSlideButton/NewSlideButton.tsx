@@ -10,9 +10,9 @@ function onClick() {
 
 function NewSlideButton() {
     return (
-        <div className={s.newSlideButton} contentEditable={false}>
+        <div className={s.newSlideButton} contentEditable={false} onClick={onClick}>
             <ToolbarText text="слайд" />
-            <div className={s.buttonIcon} onClick={onClick}>
+            <div className={s.buttonIcon}>
                 NEW SLIDE
             </div>
         </div>

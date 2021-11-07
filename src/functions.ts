@@ -117,6 +117,53 @@ function selectSlide(editor: EditorType, {slideId, isCtrlPressed}: selectSlidePr
     }
 }
 
+/**
+ * @param {EditorType} editor
+ * @return {EditorType}
+ */
+function newPresentation(editor: EditorType) {
+    const newEditor = {
+        ...editor,
+        editLog: {
+            undoStack: [],
+            redoStack: [],
+        },
+        Presentation: {
+            title: 'New presentation',
+            slidesOrder: [],
+            slides: {},
+        }
+    }
+
+    return addNewSlide(newEditor);
+}
+
+/**
+ * @param {EditorType} editor
+ * @return {EditorType}
+ */
+function savePresentation(editor: EditorType) {
+    const type = 'data:application/octet-stream;base64, ';
+    const text = JSON.stringify(editor.Presentation);
+    const base = btoa(text);
+    const res = type + base;
+    const link = document.createElement('a');
+    link.href = res;
+    link.download = editor.Presentation.title + '.json';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    const newEditor = {
+        ...editor,
+        editLog: {
+            undoStack: [],
+            redoStack: [],
+        },
+    }
+
+    return newEditor;
+}
 
 export {
     setEditMode,
@@ -124,4 +171,7 @@ export {
     setPresentationTitle,
     addNewSlide,
     selectSlide,
+    newPresentation,
+    savePresentation,
+
 }
