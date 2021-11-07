@@ -2,25 +2,26 @@ import React from 'react';
 import './App.css';
 import {Editor} from "./components/Editor/Editor";
 import {Player} from "./components/Player/Player";
+import {editorModeType, EditorType} from "./dataModel/editorDataModel";
 
-/**
- * @type {('view'|'edit')}
- */
-let mode = 'edit';
+type AppProps = {
+  editor: EditorType,
+}
 
-function isEditMode(): boolean {
+function isEditMode(mode: editorModeType): boolean {
     return mode === 'edit'
 }
 
-function isPlayerMode(): boolean {
+function isPlayerMode(mode: editorModeType): boolean {
     return mode === 'view'
 }
 
-function App() {
+
+function App({editor}: AppProps) {
   return (
     <div className="App">
-        {isEditMode() && <Editor />}
-        {isPlayerMode() && <Player />}
+        {isEditMode(editor.mode) && <Editor />}
+        {isPlayerMode(editor.mode) && <Player />}
     </div>
   );
 }

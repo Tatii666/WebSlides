@@ -7,6 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    user-select: none;
 }
 
 .buttonIcon
@@ -18,7 +19,6 @@
     text-align: center;
     line-height: 1.9;
 }
-
 
 .newSlideButton:hover
 {

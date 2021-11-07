@@ -7,13 +7,12 @@ import {FileButtons} from "./FileButtons/FileButtons";
 import newButtonIcon from "../../../../img/NewFile (2).png"
 import loadButtonIcon from "../../../../img/LoadFile.png"
 import saveButtonIcon from "../../../../img/SaveFile.png"
-
-const title='Our new slides';
+import {getEditor} from "../../../../editor";
 
 function FileToolbar() {
     return (
         <div className={s.fileToolbar}>
-            <FileTitle title={title}/>
+            <FileTitle title={getEditor().Presentation.title}/>
             <div className={s.fileToolbarButtons}>
                 <FileButtons text="NEW" iconSrc={newButtonIcon}/>
                 <FileButtons text="LOAD" iconSrc={loadButtonIcon}/>

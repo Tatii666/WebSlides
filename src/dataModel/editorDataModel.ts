@@ -1,24 +1,33 @@
 export type EditorType = {
-    mode: ('view'|'edit'),
+    mode: editorModeType,
 	palettePicker: palettePickerType,
 	fontPicker: fontPickerType,
 	figurePicker: figurePickerType,
 	Presentation: PresentationType,
     editLog: editLogType,
-    selectedSlides: Array<idType>,
+    selectedSlides: selectedSlidesType,
     selectedElement: elementType,
-    activeSlide: number,
 };
+
+export type selectedSlidesType = Array<slidesOrderItemType>;
+
+export type editorModeType = ('view'|'edit');
 
 export type editLogType = {
     undoStack: Array<PresentationType>,
     redoStack: Array<PresentationType>,
 }
 
+export type slidesOrderItemType = {id: idType};
+
+export type slidesOrderType = Array<{id: idType}>;
+
+export type slidesType = {[slideId: string]: slideType};
+
 export type PresentationType = {
     title: string,
-    slidesOrder: Array<{id: idType}>,
-    slides: Array<slideType>,
+    slidesOrder: slidesOrderType,
+    slides: slidesType,
 };
 
 export type elementType = {
@@ -27,11 +36,12 @@ export type elementType = {
 };
 
 export type slideType = {
-    id: idType
+    id: idType,
     elements: Array<elementType>,
 	imageBlocks: Array<imageBlockType>,
 	textBlocks: Array<textBlockType>,
 	figureBlocks: Array<figureBlockType>,
+    backgroundColor: colorType,
 };
 
 export type imageBlockType = {
@@ -69,6 +79,7 @@ export type colorType  = {
     g: number,
     b: number
 };
+
 export type colorsType = Array<colorType>;
 
 export type palettePickerType = {
@@ -87,8 +98,8 @@ export type fontPickerType = {
 
 export type figurePickerType = Array<triangleType|circleType|rectangleType>; //TODO
 
-export type triangleType = {
-    figureType: 't',     //TODO
+type triangleType = {
+    figureType: 't',
     topLeft: pointType,
     bottomRight: pointType,
     borderColor: colorType,
@@ -96,7 +107,7 @@ export type triangleType = {
 };
 
 export type circleType = {
-    figureType: 'c',    //TODO
+    figureType: 'c',
     center: pointType,
     radius: number,
     borderColor: colorType,
@@ -104,7 +115,7 @@ export type circleType = {
 };
 
 export type rectangleType = {
-    figureType: 'r',    //TODO
+    figureType: 'r',
     topLeft: pointType,
     bottomRight: pointType,
     borderColor: colorType,
