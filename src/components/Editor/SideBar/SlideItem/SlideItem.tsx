@@ -23,7 +23,6 @@ function SlideItem({index, slide, isSelected}: propsType) {
     }
     const selectedClass = isSelected? ` ${s.slideItem_selected}` : '';
 
-    console.log(isSelected)
     return (
         <div className={s.slideItem + selectedClass} onClick={(event) => {
             onClick(slide.id, event.ctrlKey);

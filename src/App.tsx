@@ -3,8 +3,9 @@ import './App.css';
 import {Editor} from "./components/Editor/Editor";
 import {Player} from "./components/Player/Player";
 import {editorModeType, EditorType} from "./dataModel/editorDataModel";
+import {getEditor} from "./editor";
 
-type AppProps = {
+type AppPropsType = {
   editor: EditorType,
 }
 
@@ -17,11 +18,11 @@ function isPlayerMode(mode: editorModeType): boolean {
 }
 
 
-function App({editor}: AppProps) {
+function App({editor}: AppPropsType) {
   return (
     <div className="App">
         {isEditMode(editor.mode) && <Editor />}
-        {isPlayerMode(editor.mode) && <Player />}
+        {isPlayerMode(editor.mode) && <Player editor={getEditor()}/>}
     </div>
   );
 }

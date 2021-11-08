@@ -1,10 +1,14 @@
 import React from 'react';
 import s from './SlideContent.module.css';
+import {slideType} from "../../../dataModel/editorDataModel";
 
-function SlideContent() {
+type propsType = {
+    slide: slideType,
+}
+function SlideContent({slide}: propsType) {
     return (
         <div className={s.slideContent}>
-            Наш Плеер
+            {slide.id}
         </div>
     );
 }

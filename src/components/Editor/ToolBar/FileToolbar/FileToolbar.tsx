@@ -1,8 +1,6 @@
 import React, {ChangeEvent, useRef} from 'react';
 import s from './FileToolbar.module.css';
 import {FileTitle} from "./FileTitle/FileTitle";
-import {RedoButton} from "./RedoButton/RedoButton";
-import {UndoButton} from "./UndoButton/UndoButton";
 import {FileButtons} from "./FileButtons/FileButtons";
 import newButtonIcon from "../../../../img/NewFile (2).png"
 import loadButtonIcon from "../../../../img/LoadFile.png"
@@ -10,6 +8,7 @@ import saveButtonIcon from "../../../../img/SaveFile.png"
 import {dispatch} from "../../../../editor";
 import {loadPresentation, newPresentation, savePresentation} from "../../../../functions";
 import {PresentationType} from "../../../../dataModel/editorDataModel";
+import {UndoReduButtons} from "./UndoRedoButtons/UndoRedoButtons";
 
 const PRESENTATION_FILE_EXTENTION = 'json';
 
@@ -57,13 +56,16 @@ function FileToolbar({title}: propsType) {
                 return
             }
             readFile(files[0]);
+
+        }
+        if (inputFile.current) {
+            inputFile.current.value = '';
         }
     };
 
     function onLoadPresentationClick() {
         inputFile.current && inputFile.current.click();
     }
-
 
     return (
         <div className={s.fileToolbar}>
@@ -72,10 +74,7 @@ function FileToolbar({title}: propsType) {
                 <FileButtons text="NEW" iconSrc={newButtonIcon} onClick={onNewPresentation} />
                 <FileButtons text="LOAD" iconSrc={loadButtonIcon} onClick={onLoadPresentationClick} />
                 <FileButtons text="SAVE" iconSrc={saveButtonIcon} onClick={onSavePresentation} />
-                <div className={s.undoRedoButtons}>
-                    <RedoButton/>
-                    <UndoButton/>
-                </div>
+                <UndoReduButtons />
                 <input
                     style={{ display: "none" }}
                     accept={`.${PRESENTATION_FILE_EXTENTION}`}

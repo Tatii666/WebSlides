@@ -7,6 +7,8 @@
 
 .buttonIcon
 {
+    border-radius: 3px;
+    overflow: hidden;
     width: 64px;
     height: 64px;
     background-color: lightblue;

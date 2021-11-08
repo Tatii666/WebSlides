@@ -2,6 +2,7 @@ import {
     colorType,
     EditorType,
     PresentationType,
+    selectedSlidesType,
 } from "./dataModel/editorDataModel";
 import {v4 as uuidv4} from 'uuid';
 
@@ -122,9 +123,37 @@ function selectSlide(editor: EditorType, {slideId, isCtrlPressed}: selectSlidePr
  * @param {EditorType} editor
  * @return {EditorType}
  */
+function selectNextSlide(editor: EditorType) {
+    const slidesOrder = editor.Presentation.slidesOrder;
+    let newSelectedSlides: selectedSlidesType = [];
+    if (!editor.selectedSlides.length) {
+        newSelectedSlides = slidesOrder.length? [{id: slidesOrder[0].id}] : [];
+    } else {
+        const lastSelectedId = editor.selectedSlides[editor.selectedSlides.length - 1].id;
+        const slideIndex = slidesOrder.findIndex(el => el.id === lastSelectedId);
+
+        if (slideIndex !== -1) {
+            if (!!slidesOrder[slideIndex + 1]) {
+                newSelectedSlides = [{id: slidesOrder[slideIndex + 1].id}];
+            } else {
+                newSelectedSlides = [{id: slidesOrder[slideIndex].id}];
+            }
+        }
+    }
+    return {
+        ...editor,
+        selectedSlides: newSelectedSlides,
+    }
+}
+
+/**
+ * @param {EditorType} editor
+ * @return {EditorType}
+ */
 function newPresentation(editor: EditorType) {
     const newEditor = {
         ...editor,
+        selectedSlides: [],
         editLog: {
             undoStack: [],
             redoStack: [],
@@ -197,8 +226,8 @@ export {
     setPresentationTitle,
     addNewSlide,
     selectSlide,
+    selectNextSlide,
     newPresentation,
     savePresentation,
     loadPresentation,
-
 }
