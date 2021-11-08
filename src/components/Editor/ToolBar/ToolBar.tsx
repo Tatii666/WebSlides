@@ -6,11 +6,12 @@ import {InsertToolbar} from "./InsertToolbar/InsertToolbar";
 import {FontToolbar} from "./FontToolbar/FontToolbar";
 import {ColorToolbar} from "./ColorToolbar/ColorToolbar";
 import {PresentationToolbar} from "./PresentationToolbar/PresentationToolbar";
+import {getEditor} from "../../../editor";
 
 function ToolBar() {
     return (
         <div className={s.toolbar}>
-            <FileToolbar/>
+            <FileToolbar title={getEditor().Presentation.title}/>
             <SlideToolbar/>
             <InsertToolbar/>
             <FontToolbar/>

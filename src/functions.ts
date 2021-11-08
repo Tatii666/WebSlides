@@ -1,6 +1,7 @@
 import {
     colorType,
     EditorType,
+    PresentationType,
 } from "./dataModel/editorDataModel";
 import {v4 as uuidv4} from 'uuid';
 
@@ -145,9 +146,10 @@ function newPresentation(editor: EditorType) {
 function savePresentation(editor: EditorType) {
     const type = 'data:application/octet-stream;base64, ';
     const text = JSON.stringify(editor.Presentation);
-    const base = btoa(text);
+    const base = btoa(unescape(encodeURIComponent(text)))
     const res = type + base;
     const link = document.createElement('a');
+
     link.href = res;
     link.download = editor.Presentation.title + '.json';
     document.body.appendChild(link);
@@ -165,6 +167,30 @@ function savePresentation(editor: EditorType) {
     return newEditor;
 }
 
+
+type loadPresentationPropsType = {
+    presentation: PresentationType,
+}
+/**
+ * @param {EditorType} editor
+ * @param {{
+ *   presentation: PresentationType,
+ * }}
+ * @return {EditorType}
+ */
+function loadPresentation(editor: EditorType, {presentation}: loadPresentationPropsType) {
+    const newEditor = {
+        ...editor,
+        editLog: {
+            undoStack: [],
+            redoStack: [],
+        },
+        Presentation: presentation,
+    }
+
+    return newEditor;
+}
+
 export {
     setEditMode,
     setViewMode,
@@ -173,5 +199,6 @@ export {
     selectSlide,
     newPresentation,
     savePresentation,
+    loadPresentation,
 
 }
