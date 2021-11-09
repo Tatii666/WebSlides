@@ -1,9 +1,9 @@
 import React from 'react';
 import s from './FigureInsertButtons.module.css';
 import {FigureButtons} from "./FigureButtons/FigureButtons";
-import CircleIcon from "../../../../../img/addCircle.png";
-import RectangleIcon from "../../../../../img/addRectangle.png";
-import TriangleIcon from "../../../../../img/addTriangle.png";
+import CircleIcon from "../../../../../img/addCircle.svg";
+import RectangleIcon from "../../../../../img/addRectangle.svg";
+import TriangleIcon from "../../../../../img/addTriangle.svg";
 
 function FigureInsertButtons() {
     return (

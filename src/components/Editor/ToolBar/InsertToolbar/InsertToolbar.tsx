@@ -3,12 +3,12 @@ import s from './InsertToolbar.module.css';
 import {ToolbarText} from "../ToolbarText/ToolbarText";
 import {FigureInsertButtons} from "./FigureInsertButtons/FigureInsertButtons";
 import {InsertButtons} from "./InsertButtons/InsertButtons";
-import ImageIcon from "../../../../img/addImage.png";
-import TextIcon from "../../../../img/addText.png";
+import ImageIcon from "../../../../img/addImage.svg";
+import TextIcon from "../../../../img/addText.svg";
 
 function InsertToolbar() {
     return (
-        <div className={s.insertToolbar}>
+        <div className={s.insertToolbar} >
             <ToolbarText text='вставка' />
             <InsertButtons text="PICTURE" iconSrc={ImageIcon} />
             <FigureInsertButtons />
