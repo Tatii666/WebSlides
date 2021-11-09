@@ -5,6 +5,7 @@
     width: 500px;
     position: relative;
     display: flex;
+    user-select:none;
 }
 
 .toolbarText
