@@ -2,9 +2,9 @@ import React, {ChangeEvent, useRef} from 'react';
 import s from './FileToolbar.module.css';
 import {FileTitle} from "./FileTitle/FileTitle";
 import {FileButtons} from "./FileButtons/FileButtons";
-import newButtonIcon from "../../../../img/NewFile.svg"
-import loadButtonIcon from "../../../../img/LoadFile.svg"
-import saveButtonIcon from "../../../../img/SaveFile.svg"
+import {ReactComponent as newButtonIcon} from "../../../../img/NewFile.svg"
+import {ReactComponent as loadButtonIcon} from "../../../../img/LoadFile2.svg"
+import {ReactComponent as saveButtonIcon} from "../../../../img/SaveFile.svg"
 import {dispatch} from "../../../../editor";
 import {loadPresentation, newPresentation, savePresentation} from "../../../../functions";
 import {PresentationType} from "../../../../dataModel/editorDataModel";
@@ -71,9 +71,9 @@ function FileToolbar({title}: propsType) {
         <div className={s.fileToolbar}>
             <FileTitle title={title}/>
             <div className={s.fileToolbarButtons}>
-                <FileButtons text="NEW" iconSrc={newButtonIcon} onClick={onNewPresentation} />
-                <FileButtons text="LOAD" iconSrc={loadButtonIcon} onClick={onLoadPresentationClick} />
-                <FileButtons text="SAVE" iconSrc={saveButtonIcon} onClick={onSavePresentation} />
+                <FileButtons text="NEW" icon={newButtonIcon} onClick={onNewPresentation} />
+                <FileButtons text="LOAD" icon={loadButtonIcon} onClick={onLoadPresentationClick} />
+                <FileButtons text="SAVE" icon={saveButtonIcon} onClick={onSavePresentation} />
                 <UndoReduButtons />
                 <input
                     style={{ display: "none" }}

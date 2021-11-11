@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import s from './Player.module.css';
 import {SlideContent} from "./SlideContent/SlideContent";
 import {PlayerPopup} from "./PlayerPopup/PlayerPopup";
