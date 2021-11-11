@@ -1,4 +1,4 @@
-import {EditorType, idType, PresentationType} from "./dataModel/editorDataModel";
+import {EditorType} from "./dataModel/editorDataModel";
 
 const defaultColor = {
     r: 0,

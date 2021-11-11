@@ -1,11 +1,15 @@
 import React from 'react';
 import s from './FigureButtons.module.css';
-
-function FigureButtons(props: any) {
+type propsType = {
+    text: string,
+    icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>,
+    onClick: () => void,
+}
+function FigureButtons({text, icon: Icon, onClick}: propsType) {
     return (
         <div className={s.FigureButtons}>
             <div className={s.buttonIcon}>
-                <img src={props.iconSrc} alt={props.text + ' icon'}/>
+                <Icon />
             </div>
         </div>
     );

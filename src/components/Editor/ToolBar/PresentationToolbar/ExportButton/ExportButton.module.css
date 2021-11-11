@@ -10,6 +10,7 @@
     align-items: center;
     background-color: #c3c3c3;
     color: #000000;
+    border-radius: 3px;
 }
 
 .exportButton:hover

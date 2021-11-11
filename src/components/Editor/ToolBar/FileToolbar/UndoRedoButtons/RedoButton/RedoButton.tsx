@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './RedoButton.module.css';
-import Redo from '../../../../../../img/Redo.png'
+import {ReactComponent as RedoIcon} from '../../../../../../img/Redo2.svg'
 
 type propsType = {
     isDisabled: boolean,
@@ -9,7 +9,7 @@ type propsType = {
 function RedoButton({isDisabled}: propsType) {
     return (
         <div className={`${s.redoButton} ${isDisabled? s.redoButton_disabled: ''}`} onClick={!isDisabled? ()=>console.log('redo'): ()=>{}}>
-            <img src={Redo} alt={'undo icon'}/>
+            <RedoIcon />
         </div>
     );
 }
