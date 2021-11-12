@@ -2,9 +2,9 @@ import React, {ChangeEvent, useRef} from 'react';
 import s from './FileToolbar.module.css';
 import {FileTitle} from "./FileTitle/FileTitle";
 import {FileButtons} from "./FileButtons/FileButtons";
-import {ReactComponent as newButtonIcon} from "../../../../img/NewFile.svg"
+import {ReactComponent as newButtonIcon} from "../../../../img/NewFile2.svg"
 import {ReactComponent as loadButtonIcon} from "../../../../img/LoadFile2.svg"
-import {ReactComponent as saveButtonIcon} from "../../../../img/SaveFile.svg"
+import {ReactComponent as saveButtonIcon} from "../../../../img/SaveFile2.svg"
 import {dispatch} from "../../../../editor";
 import {loadPresentation, newPresentation, savePresentation} from "../../../../functions";
 import {PresentationType} from "../../../../dataModel/editorDataModel";

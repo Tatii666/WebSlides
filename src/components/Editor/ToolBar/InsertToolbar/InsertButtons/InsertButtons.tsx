@@ -1,13 +1,19 @@
 import React from 'react';
 import s from './InsertButtons.module.css';
 
-function InsertButtons(props:any) {
+type propsType = {
+    text: string,
+    icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>,
+    onClick: () => void,
+}
+
+function InsertButtons({text, icon: Icon, onClick}: propsType) {
     return (
         <div className={s.InsertButtons}>
             <div className={s.buttonIcon}>
-                <img src={props.iconSrc} alt={props.text + ' icon'}/>
+                <Icon />
             </div>
-            <div className={s.buttonText}>{props.text}</div>
+            <div className={s.buttonText}>{text}</div>
         </div>
     );
 }
