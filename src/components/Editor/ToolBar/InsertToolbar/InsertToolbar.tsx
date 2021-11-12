@@ -3,16 +3,16 @@ import s from './InsertToolbar.module.css';
 import {ToolbarText} from "../ToolbarText/ToolbarText";
 import {FigureInsertButtons} from "./FigureInsertButtons/FigureInsertButtons";
 import {InsertButtons} from "./InsertButtons/InsertButtons";
-import ImageIcon from "../../../../img/addImage.svg";
-import TextIcon from "../../../../img/addText.svg";
+import {ReactComponent as PictureIcon} from "../../../../img/addImage2.svg";
+import {ReactComponent as TextIcon} from "../../../../img/addText2.svg";
 
 function InsertToolbar() {
     return (
         <div className={s.insertToolbar} >
             <ToolbarText text='вставка' />
-            <InsertButtons text="PICTURE" iconSrc={ImageIcon} />
+            <InsertButtons icon={PictureIcon} text={'PICTURE'} onClick={() => {}}/>
             <FigureInsertButtons />
-            <InsertButtons text="TEXT" iconSrc={TextIcon} />
+            <InsertButtons icon={TextIcon} text={'TEXT'} onClick={() => {}}/>
         </div>
     );
 }
