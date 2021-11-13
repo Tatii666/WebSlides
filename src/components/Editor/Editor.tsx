@@ -3,9 +3,17 @@ import s from './Editor.module.css';
 import {ToolBar} from "./ToolBar/ToolBar";
 import {SideBar} from "./SideBar/SideBar";
 import {EditorArea} from "./EditorArea/EditorArea";
-import {getEditor} from "../../editor";
+import {EditorType} from "../../dataModel/editorDataModel";
 
-function Editor() {
+type EditorPropsType = {
+    editor: EditorType,
+}
+/**
+ * @param {{
+ *   editor: EditorType,
+ * }} props
+ */
+function Editor({editor}: EditorPropsType) {
     return (
         <div className={s.editor}>
             <header className={s.header}>
@@ -13,9 +21,10 @@ function Editor() {
             </header>
             <div className={s.container}>
                 <SideBar
-                    slides={getEditor().Presentation.slides}
-                    slidesOrder={getEditor().Presentation.slidesOrder}
-                    selectedSlides={getEditor().selectedSlides}
+                    slides={editor.Presentation.slides}
+                    slidesOrder={editor.Presentation.slidesOrder}
+                    selectedSlides={editor.selectedSlides}
+                    activeSlide={editor.activeSlide}
                 />
                 <EditorArea />
             </div>

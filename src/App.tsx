@@ -21,8 +21,8 @@ function isPlayerMode(mode: editorModeType): boolean {
 function App({editor}: AppPropsType) {
   return (
     <div className="App">
-        {isEditMode(editor.mode) && <Editor />}
-        {isPlayerMode(editor.mode) && <Player editor={getEditor()}/>}
+        {isEditMode(editor.mode) && <Editor editor={getEditor()} />}
+        {isPlayerMode(editor.mode) && <Player editor={getEditor()} />}
     </div>
   );
 }

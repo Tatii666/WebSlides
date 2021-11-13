@@ -5,12 +5,11 @@ import {getEditor} from "../../../editor";
 
 function EditorArea() {
     const state = getEditor();
-    const activeSlideId = state.selectedSlides.length? state.selectedSlides[state.selectedSlides.length-1].id : null;
-    const activeSlide = activeSlideId? state.Presentation.slides[activeSlideId] : null;
+    const slide = state.activeSlide? state.Presentation.slides[state.activeSlide] : null;
 
     return (
         <div className={s.editorArea}>
-            <SlideCanvas slide={activeSlide}/>
+            <SlideCanvas slide={slide}/>
         </div>
     );
 }

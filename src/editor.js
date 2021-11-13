@@ -1,4 +1,5 @@
 import {EditorType} from "./dataModel/editorDataModel";
+import {addToUndo} from "./functions";
 
 const defaultColor = {
     r: 0,
@@ -59,6 +60,8 @@ let editor = {
         redoStack: [],
     },
     selectedSlides: [],
+    selectedElements: [],
+    activeSlide: '',
     Presentation: {
         title: 'NewPresentation',
         slidesOrder: [{id: '1111'}, {id: '2222'}],
@@ -162,9 +165,15 @@ function addEditorChangeHandler(handler) {
  * @param {Object} payload
  */
 function dispatch(modifyFn, payload) {
-    const newEditor = modifyFn(editor, payload);
+    const editor = getEditor();
+    let newEditor = modifyFn(editor, payload);
+
     setEditor(newEditor);
-    console.log(getEditor());
+
+    if (editor.Presentation !== newEditor.Presentation && editor.editLog === newEditor.editLog) {
+        dispatch(addToUndo, {EditorBeforeOperation: editor});
+    }
+    // console.log(newEditor);
 
     if (editorChangeHandler) {
         editorChangeHandler()

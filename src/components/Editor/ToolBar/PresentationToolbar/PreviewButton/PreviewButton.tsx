@@ -4,8 +4,8 @@ import {selectNextSlide, setViewMode} from "../../../../../functions";
 import {dispatch, getEditor} from "../../../../../editor";
 
 function onClick() {
-    const selectedSlideId = getEditor().selectedSlides[getEditor().selectedSlides.length - 1] && getEditor().selectedSlides[getEditor().selectedSlides.length - 1].id;
-    if (!selectedSlideId) {
+    const activeSlide = getEditor().activeSlide;
+    if (!activeSlide) {
         dispatch(selectNextSlide, {})
     }
     dispatch(setViewMode, {})

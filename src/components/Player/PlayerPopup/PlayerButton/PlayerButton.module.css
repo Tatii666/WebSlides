@@ -2,7 +2,12 @@
 {
     width: 64px;
     height: 64px;
-    background-color: #4682B4;
+    background-color: #054b87;
     margin: 0 5px;
     border-radius: 5px;
+}
+
+.playerButton_active
+{
+    background-color: #6699cc;
 }

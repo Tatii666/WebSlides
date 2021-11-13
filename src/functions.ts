@@ -1,8 +1,8 @@
 import {
     colorType,
     EditorType,
+    idType,
     PresentationType,
-    selectedSlidesType,
 } from "./dataModel/editorDataModel";
 import {v4 as uuidv4} from 'uuid';
 
@@ -116,6 +116,7 @@ function selectSlide(editor: EditorType, {slideId, isCtrlPressed}: selectSlidePr
     return {
         ...editor,
         selectedSlides: newSelectedSlides,
+        activeSlide: slideId,
     }
 }
 
@@ -125,24 +126,51 @@ function selectSlide(editor: EditorType, {slideId, isCtrlPressed}: selectSlidePr
  */
 function selectNextSlide(editor: EditorType) {
     const slidesOrder = editor.Presentation.slidesOrder;
-    let newSelectedSlides: selectedSlidesType = [];
-    if (!editor.selectedSlides.length) {
-        newSelectedSlides = slidesOrder.length? [{id: slidesOrder[0].id}] : [];
+    const activeSlide = editor.activeSlide;
+    let newActiveSlide: idType = '';
+
+    if (!activeSlide) {
+        newActiveSlide = slidesOrder.length? slidesOrder[0].id : '';
     } else {
-        const lastSelectedId = editor.selectedSlides[editor.selectedSlides.length - 1].id;
-        const slideIndex = slidesOrder.findIndex(el => el.id === lastSelectedId);
+        const slideIndex = slidesOrder.findIndex(el => el.id === activeSlide);
 
         if (slideIndex !== -1) {
             if (!!slidesOrder[slideIndex + 1]) {
-                newSelectedSlides = [{id: slidesOrder[slideIndex + 1].id}];
+                newActiveSlide = slidesOrder[slideIndex + 1].id;
             } else {
-                newSelectedSlides = [{id: slidesOrder[slideIndex].id}];
+                newActiveSlide = slidesOrder[slideIndex].id;
             }
         }
     }
     return {
         ...editor,
-        selectedSlides: newSelectedSlides,
+        activeSlide: newActiveSlide,
+    }
+}
+
+/**
+ * @param {EditorType} editor
+ * @return {EditorType}
+ */
+function selectPrevSlide(editor: EditorType) {
+    const slidesOrder = editor.Presentation.slidesOrder;
+    const activeSlide = editor.activeSlide;
+    let newActiveSlide: idType = '';
+
+    if (activeSlide) {
+        const slideIndex = slidesOrder.findIndex(el => el.id === activeSlide);
+
+        if (slideIndex !== -1) {
+            if (!!slidesOrder[slideIndex - 1]) {
+                newActiveSlide = slidesOrder[slideIndex - 1].id;
+            } else {
+                newActiveSlide = slidesOrder[slideIndex].id;
+            }
+        }
+    }
+    return {
+        ...editor,
+        activeSlide: newActiveSlide,
     }
 }
 
@@ -151,9 +179,11 @@ function selectNextSlide(editor: EditorType) {
  * @return {EditorType}
  */
 function newPresentation(editor: EditorType) {
-    const newEditor = {
+    let newEditor: EditorType = {
         ...editor,
         selectedSlides: [],
+        activeSlide: '',
+        selectedElements: [],
         editLog: {
             undoStack: [],
             redoStack: [],
@@ -164,8 +194,8 @@ function newPresentation(editor: EditorType) {
             slides: {},
         }
     }
-
-    return addNewSlide(newEditor);
+    newEditor = addNewSlide(newEditor);
+    return selectNextSlide(newEditor)
 }
 
 /**
@@ -186,11 +216,7 @@ function savePresentation(editor: EditorType) {
     document.body.removeChild(link);
 
     const newEditor = {
-        ...editor,
-        editLog: {
-            undoStack: [],
-            redoStack: [],
-        },
+        ...editor
     }
 
     return newEditor;
@@ -220,6 +246,74 @@ function loadPresentation(editor: EditorType, {presentation}: loadPresentationPr
     return newEditor;
 }
 
+
+type addToUndoPropsType = {
+    EditorBeforeOperation: EditorType,
+}
+/**
+ * @param {EditorType} editor
+ * @param {{
+ *   EditorBeforeOperation: EditorType,
+ * }} payload
+ * @return {EditorType}
+ */
+function addToUndo(editor: EditorType, {EditorBeforeOperation}: addToUndoPropsType) {
+    const newEditor = {
+        ...editor,
+        editLog: {
+            undoStack: [
+                ...editor.editLog.undoStack,
+                EditorBeforeOperation,
+            ],
+            redoStack: [],
+        },
+    }
+
+    return newEditor;
+}
+
+/**
+ * @param {EditorType} editor
+ * @return {EditorType}
+ */
+function doRedo(editor: EditorType) {
+    const undoStack = [...editor.editLog.undoStack]
+    const redoStack = [...editor.editLog.redoStack]
+    let newEditor = redoStack.pop()
+    if (newEditor) {
+        undoStack.push(editor)
+        return {
+            ...newEditor,
+            editLog: {
+                ...newEditor.editLog,
+                undoStack
+            }
+        }
+    }
+    return editor;
+}
+
+/**
+ * @param {EditorType} editor
+ * @return {EditorType}
+ */
+function doUndo(editor: EditorType) {
+    const undoStack = [...editor.editLog.undoStack]
+    const redoStack = [...editor.editLog.redoStack]
+    let newEditor = undoStack.pop()
+    if (newEditor) {
+        redoStack.push(editor)
+        return {
+            ...newEditor,
+            editLog: {
+                ...newEditor.editLog,
+                redoStack
+            }
+        }
+    }
+    return editor;
+}
+
 export {
     setEditMode,
     setViewMode,
@@ -227,7 +321,11 @@ export {
     addNewSlide,
     selectSlide,
     selectNextSlide,
+    selectPrevSlide,
     newPresentation,
     savePresentation,
     loadPresentation,
+    addToUndo,
+    doRedo,
+    doUndo,
 }

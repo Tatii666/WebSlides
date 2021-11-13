@@ -1,26 +1,31 @@
-import React from 'react';
+import React, {useState} from 'react';
 import s from './Player.module.css';
 import {SlideContent} from "./SlideContent/SlideContent";
 import {PlayerPopup} from "./PlayerPopup/PlayerPopup";
-import {dispatch, getEditor} from "../../editor";
+import {dispatch} from "../../editor";
 import {selectNextSlide} from "../../functions";
 import {EditorType} from "../../dataModel/editorDataModel";
 
 type PlayerPropsType = {
     editor: EditorType,
 }
-
+/**
+ * @param {{
+ *   editor: EditorType,
+ * }} props
+ */
 function Player({editor}: PlayerPropsType) {
-    const selectedSlideId = editor.selectedSlides[editor.selectedSlides.length - 1].id;
-    if (!selectedSlideId) {
+    const [statePointer, setStatePointer] = useState(false);
+    const activeSlideId = editor.activeSlide;
+    if (!activeSlideId) {
         dispatch(selectNextSlide, {})
     }
     return (
         <div className={s.player}>
             <div className={s.slideContainer}>
-                <SlideContent slide={getEditor().Presentation.slides[selectedSlideId]}/>
+                <SlideContent slide={editor.Presentation.slides[activeSlideId]}/>
             </div>
-            <PlayerPopup />
+            <PlayerPopup pointer={{statePointer, setStatePointer}}/>
         </div>
     );
 }

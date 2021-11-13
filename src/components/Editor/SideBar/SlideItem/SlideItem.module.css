@@ -19,10 +19,15 @@
     background-color: #6699cc;
 }
 
+.slideItem_active .slideMiniature
+{
+    border: 4px solid #6699cc;
+}
+
 .slideMiniature
 {
     background-color: #ffffff;
-    border: 3px solid #c3c3c3;
+    border: 4px solid #c3c3c3;
     border-radius: 3px;
     flex-shrink: 0;
     margin: 0 0 0 5px;
@@ -32,5 +37,5 @@
 
 .slideMiniature:hover
 {
-    border: 3px solid #8babcb;
+    border: 4px solid #6699cc;
 }

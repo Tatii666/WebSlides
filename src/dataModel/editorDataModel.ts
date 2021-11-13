@@ -6,7 +6,8 @@ export type EditorType = {
 	Presentation: PresentationType,
     editLog: editLogType,
     selectedSlides: selectedSlidesType,
-    selectedElement: elementType,
+    selectedElements: Array<elementType>,
+    activeSlide: idType,
 };
 
 export type selectedSlidesType = Array<slidesOrderItemType>;
@@ -14,8 +15,8 @@ export type selectedSlidesType = Array<slidesOrderItemType>;
 export type editorModeType = ('view'|'edit');
 
 export type editLogType = {
-    undoStack: Array<PresentationType>,
-    redoStack: Array<PresentationType>,
+    undoStack: Array<EditorType>,
+    redoStack: Array<EditorType>,
 }
 
 export type slidesOrderItemType = {id: idType};
