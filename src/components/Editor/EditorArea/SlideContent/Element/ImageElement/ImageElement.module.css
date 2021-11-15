@@ -1,0 +1,8 @@
+.imageElement
+{
+    position: absolute;
+}
+.imageElement g *:hover
+{
+    cursor: pointer;
+}

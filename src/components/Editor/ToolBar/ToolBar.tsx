@@ -6,17 +6,20 @@ import {InsertToolbar} from "./InsertToolbar/InsertToolbar";
 import {FontToolbar} from "./FontToolbar/FontToolbar";
 import {ColorToolbar} from "./ColorToolbar/ColorToolbar";
 import {PresentationToolbar} from "./PresentationToolbar/PresentationToolbar";
-import {getEditor} from "../../../editor";
+import {EditorType} from "../../../dataModel/editorDataModel";
 
-function ToolBar() {
+type PropsType = {
+    editor: EditorType,
+}
+function ToolBar({editor}: PropsType) {
     return (
         <div className={s.toolbar}>
-            <FileToolbar title={getEditor().Presentation.title}/>
+            <FileToolbar title={editor.Presentation.title}/>
             <SlideToolbar/>
             <InsertToolbar/>
             <FontToolbar/>
             <ColorToolbar />
-            <PresentationToolbar />
+            <PresentationToolbar Presentation={editor.Presentation}/>
         </div>
     );
 }

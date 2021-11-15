@@ -8,19 +8,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #6699cc;
     border-radius: 3px;
+    background-color: #77818b;
 }
 
-.previewButton:hover
+.previewButton_active
 {
     background-color: #6699cc;
+}
+
+.previewButton_active:hover
+{
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     cursor: pointer;
     background-color: #537faa;
 }
 
-.previewButton:active
+.previewButton_active:active
 {
     background-color: #1160af;
 }
+
+

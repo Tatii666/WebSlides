@@ -20,7 +20,6 @@ function SideBar({slides, slidesOrder, selectedSlides, activeSlide}: propsType) 
     return (
         <div className={s.sidebar}>
             {slidesOrder.map((slide: slidesOrderItemType, index: number) => {
-                console.log(slide.id, activeSlide)
                 return <SlideItem
                     slide={slides[slide.id]}
                     isSelected={selectedSlides.findIndex((el) => el.id === slide.id) !== -1}

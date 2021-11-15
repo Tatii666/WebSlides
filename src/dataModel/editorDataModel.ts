@@ -6,11 +6,13 @@ export type EditorType = {
 	Presentation: PresentationType,
     editLog: editLogType,
     selectedSlides: selectedSlidesType,
-    selectedElements: Array<elementType>,
+    selectedElements: Array<idType>,
     activeSlide: idType,
 };
 
 export type selectedSlidesType = Array<slidesOrderItemType>;
+
+export type selectedElementsType = Array<idType>;
 
 export type editorModeType = ('view'|'edit');
 
@@ -23,7 +25,7 @@ export type slidesOrderItemType = {id: idType};
 
 export type slidesOrderType = Array<{id: idType}>;
 
-export type slidesType = {[slideId: string]: slideType};
+export type slidesType = {[slideId: idType]: slideType};
 
 export type PresentationType = {
     title: string,
@@ -39,19 +41,23 @@ export type elementType = {
 export type slideType = {
     id: idType,
     elements: Array<elementType>,
-	imageBlocks: Array<imageBlockType>,
-	textBlocks: Array<textBlockType>,
-	figureBlocks: Array<figureBlockType>,
+	imageBlocks: imagesElementsType,
+	textBlocks: textsElementsType,
+	figureBlocks: figuresElementsType,
     backgroundColor: colorType,
 };
+
+export type imagesElementsType = {[id: idType]: imageBlockType};
 
 export type imageBlockType = {
     id: idType,
     position: pointType,
     width: number,
     height: number,
-    image: File,
+    image: string,
 };
+
+export type textsElementsType = {[id: idType]: textBlockType};
 
 export type textBlockType = {
     id: idType,
@@ -61,9 +67,13 @@ export type textBlockType = {
     height: number,
     style: {
         color: colorType,
-        size: number,
+        backgroundColor: colorType,
+        size?: number,
+        font?: string,
     }
 };
+
+export type figuresElementsType = {[id: idType]: figureBlockType};
 
 export type figureBlockType = {
     id: idType,
@@ -78,8 +88,8 @@ export type figureBlockType = {
 export type colorType  = {
     r: number,
     g: number,
-    b: number
-};
+    b: number,
+} | 'none';
 
 export type colorsType = Array<colorType>;
 
@@ -99,7 +109,7 @@ export type fontPickerType = {
 
 export type figurePickerType = Array<triangleType|circleType|rectangleType>; //TODO
 
-type triangleType = {
+export type triangleType = {
     figureType: 't',
     topLeft: pointType,
     bottomRight: pointType,
@@ -118,7 +128,7 @@ export type circleType = {
 export type rectangleType = {
     figureType: 'r',
     topLeft: pointType,
-    bottomRight: pointType,
+    wid: pointType,
     borderColor: colorType,
     fillColor: colorType,
 };
@@ -129,3 +139,16 @@ export type pointType = {
 };
 
 export type idType = string;
+
+export const figureType = {
+    CIRCLE: 'c',
+    TRIANGLE: 't',
+    RECTANGLE: 'r',
+}
+
+export const ElementType = {
+    IMAGE: 'i',
+    TEXT: 't',
+    FIGURE: 'f',
+}
+

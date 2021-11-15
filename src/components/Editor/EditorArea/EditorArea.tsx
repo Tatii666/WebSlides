@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './EditorArea.module.css';
-import {SlideCanvas} from "./SlideCanvas/SlideCanvas";
+import {SlideContent} from "./SlideContent/SlideContent";
 import {getEditor} from "../../../editor";
 
 function EditorArea() {
@@ -9,7 +9,7 @@ function EditorArea() {
 
     return (
         <div className={s.editorArea}>
-            <SlideCanvas slide={slide}/>
+            <SlideContent isEditor={true} slide={slide} selectedElements={state.selectedElements}/>
         </div>
     );
 }

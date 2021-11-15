@@ -8,9 +8,9 @@ function FigureInsertButtons() {
     return (
         <div className={s.figureInsertButtons}>
             <div className={s.insertButtons}>
-                <FigureButtons icon={RectangleIcon} text={'rectangle'} onClick={() => {}}/>
                 <FigureButtons icon={CircleIcon} text={'circle'} onClick={() => {}}/>
                 <FigureButtons icon={TriangleIcon} text={'triangle'} onClick={() => {}}/>
+                <FigureButtons icon={RectangleIcon} text={'rectangle'} onClick={() => {}}/>
             </div>
             <div className={s.buttonText}>FIGURE</div>
         </div>

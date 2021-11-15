@@ -17,7 +17,7 @@ function Editor({editor}: EditorPropsType) {
     return (
         <div className={s.editor}>
             <header className={s.header}>
-                <ToolBar />
+                <ToolBar editor={editor}/>
             </header>
             <div className={s.container}>
                 <SideBar

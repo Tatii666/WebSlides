@@ -1,0 +1,16 @@
+.figureElement
+{
+    position: absolute;
+    transition: stroke-width ease 0.3s;
+}
+
+.figureElement g *
+{
+    transition: stroke-width ease 0.3s;
+}
+
+.figureElement g *:hover
+{
+    stroke-width: 5;
+    cursor: pointer;
+}

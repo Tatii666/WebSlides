@@ -12,6 +12,10 @@ const defaultBackgroundColor: colorType = {
     b: 255,
 }
 
+function toStringColor(color: colorType) {
+    return color === 'none' ? 'none' : `rgb(${color.r}, ${color.g}, ${color.b})`;
+}
+
 /**
  * @param {EditorType} editor
  * @return {EditorType}
@@ -59,9 +63,9 @@ function addNewSlide(editor: EditorType) {
         [newId]: {
             id: newId,
             elements: [],
-            imageBlocks: [],
-            textBlocks: [],
-            figureBlocks: [],
+            imageBlocks: {},
+            textBlocks: {},
+            figureBlocks: {},
             backgroundColor: defaultBackgroundColor,
         }
     }
@@ -124,11 +128,27 @@ function selectSlide(editor: EditorType, {slideId, isCtrlPressed}: selectSlidePr
  * @param {EditorType} editor
  * @return {EditorType}
  */
+function selectFirstSlide(editor: EditorType) {
+    const slidesOrder = editor.Presentation.slidesOrder;
+    let newActiveSlide: idType = '';
+
+    if (slidesOrder.length) {
+        newActiveSlide = slidesOrder[0].id;
+    }
+    return {
+        ...editor,
+        activeSlide: newActiveSlide,
+    }
+}
+
+/**
+ * @param {EditorType} editor
+ * @return {EditorType}
+ */
 function selectNextSlide(editor: EditorType) {
     const slidesOrder = editor.Presentation.slidesOrder;
     const activeSlide = editor.activeSlide;
     let newActiveSlide: idType = '';
-
     if (!activeSlide) {
         newActiveSlide = slidesOrder.length? slidesOrder[0].id : '';
     } else {
@@ -320,6 +340,7 @@ export {
     setPresentationTitle,
     addNewSlide,
     selectSlide,
+    selectFirstSlide,
     selectNextSlide,
     selectPrevSlide,
     newPresentation,
@@ -328,4 +349,5 @@ export {
     addToUndo,
     doRedo,
     doUndo,
+    toStringColor,
 }

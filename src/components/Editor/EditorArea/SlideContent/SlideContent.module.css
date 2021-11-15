@@ -1,0 +1,15 @@
+.slideContent
+{
+    background-color: #ffffff;
+    z-index: 0;
+    color: #000000;
+    position: relative;
+    transform-origin: top left;
+    overflow: hidden;
+}
+
+.slideContent_editor
+{
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+    overflow: visible;
+}
