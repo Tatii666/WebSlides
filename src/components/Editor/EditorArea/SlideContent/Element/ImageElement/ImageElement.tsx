@@ -23,6 +23,7 @@ function ImageElement({element}: propsType) {
                     width={element.width}
                     height={element.height}
                     xlinkHref={element.image}
+                    preserveAspectRatio={'none'}
                 />
             </g>
         </svg>
