@@ -10,14 +10,16 @@ type propsType = {
     selectedElements: selectedElementsType,
     scaleTransformValue?: number,
     readonly?: boolean,
+    width?: string,
+    height?: string,
 }
 
-function SlideContent({isEditor, slide, selectedElements, scaleTransformValue, readonly}: propsType) {
+function SlideContent({isEditor, slide, selectedElements, scaleTransformValue, readonly, width, height}: propsType) {
     const slideContentEditorClass = isEditor ? s.slideContent_editor : '';
     return slide? (
         <div className={s.slideContent + ' ' + slideContentEditorClass} style={{
-            'width': DEFAULT_SLIDE_SIZE.width,
-            'height': DEFAULT_SLIDE_SIZE.height,
+            'width': width || DEFAULT_SLIDE_SIZE.width,
+            'height': height || DEFAULT_SLIDE_SIZE.height,
             'transform': `scale(${scaleTransformValue ?? 1})`,
         }}>
             {slide.elements.map(el => <SlideElement {...{slide, selectedElements}} element={el}/> )}
