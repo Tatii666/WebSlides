@@ -1,8 +1,8 @@
 import {
     colorType,
-    EditorType,
-    idType,
-    PresentationType,
+    EditorType, figureBlockType, figuresElementsType,
+    idType, imagesElementsType,
+    PresentationType, slidesType, slideType, textsElementsType,
 } from "./dataModel/editorDataModel";
 import {v4 as uuidv4} from 'uuid';
 
@@ -334,6 +334,89 @@ function doUndo(editor: EditorType) {
     return editor;
 }
 
+type modifyElementPropsType = {
+    slideId: string,
+    elementId: string,
+    newData: {
+        x: number,
+        y: number,
+        width: number,
+        height: number,
+    }
+}
+
+function modifyElement(editor: EditorType, {slideId, elementId, newData}: modifyElementPropsType) {
+    const slide = editor.Presentation.slides[slideId];
+    const orderElement = slide.elements.find((el) => el.id === elementId);
+
+    if (!orderElement) {
+        return editor;
+    }
+    let imagesBlocks = slide.imageBlocks;
+    let figuresBlocks = slide.figureBlocks;
+    let textsBlocks = slide.textBlocks;
+    let newFiguresBlocks: figuresElementsType = {};
+
+    const newElementProperties = {
+        position: {
+            x: newData.x,
+            y: newData.y,
+        },
+        width: newData.width,
+        height: newData.height,
+    };
+
+
+    switch (orderElement.type) {
+        case 'i':
+            imagesBlocks = {
+                ...imagesBlocks,
+                [elementId]: {
+                    ...imagesBlocks[elementId],
+                    ...newElementProperties,
+                }
+            }
+            break
+        case 't':
+            textsBlocks = {
+                ...textsBlocks,
+                [elementId]: {
+                    ...textsBlocks[elementId],
+                    ...newElementProperties,
+                }
+            }
+            break
+        case 'f':
+            newFiguresBlocks = {
+                ...figuresBlocks,
+                [elementId]: {
+                    ...figuresBlocks[elementId],
+                    ...newElementProperties,
+                }
+            }
+            break
+    }
+
+    let newSlides = {
+        ...editor.Presentation.slides,
+    }
+
+    newSlides[slideId] =  {
+    ...editor.Presentation.slides[slideId],
+            imageBlocks: imagesBlocks,
+            textBlocks: textsBlocks,
+            figureBlocks: {...newFiguresBlocks},
+    }
+    const newEditor = {
+        ...editor,
+        Presentation: {
+            ...editor.Presentation,
+            slides: {...newSlides},
+        }
+    }
+    return newEditor
+}
+
 export {
     setEditMode,
     setViewMode,
@@ -350,4 +433,5 @@ export {
     doRedo,
     doUndo,
     toStringColor,
+    modifyElement,
 }
