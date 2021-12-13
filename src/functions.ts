@@ -2,7 +2,7 @@ import {
     colorType,
     EditorType, figuresElementsType,
     idType, imagesElementsType,
-    PresentationType, slidesType, slideType, textsElementsType,
+    PresentationType, slidesType, textsElementsType,
 } from "./dataModel/editorDataModel";
 import {v4 as uuidv4} from 'uuid';
 
