@@ -1,6 +1,6 @@
 import {
     colorType,
-    EditorType, figureBlockType, figuresElementsType,
+    EditorType, figuresElementsType,
     idType, imagesElementsType,
     PresentationType, slidesType, slideType, textsElementsType,
 } from "./dataModel/editorDataModel";
