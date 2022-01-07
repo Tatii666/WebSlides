@@ -4,7 +4,8 @@ import {figureBlockType, figureType} from "../../../../../../dataModel/editorDat
 import {Triangle} from "./Circle/Triangle";
 import {Circle} from "./Triangle/Circle";
 import {Rectangle} from "./Rectangle/Rectangle";
-import {toStringColor} from "../../../../../../functions";
+import {modifyElement, toStringColor} from "../../../../../../functions";
+import {dispatch, getEditor} from "../../../../../../editor";
 
 const STROKE_WIDTH = 3;
 
@@ -32,8 +33,31 @@ function switchFigure(figure: figureBlockType) {
 }
 
 function FigureElement({element}: propsType) {
+    const handleMouseDown = (e:any) => {
+        document.addEventListener('mousemove', handleMouseMove);
+    };
+
+    const handleMouseUp = () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+    };
+
+    const handleMouseMove = (e:any) => {
+        dispatch(modifyElement, {
+            slideId: getEditor().activeSlide,
+            elementId: element.id,
+            newData: {
+                x:  e.x - 600,
+                y:  e.y - 400,
+                width: element.width,
+                height: element.height,
+            }
+        })
+    };
+
     return (
         <svg id={element.id}
+             onMouseDown={handleMouseDown}
+             onMouseUp={handleMouseUp}
              className={s.figureElement}
              width={element.width}
              height={element.height}
