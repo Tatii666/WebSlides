@@ -16,7 +16,6 @@ function isPlayerMode(mode: editorModeType): boolean {
     return mode === 'view'
 }
 
-
 function App({editor}: AppPropsType) {
   return (
     <div className="App">
