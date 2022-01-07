@@ -44,7 +44,7 @@ function FigureElement({element}: propsType) {
              }}
              fill={toStringColor(element.fillColor)}
              stroke={toStringColor(element.borderColor)}
-             stroke-width={`${STROKE_WIDTH}`}
+             strokeWidth={`${STROKE_WIDTH}`}
         >
             {switchFigure(element)}
         </svg>

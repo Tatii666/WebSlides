@@ -8,25 +8,16 @@ type propsType = {
 
 function ImageElement({element}: propsType) {
     return (
-        <svg id={element.id}
+        <img id={element.id}
              className={s.imageElement}
              width={element.width}
              height={element.height}
+             src={element.image}
              style={{
                  top: element.position.y,
                  left: element.position.x,
              }}
-             pointer-events='visible'
-        >
-            <g>
-                <image
-                    width={element.width}
-                    height={element.height}
-                    xlinkHref={element.image}
-                    preserveAspectRatio={'none'}
-                />
-            </g>
-        </svg>
+        />
     );
 }
 

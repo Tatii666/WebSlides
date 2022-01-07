@@ -9,7 +9,11 @@ function EditorArea() {
 
     return (
         <div className={s.editorArea}>
-            <SlideContent isEditor={true} slide={slide} selectedElements={state.selectedElements}/>
+            <SlideContent
+                isEditor={true}
+                slide={slide}
+                selectedElements={state.selectedElements}
+            />
         </div>
     );
 }

@@ -22,7 +22,6 @@ function Player({editor}: PlayerPropsType) {
     const activeSlideId = editor.activeSlide;
     if (!activeSlideId) {
         dispatch(selectFirstSlide, {})
-        return null
     }
 
     return (

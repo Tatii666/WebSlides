@@ -4,12 +4,37 @@
     z-index: 0;
     color: #000000;
     position: relative;
+    overflow: visible;
+}
+
+.slideContent_player
+{
     transform-origin: top left;
     overflow: hidden;
+    animation: inAnimation 0.3s ease-in-out;
+}
+
+.slideContent_player:after
+{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
 }
 
 .slideContent_editor
 {
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
-    overflow: visible;
+}
+
+@keyframes inAnimation {
+    from {
+        opacity: 0.1;
+    }
+    to {
+        opacity: 1;
+    }
 }
