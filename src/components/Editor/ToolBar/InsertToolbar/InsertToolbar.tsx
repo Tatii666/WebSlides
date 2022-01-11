@@ -2,13 +2,21 @@ import React, {ChangeEvent, useRef} from 'react';
 import s from './InsertToolbar.module.css';
 import {ToolbarText} from "../ToolbarText/ToolbarText";
 import {FigureInsertButtons} from "./FigureInsertButtons/FigureInsertButtons";
-import {InsertButtons} from "./InsertButtons/InsertButtons";
+import {InsertButton} from "./InsertButtons/InsertButton";
 import {ReactComponent as PictureIcon} from "../../../../img/addImage2.svg";
 import {ReactComponent as TextIcon} from "../../../../img/addText2.svg";
+import {dispatchType, stateType} from "../../../../store/store";
+import {connect} from "react-redux";
+import {addFigureAC} from "../../../../store/presentationReducer";
+import {figureTypeType} from "../../../../dataModel/editorDataModel";
 
 const IMAGE_FILE_EXTENTION = ['jpg', 'png', 'bmp'];
 
-function InsertToolbar() {
+type propsType = {
+    addFigure: Function,
+}
+
+function InsertToolbar({addFigure}: propsType) {
     const inputFile = useRef<HTMLInputElement>(null);
     const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
         const {files} = e.target;
@@ -32,9 +40,9 @@ function InsertToolbar() {
     return (
         <div className={s.insertToolbar} >
             <ToolbarText text='вставка' />
-            <InsertButtons icon={PictureIcon} text={'PICTURE'} onClick={() => {}}/>
-            <FigureInsertButtons />
-            <InsertButtons icon={TextIcon} text={'TEXT'} onClick={() => {}}/>
+            <InsertButton icon={PictureIcon} text={'PICTURE'} onClick={() => {}}/>
+            <FigureInsertButtons addFigure={addFigure}/>
+            <InsertButton icon={TextIcon} text={'TEXT'} onClick={() => {}}/>
             <input
                 style={{ display: "none" }}
                 accept={`${IMAGE_FILE_EXTENTION.reduce((acc, el) => acc + `.${el},`, '')}`}
@@ -46,4 +54,17 @@ function InsertToolbar() {
     );
 }
 
-export {InsertToolbar};
+
+const mapStateToProps = (state: stateType) => {
+    return {}
+}
+
+const mapDispatchToProps = (dispatch: dispatchType) => {
+    return {
+        addFigure: (figureType: figureTypeType) => dispatch(addFigureAC(figureType)),
+    }
+}
+
+const InsertToolbarContainer = connect(mapStateToProps, mapDispatchToProps)(InsertToolbar);
+
+export {InsertToolbarContainer};

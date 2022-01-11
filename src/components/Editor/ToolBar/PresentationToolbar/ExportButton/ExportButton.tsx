@@ -1,10 +1,15 @@
 import React from 'react';
 import s from './ExportButton.module.css';
 
-function ExportButton() {
+type propsType = {
+    isDisabled: boolean,
+}
+
+function ExportButton({isDisabled}: propsType) {
+    const classes = `${s.exportButton} ${isDisabled? s.exportButton_disabled : ''} `
     return (
-        <div className={s.exportButton} onClick={()=>console.log('exporting presentation...')}>
-            <span>EXPORT</span>
+        <div className={classes} onClick={()=>{}}>
+            <span>EXPORT PDF</span>
         </div>
     );
 }

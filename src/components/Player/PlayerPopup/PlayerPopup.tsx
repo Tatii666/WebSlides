@@ -2,33 +2,24 @@ import React from 'react';
 import s from './PlayerPopup.module.css';
 import {PlayerButton} from "./PlayerButton/PlayerButton";
 import {CloseButton} from "./CloseButton/CloseButton";
-import {dispatch} from "../../../editor";
-import {selectNextSlide, selectPrevSlide} from "../../../functions";
 
 type propsType = {
     pointer: {
         setStatePointer: React.Dispatch<React.SetStateAction<boolean>>,
         statePointer: boolean,
     }
+    setNextSlideActive: Function,
+    setPrevSlideActive: Function,
+    setEditorMode: Function,
 }
 
-function onNextSlideClick() {
-    dispatch(selectNextSlide, {})
-}
-
-function onPrevSlideClick() {
-    dispatch(selectPrevSlide, {})
-}
-
-
-
-function PlayerPopup({pointer}: propsType) {
+function PlayerPopup({pointer, setNextSlideActive, setPrevSlideActive, setEditorMode}: propsType) {
     return (
         <div className={s.playerPopup}>
-            <PlayerButton value={'prev'} onClick={onPrevSlideClick}/>
+            <PlayerButton value={'prev'} onClick={() => setPrevSlideActive()}/>
             <PlayerButton value={'pointer'} isActive={pointer.statePointer} onClick={() => {pointer.setStatePointer(!pointer.statePointer)}}/>
-            <PlayerButton value={'next'} onClick={onNextSlideClick}/>
-            <CloseButton />
+            <PlayerButton value={'next'} onClick={() => setNextSlideActive()}/>
+            <CloseButton setEditorMode={setEditorMode}/>
         </div>
     );
 }

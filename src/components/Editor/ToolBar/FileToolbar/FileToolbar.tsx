@@ -1,48 +1,39 @@
 import React, {ChangeEvent, useRef} from 'react';
 import s from './FileToolbar.module.css';
-import {FileTitle} from "./FileTitle/FileTitle";
+import {FileTitleContainer} from "./FileTitle/FileTitle";
 import {FileButtons} from "./FileButtons/FileButtons";
 import {ReactComponent as newButtonIcon} from "../../../../img/NewFile2.svg"
 import {ReactComponent as loadButtonIcon} from "../../../../img/LoadFile2.svg"
 import {ReactComponent as saveButtonIcon} from "../../../../img/SaveFile2.svg"
-import {dispatch} from "../../../../editor";
-import {loadPresentation, newPresentation, savePresentation} from "../../../../functions";
 import {PresentationType} from "../../../../dataModel/editorDataModel";
-import {UndoReduButtons} from "./UndoRedoButtons/UndoRedoButtons";
+import {UndoRedoButtonsContainer} from "./UndoRedoButtons/UndoRedoButtons";
+import {connect} from "react-redux";
+import {dispatchType, stateType} from "../../../../store/store";
+import {createNewPresentationAC, loadPresentationAC, savePresentationAC} from "../../../../store/presentationReducer";
 
 const PRESENTATION_FILE_EXTENTION = 'json';
 
-function onNewPresentation() {
-    dispatch(newPresentation, {});
-}
-
-function onLoadPresentation(presentation: PresentationType) {
-    dispatch(loadPresentation, {presentation})
-}
-
-function onSavePresentation() {
-    dispatch(savePresentation, {});
-}
-
-function readFile(file: File){
-    const reader = new FileReader();
-
-    reader.readAsText(file);
-    reader.onload = function() {
-        if (typeof (reader.result) === 'string') {
-            onLoadPresentation(JSON.parse(reader.result))
-        }
-    };
-    reader.onerror = function() {
-        console.error(reader.error);
-    };
-}
-
 type propsType = {
-    title: string,
+    onNewPresentation: Function,
+    onSavePresentation: Function,
+    onLoadPresentation: Function,
 }
 
-function FileToolbar({title}: propsType) {
+function FileToolbar({onNewPresentation, onSavePresentation, onLoadPresentation}: propsType) {
+    function readFile(file: File){
+        const reader = new FileReader();
+
+        reader.readAsText(file);
+        reader.onload = function() {
+            if (typeof (reader.result) === 'string') {
+                onLoadPresentation(JSON.parse(reader.result))
+            }
+        };
+        reader.onerror = function() {
+            console.error(reader.error);
+        };
+    }
+
     const inputFile = useRef<HTMLInputElement>(null);
     const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
         const {files} = e.target;
@@ -69,12 +60,12 @@ function FileToolbar({title}: propsType) {
 
     return (
         <div className={s.fileToolbar}>
-            <FileTitle title={title}/>
+            <FileTitleContainer />
             <div className={s.fileToolbarButtons}>
-                <FileButtons text="NEW" icon={newButtonIcon} onClick={onNewPresentation} />
+                <FileButtons text="NEW" icon={newButtonIcon} onClick={() => onNewPresentation()} />
                 <FileButtons text="LOAD" icon={loadButtonIcon} onClick={onLoadPresentationClick} />
-                <FileButtons text="SAVE" icon={saveButtonIcon} onClick={onSavePresentation} />
-                <UndoReduButtons />
+                <FileButtons text="SAVE" icon={saveButtonIcon} onClick={() => onSavePresentation()} />
+                <UndoRedoButtonsContainer />
                 <input
                     style={{ display: "none" }}
                     accept={`.${PRESENTATION_FILE_EXTENTION}`}
@@ -87,4 +78,19 @@ function FileToolbar({title}: propsType) {
     );
 }
 
-export {FileToolbar};
+const mapStateToProps = (state: stateType) => {
+    return {
+
+    }
+}
+const mapDispatchToProps = (dispatch: dispatchType) => {
+    return {
+        onNewPresentation: () => dispatch(createNewPresentationAC()),
+        onSavePresentation: () => dispatch(savePresentationAC()),
+        onLoadPresentation: (presentation: PresentationType) => dispatch(loadPresentationAC(presentation)),
+    }
+}
+
+const FileToolbarContainer = connect(mapStateToProps, mapDispatchToProps)(FileToolbar);
+
+export {FileToolbarContainer};

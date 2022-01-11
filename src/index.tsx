@@ -1,20 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import {addEditorChangeHandler, getEditor} from "./editor.js";
+import {Provider} from "react-redux";
+import {store} from "./store/store";
+import AppContainer from "./App";
 
-function render() {
-    ReactDOM.render(
-        <React.StrictMode>
-            <App editor={getEditor()}/>
-        </React.StrictMode>,
-        document.getElementById('root')
-    );
-}
-
-addEditorChangeHandler(render);
-render();
-
-reportWebVitals();
+ReactDOM.render(
+    <React.StrictMode>
+        <Provider store={store}>
+            <AppContainer />
+        </Provider>
+    </React.StrictMode>,
+    document.getElementById('root')
+);

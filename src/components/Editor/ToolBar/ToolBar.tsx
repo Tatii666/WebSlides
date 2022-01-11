@@ -1,28 +1,39 @@
 import React from 'react';
 import s from './ToolBar.module.css';
-import {FileToolbar} from "./FileToolbar/FileToolbar";
-import {SlideToolbar} from "./SlideToolbar/SlideToolbar";
-import {InsertToolbar} from "./InsertToolbar/InsertToolbar";
+import {FileToolbarContainer} from "./FileToolbar/FileToolbar";
+import {SlideToolbarContainer} from "./SlideToolbar/SlideToolbar";
+import {InsertToolbarContainer} from "./InsertToolbar/InsertToolbar";
 import {FontToolbar} from "./FontToolbar/FontToolbar";
 import {ColorToolbar} from "./ColorToolbar/ColorToolbar";
-import {PresentationToolbar} from "./PresentationToolbar/PresentationToolbar";
-import {EditorType} from "../../../dataModel/editorDataModel";
+import {PresentationToolbarContainer} from "./PresentationToolbar/PresentationToolbar";
+import {connect} from "react-redux";
+import {dispatchType, stateType} from "../../../store/store";
 
-type PropsType = {
-    editor: EditorType,
+type propsType = {
 }
-function ToolBar({editor}: PropsType) {
+
+function ToolBar({}: propsType) {
     return (
         <div className={s.toolbar}>
-            <FileToolbar title={editor.Presentation.title}/>
-            <SlideToolbar/>
-            <InsertToolbar/>
+            <FileToolbarContainer />
+            <SlideToolbarContainer />
+            <InsertToolbarContainer />
             <FontToolbar/>
             <ColorToolbar />
-            <PresentationToolbar Presentation={editor.Presentation}/>
+            <PresentationToolbarContainer />
         </div>
     );
 }
 
+const mapStateToProps = (state: stateType) => {
+    return {}
+}
 
-export {ToolBar};
+const mapDispatchToProps = (dispatch: dispatchType) => {
+    return {}
+}
+
+
+const ToolBarContainer = connect(mapStateToProps, mapDispatchToProps)(ToolBar);
+
+export {ToolBarContainer};

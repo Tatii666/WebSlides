@@ -2,22 +2,19 @@ import React from 'react';
 import s from './SlideItem.module.css';
 import {DEFAULT_SLIDE_SIZE, MINIATURE_SLIDE_SIZE} from "../../../../dataModel/slideSizes";
 import {slideType} from "../../../../dataModel/editorDataModel";
-import {dispatch} from "../../../../editor";
-import {selectSlide} from "../../../../functions";
 import {SlideContent} from "../../EditorArea/SlideContent/SlideContent";
+import {DeleteButton} from "./DeleteButton/DeleteButton";
 
 type propsType = {
     index: number,
     slide: slideType,
     isSelected: boolean,
     isActive: boolean,
+    selectSlide: Function,
+    deleteSlide: Function,
 }
 
-function onClick(id: string, isCtrlPressed: boolean) {
-    dispatch(selectSlide, {slideId: id, isCtrlPressed})
-}
-
-function SlideItem({index, slide, isSelected, isActive}: propsType) {
+function SlideItem({index, slide, isSelected, isActive, selectSlide, deleteSlide}: propsType) {
     const slideMiniatureStyle = {
         width: `${MINIATURE_SLIDE_SIZE.width}px`,
         height: `${MINIATURE_SLIDE_SIZE.height}px`,
@@ -26,9 +23,11 @@ function SlideItem({index, slide, isSelected, isActive}: propsType) {
     const activeClass = isActive ? ` ${s.slideItem_active}` : '';
 
     return (
-        <div className={s.slideItem + selectedClass + activeClass} onClick={(event) => {
-            onClick(slide.id, event.ctrlKey);
-        }} >
+        <div className={s.slideItem + selectedClass + activeClass}
+             onClick={(event) => {
+                selectSlide({slideId: slide.id, isCtrlPressed: event.ctrlKey});
+            }}
+        >
             <div>
                 {index + 1}
             </div>
@@ -39,6 +38,7 @@ function SlideItem({index, slide, isSelected, isActive}: propsType) {
                     selectedElements={[]}
                     scaleTransformValue={MINIATURE_SLIDE_SIZE.width/DEFAULT_SLIDE_SIZE.width}
                 />
+                <DeleteButton slideId={slide.id} deleteSlide={deleteSlide}/>
             </div>
         </div>
     );

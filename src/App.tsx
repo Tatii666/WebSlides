@@ -1,11 +1,13 @@
 import React from 'react';
 import './App.css';
 import {Editor} from "./components/Editor/Editor";
-import {Player} from "./components/Player/Player";
+import {PlayerContainer} from "./components/Player/Player";
 import {editorModeType, EditorType} from "./dataModel/editorDataModel";
+import {connect} from "react-redux";
+import {stateType} from "./store/store";
 
 type AppPropsType = {
-  editor: EditorType,
+    mode: editorModeType,
 }
 
 function isEditMode(mode: editorModeType): boolean {
@@ -16,14 +18,20 @@ function isPlayerMode(mode: editorModeType): boolean {
     return mode === 'view'
 }
 
-function App({editor}: AppPropsType) {
+function App({mode}: AppPropsType) {
   return (
     <div className="App">
-        {isEditMode(editor.mode) && <Editor editor={editor} />}
-        {isPlayerMode(editor.mode) && <Player editor={editor} />}
+        {isEditMode(mode) && <Editor />}
+        {isPlayerMode(mode) && <PlayerContainer />}
     </div>
   );
 }
 
+const mapStateToProps = (state: stateType) => {
+    return {
+        mode: state.model.mode,
+    }
+}
 
-export default App;
+const AppContainer = connect(mapStateToProps)(App)
+export default AppContainer;

@@ -21,16 +21,42 @@ export type editLogType = {
     redoStack: Array<EditorType>,
 }
 
+export type editLogTypeGood = {
+    undoStack: Array<PresentationType>,
+    redoStack: Array<PresentationType>,
+}
+
 export type slidesOrderItemType = {id: idType};
 
-export type slidesOrderType = Array<{id: idType}>;
+export type slidesOrderType = Array<idType>;
 
 export type slidesType = {[slideId: idType]: slideType};
+
+export type selectionType = {
+    type: 'slide'|'element',
+    selectionItems: Array<idType>,
+}
+
+export const getSelectedSlides = (selection: selectionType): Array<idType> => {
+    if (selection.type === 'slide') {
+        return selection.selectionItems;
+    }
+    return []
+}
+
+export const getSelectedElements = (selection: selectionType): Array<idType> => {
+    if (selection.type === 'element') {
+        return selection.selectionItems;
+    }
+    return []
+}
 
 export type PresentationType = {
     title: string,
     slidesOrder: slidesOrderType,
     slides: slidesType,
+    activeSlide: idType,
+    selection: selectionType,
 };
 
 export type elementType = {
@@ -62,9 +88,9 @@ export type textsElementsType = {[id: idType]: textBlockType};
 export type textBlockType = {
     id: idType,
     position: pointType,
-    value: string,
     width: number,
     height: number,
+    value: string,
     style: {
         color: colorType,
         backgroundColor: colorType,
@@ -74,10 +100,11 @@ export type textBlockType = {
 };
 
 export type figuresElementsType = {[id: idType]: figureBlockType};
+export type figureTypeType = 't'|'c'|'r';
 
 export type figureBlockType = {
     id: idType,
-    type: 't'|'c'|'r',
+    type: figureTypeType,
     position: pointType,
     width: number,
     height: number,

@@ -7,7 +7,7 @@ type propsType = {
 }
 function FigureButtons({text, icon: Icon, onClick}: propsType) {
     return (
-        <div className={s.FigureButtons}>
+        <div className={s.FigureButtons} onClick={onClick}>
             <div className={s.buttonIcon}>
                 <Icon />
             </div>

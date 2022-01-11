@@ -1,5 +1,5 @@
 import React from 'react';
-import s from './InsertButtons.module.css';
+import s from './InsertButton.module.css';
 
 type propsType = {
     text: string,
@@ -7,9 +7,9 @@ type propsType = {
     onClick: () => void,
 }
 
-function InsertButtons({text, icon: Icon, onClick}: propsType) {
+function InsertButton({text, icon: Icon, onClick}: propsType) {
     return (
-        <div className={s.InsertButtons}>
+        <div className={s.InsertButton}>
             <div className={s.buttonIcon}>
                 <Icon />
             </div>
@@ -18,4 +18,4 @@ function InsertButtons({text, icon: Icon, onClick}: propsType) {
     );
 }
 
-export {InsertButtons};
+export {InsertButton};

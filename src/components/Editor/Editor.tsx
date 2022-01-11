@@ -1,32 +1,18 @@
 import React from 'react';
 import s from './Editor.module.css';
-import {ToolBar} from "./ToolBar/ToolBar";
-import {SideBar} from "./SideBar/SideBar";
-import {EditorArea} from "./EditorArea/EditorArea";
-import {EditorType} from "../../dataModel/editorDataModel";
+import {ToolBarContainer} from "./ToolBar/ToolBar";
+import {SideBarContainer} from "./SideBar/SideBar";
+import {EditorAreaContainer} from "./EditorArea/EditorArea";
 
-type EditorPropsType = {
-    editor: EditorType,
-}
-/**
- * @param {{
- *   editor: EditorType,
- * }} props
- */
-function Editor({editor}: EditorPropsType) {
+function Editor() {
     return (
         <div className={s.editor}>
             <header className={s.header}>
-                <ToolBar editor={editor}/>
+                <ToolBarContainer />
             </header>
             <div className={s.container}>
-                <SideBar
-                    slides={editor.Presentation.slides}
-                    slidesOrder={editor.Presentation.slidesOrder}
-                    selectedSlides={editor.selectedSlides}
-                    activeSlide={editor.activeSlide}
-                />
-                <EditorArea />
+                <SideBarContainer />
+                <EditorAreaContainer />
             </div>
         </div>
     );

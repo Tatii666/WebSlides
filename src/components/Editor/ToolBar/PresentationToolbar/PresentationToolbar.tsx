@@ -3,18 +3,36 @@ import s from './PresentationToolbar.module.css';
 import {PreviewButton} from "./PreviewButton/PreviewButton";
 import {ExportButton} from "./ExportButton/ExportButton";
 import {PresentationType} from "../../../../dataModel/editorDataModel";
+import {dispatchType, stateType} from "../../../../store/store";
+import {connect} from "react-redux";
+import {setViewModeAC} from "../../../../store/modeReducer";
 
-type PropsType = {
-    Presentation: PresentationType,
+type propsType = {
+    presentation: PresentationType,
+    setViewMode: Function,
 }
-function PresentationToolbar({Presentation}: PropsType) {
+
+function PresentationToolbar({presentation, setViewMode}: propsType) {
     return (
         <div className={s.presentationToolbar}>
-            <PreviewButton isActive={!!Presentation.slidesOrder.length}/>
-            <ExportButton />
+            <PreviewButton isActive={!!presentation.slidesOrder.length} setViewMode={setViewMode}/>
+            <ExportButton isDisabled={true}/>
         </div>
     );
 }
 
+const mapStateToProps = (state: stateType) => {
+    return {
+        presentation: state.model.editor.presentation,
+    }
+}
 
-export {PresentationToolbar};
+const mapDispatchToProps = (dispatch: dispatchType) => {
+    return {
+        setViewMode: () => dispatch(setViewModeAC()),
+    }
+}
+
+const PresentationToolbarContainer = connect(mapStateToProps, mapDispatchToProps)(PresentationToolbar);
+
+export {PresentationToolbarContainer};

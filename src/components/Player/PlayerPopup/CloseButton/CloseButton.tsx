@@ -1,15 +1,13 @@
 import React from 'react';
 import s from './CloseButton.module.css';
-import {dispatch} from "../../../../editor";
-import {setEditMode} from "../../../../functions";
 
-function onClick() {
-    dispatch(setEditMode, {})
+type propsType = {
+    setEditorMode: Function,
 }
 
-function CloseButton (){
+function CloseButton ({setEditorMode}: propsType){
     return (
-        <button className={s.closeButton} onClick={onClick}>
+        <button className={s.closeButton} onClick={() => setEditorMode()}>
             X
         </button>
     );

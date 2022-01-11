@@ -1,27 +1,30 @@
 import React, {useRef, useState} from 'react';
 import s from './Player.module.css';
 import {PlayerPopup} from "./PlayerPopup/PlayerPopup";
-import {dispatch} from "../../editor";
-import {selectFirstSlide} from "../../functions";
-import {EditorType} from "../../dataModel/editorDataModel";
+import {PresentationType} from "../../dataModel/editorDataModel";
 import {SlideContent} from "../Editor/EditorArea/SlideContent/SlideContent";
 import {useRatioResize} from "../../customHooks/useRatioResize";
+import {dispatchType, stateType} from "../../store/store";
+import {setEditorModeAC} from "../../store/modeReducer";
+import {connect} from "react-redux";
+import {setFirstSlideActiveAC, setNextSlideActiveAC, setPrevSlideActiveAC} from "../../store/presentationReducer";
 
 type PlayerPropsType = {
-    editor: EditorType,
+    presentation: PresentationType,
+    setFirstSlideActive: Function,
+    setNextSlideActive: Function,
+    setPrevSlideActive: Function,
+    setEditorMode: Function,
 }
-/**
- * @param {{
- *   editor: EditorType,
- * }} props
- */
-function Player({editor}: PlayerPropsType) {
+
+function Player({presentation, setFirstSlideActive, setNextSlideActive, setPrevSlideActive, setEditorMode}: PlayerPropsType) {
     const [statePointer, setStatePointer] = useState(false);
     const player = useRef<HTMLDivElement>(null);
     const {width, height, scaleKoef} = useRatioResize(player);
-    const activeSlideId = editor.activeSlide;
+    const activeSlideId = presentation.activeSlide;
+
     if (!activeSlideId) {
-        dispatch(selectFirstSlide, {})
+        setFirstSlideActive();
     }
 
     return (
@@ -35,15 +38,37 @@ function Player({editor}: PlayerPropsType) {
             >
                 <SlideContent
                     isEditor={false}
-                    slide={editor.Presentation.slides[activeSlideId]}
+                    slide={presentation.slides[activeSlideId]}
                     selectedElements={[]}
                     scaleTransformValue={scaleKoef}
                 />
             </div>
-            <PlayerPopup pointer={{statePointer, setStatePointer}}/>
+            <PlayerPopup
+                pointer={{statePointer, setStatePointer}}
+                setNextSlideActive={setNextSlideActive}
+                setPrevSlideActive={setPrevSlideActive}
+                setEditorMode={setEditorMode}
+            />
         </div>
     );
 }
 
+const mapStateToProps = (state: stateType) => {
+    return {
+        presentation: state.model.editor.presentation,
+    }
+}
 
-export {Player};
+const mapDispatchToProps = (dispatch: dispatchType) => {
+    return {
+        setEditorMode: () => dispatch(setEditorModeAC()),
+        setFirstSlideActive: () => dispatch(setFirstSlideActiveAC()),
+        setNextSlideActive: () => dispatch(setNextSlideActiveAC()),
+        setPrevSlideActive: () => dispatch(setPrevSlideActiveAC()),
+    }
+}
+
+const PlayerContainer = connect(mapStateToProps, mapDispatchToProps)(Player);
+
+
+export {PlayerContainer};

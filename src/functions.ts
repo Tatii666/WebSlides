@@ -20,7 +20,7 @@ function toStringColor(color: colorType) {
  * @param {EditorType} editor
  * @return {EditorType}
  */
-function setEditMode(editor: EditorType) {
+function setEditMode(editor: EditorType) { //
     return {
         ...editor,
         mode: 'edit',
@@ -31,7 +31,7 @@ function setEditMode(editor: EditorType) {
  * @param {EditorType} editor
  * @return {EditorType}
  */
-function setViewMode(editor: EditorType) {
+function setViewMode(editor: EditorType) { //
     return {
         ...editor,
         mode: 'view',
@@ -43,7 +43,7 @@ function setViewMode(editor: EditorType) {
  * @param {string} newTitle
  * @return {EditorType}
  */
-function setPresentationTitle(editor: EditorType, newTitle: string) {
+function setPresentationTitle(editor: EditorType, newTitle: string) { //
     return {
         ...editor,
         Presentation: {
@@ -57,7 +57,7 @@ function setPresentationTitle(editor: EditorType, newTitle: string) {
  * @param {EditorType} editor
  * @return {EditorType}
  */
-function addNewSlide(editor: EditorType) {
+function addNewSlide(editor: EditorType) { ///
     const newId = uuidv4();
     const newSlide = {
         [newId]: {
@@ -99,7 +99,7 @@ type selectSlidePropsType = {
  * }}
  * @return {EditorType}
  */
-function selectSlide(editor: EditorType, {slideId, isCtrlPressed}: selectSlidePropsType) {
+function selectSlide(editor: EditorType, {slideId, isCtrlPressed}: selectSlidePropsType) { //
     let newSelectedSlides;
     if (!isCtrlPressed) {
         newSelectedSlides = [{id: slideId}];
@@ -128,12 +128,12 @@ function selectSlide(editor: EditorType, {slideId, isCtrlPressed}: selectSlidePr
  * @param {EditorType} editor
  * @return {EditorType}
  */
-function selectFirstSlide(editor: EditorType) {
+function selectFirstSlide(editor: EditorType) { //
     const slidesOrder = editor.Presentation.slidesOrder;
     let newActiveSlide: idType = '';
 
     if (slidesOrder.length) {
-        newActiveSlide = slidesOrder[0].id;
+        newActiveSlide = slidesOrder[0];
     }
     return {
         ...editor,
@@ -145,20 +145,20 @@ function selectFirstSlide(editor: EditorType) {
  * @param {EditorType} editor
  * @return {EditorType}
  */
-function selectNextSlide(editor: EditorType) {
+function selectNextSlide(editor: EditorType) { //
     const slidesOrder = editor.Presentation.slidesOrder;
     const activeSlide = editor.activeSlide;
     let newActiveSlide: idType = '';
     if (!activeSlide) {
-        newActiveSlide = slidesOrder.length? slidesOrder[0].id : '';
+        newActiveSlide = slidesOrder.length? slidesOrder[0] : '';
     } else {
-        const slideIndex = slidesOrder.findIndex(el => el.id === activeSlide);
+        const slideIndex = slidesOrder.findIndex(el => el === activeSlide);
 
         if (slideIndex !== -1) {
             if (!!slidesOrder[slideIndex + 1]) {
-                newActiveSlide = slidesOrder[slideIndex + 1].id;
+                newActiveSlide = slidesOrder[slideIndex + 1];
             } else {
-                newActiveSlide = slidesOrder[slideIndex].id;
+                newActiveSlide = slidesOrder[slideIndex];
             }
         }
     }
@@ -172,19 +172,19 @@ function selectNextSlide(editor: EditorType) {
  * @param {EditorType} editor
  * @return {EditorType}
  */
-function selectPrevSlide(editor: EditorType) {
+function selectPrevSlide(editor: EditorType) { //
     const slidesOrder = editor.Presentation.slidesOrder;
     const activeSlide = editor.activeSlide;
     let newActiveSlide: idType = '';
 
     if (activeSlide) {
-        const slideIndex = slidesOrder.findIndex(el => el.id === activeSlide);
+        const slideIndex = slidesOrder.findIndex(el => el === activeSlide);
 
         if (slideIndex !== -1) {
             if (!!slidesOrder[slideIndex - 1]) {
-                newActiveSlide = slidesOrder[slideIndex - 1].id;
+                newActiveSlide = slidesOrder[slideIndex - 1];
             } else {
-                newActiveSlide = slidesOrder[slideIndex].id;
+                newActiveSlide = slidesOrder[slideIndex];
             }
         }
     }
@@ -198,7 +198,7 @@ function selectPrevSlide(editor: EditorType) {
  * @param {EditorType} editor
  * @return {EditorType}
  */
-function newPresentation(editor: EditorType) {
+function newPresentation(editor: EditorType) { //
     let newEditor: EditorType = {
         ...editor,
         selectedSlides: [],
@@ -212,9 +212,13 @@ function newPresentation(editor: EditorType) {
             title: 'New presentation',
             slidesOrder: [],
             slides: {},
+            activeSlide: '',
+            selection: {
+                type: 'slide',
+                selectionItems: [],
+            }
         }
     }
-    newEditor = addNewSlide(newEditor);
     return selectNextSlide(newEditor)
 }
 
@@ -222,7 +226,7 @@ function newPresentation(editor: EditorType) {
  * @param {EditorType} editor
  * @return {EditorType}
  */
-function savePresentation(editor: EditorType) {
+function savePresentation(editor: EditorType) { //
     const type = 'data:application/octet-stream;base64, ';
     const text = JSON.stringify(editor.Presentation);
     const base = btoa(unescape(encodeURIComponent(text)))
@@ -253,7 +257,7 @@ type loadPresentationPropsType = {
  * }}
  * @return {EditorType}
  */
-function loadPresentation(editor: EditorType, {presentation}: loadPresentationPropsType) {
+function loadPresentation(editor: EditorType, {presentation}: loadPresentationPropsType) { //
     const newEditor = {
         ...editor,
         editLog: {
@@ -277,7 +281,7 @@ type addToUndoPropsType = {
  * }} payload
  * @return {EditorType}
  */
-function addToUndo(editor: EditorType, {EditorBeforeOperation}: addToUndoPropsType) {
+function addToUndo(editor: EditorType, {EditorBeforeOperation}: addToUndoPropsType) { //
     const newEditor = {
         ...editor,
         editLog: {
@@ -296,7 +300,7 @@ function addToUndo(editor: EditorType, {EditorBeforeOperation}: addToUndoPropsTy
  * @param {EditorType} editor
  * @return {EditorType}
  */
-function doRedo(editor: EditorType) {
+function doRedo(editor: EditorType) { //
     const undoStack = [...editor.editLog.undoStack]
     const redoStack = [...editor.editLog.redoStack]
     let newEditor = redoStack.pop()
@@ -317,7 +321,7 @@ function doRedo(editor: EditorType) {
  * @param {EditorType} editor
  * @return {EditorType}
  */
-function doUndo(editor: EditorType) {
+function doUndo(editor: EditorType) { //
     const undoStack = [...editor.editLog.undoStack]
     const redoStack = [...editor.editLog.redoStack]
     let newEditor = undoStack.pop()
@@ -376,7 +380,7 @@ function modifyElement(editor: EditorType, {slideId, elementId, newData}: modify
                     ...newElementProperties,
                 }
             }
-            break
+            break;
         case 't':
             textsBlocks = {
                 ...textsBlocks,
@@ -385,7 +389,7 @@ function modifyElement(editor: EditorType, {slideId, elementId, newData}: modify
                     ...newElementProperties,
                 }
             }
-            break
+            break;
         case 'f':
             newFiguresBlocks = {
                 ...figuresBlocks,
@@ -394,7 +398,7 @@ function modifyElement(editor: EditorType, {slideId, elementId, newData}: modify
                     ...newElementProperties,
                 }
             }
-            break
+            break;
     }
 
     let newSlides = {

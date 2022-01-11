@@ -1,4 +1,4 @@
-.InsertButtons
+.InsertButton
 {
     margin: 10px 10px;
     padding: 0 10px;
@@ -20,7 +20,7 @@
     text-align: center;
 }
 
-.InsertButtons:hover
+.InsertButton:hover
 {
     background-color: #3e3e3e;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);

@@ -1,18 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import s from './FileTitle.module.css';
-import {dispatch} from "../../../../../editor";
-import {setPresentationTitle} from "../../../../../functions";
+import {dispatchType, stateType} from "../../../../../store/store";
+import {connect} from "react-redux";
+import {setPresentationTitleAC} from "../../../../../store/presentationReducer";
 
 type propsType = {
     title: string,
+    setPresentationTitle: Function,
 }
 
 /**
  * @param {{
- * title: string,
+ *   title: string,
+ *   setPresentationTitle: Function,
  * }} props
  */
-function FileTitle({title}: propsType) {
+function FileTitle({title, setPresentationTitle}: propsType) {
     const [newTitle, setTitle] = useState(title);
 
     useEffect(() => {
@@ -27,7 +30,7 @@ function FileTitle({title}: propsType) {
                    onChange={(event)=>setTitle(event.target.value)}
                    onBlur={() => {
                        if (newTitle.trim() !== '') {
-                           dispatch(setPresentationTitle, newTitle.trim())
+                           setPresentationTitle(newTitle.trim())
                            setTitle(newTitle.trim())
                        } else {
                            setTitle(title)
@@ -38,5 +41,18 @@ function FileTitle({title}: propsType) {
     );
 }
 
+const mapStateToProps = (state: stateType) => {
+    return {
+        title: state.model.editor.presentation.title,
+    }
+}
+const mapDispatchToProps = (dispatch: dispatchType) => {
+    return {
+        setPresentationTitle: (newTitle: string) => dispatch(setPresentationTitleAC(newTitle)),
+    }
+}
 
-export {FileTitle};
+const FileTitleContainer = connect(mapStateToProps, mapDispatchToProps)(FileTitle);
+
+
+export {FileTitleContainer};

@@ -1,22 +1,20 @@
 import React from 'react';
 import s from './PreviewButton.module.css';
-import {setViewMode} from "../../../../../functions";
-import {dispatch} from "../../../../../editor";
 
 type PropsType = {
     isActive: boolean,
+    setViewMode: Function,
 }
 
-function onClick(isActive: boolean) {
-    if (isActive) {
-        dispatch(setViewMode, {})
+function PreviewButton({isActive, setViewMode}: PropsType) {
+    const onClick = () => {
+        if (isActive)
+            setViewMode()
     }
-}
 
-function PreviewButton({isActive}: PropsType) {
     const activeClass = isActive ? ` ${s.previewButton_active}` : '';
     return (
-        <div className={s.previewButton + activeClass} contentEditable={false} onClick={()=>{onClick(isActive)}}>
+        <div className={s.previewButton + activeClass} contentEditable={false} onClick={onClick}>
             <span>PREVIEW</span>
         </div>
     );
