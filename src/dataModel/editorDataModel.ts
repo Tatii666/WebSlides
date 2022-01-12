@@ -101,6 +101,7 @@ export type textBlockType = {
 
 export type figuresElementsType = {[id: idType]: figureBlockType};
 export type figureTypeType = 't'|'c'|'r';
+export type elementTypeType = 'i'|'f'|'t';
 
 export type figureBlockType = {
     id: idType,
@@ -173,7 +174,13 @@ export const figureType = {
     RECTANGLE: 'r',
 }
 
-export const ElementType = {
+export type ElementTypetype = {
+    IMAGE: 'i',
+    TEXT: 't',
+    FIGURE: 'f',
+}
+
+export const ElementType: ElementTypetype = {
     IMAGE: 'i',
     TEXT: 't',
     FIGURE: 'f',

@@ -1,4 +1,6 @@
 .textElement
 {
     position: absolute;
+    overflow: hidden;
+    display:inline-block;
 }

@@ -12,7 +12,7 @@ function DeleteButton({slideId, deleteSlide}: propsType) {
         <div className={s.DeleteButton}
              onClick={(event) => {
                  deleteSlide(slideId);
-                 event.preventDefault()
+                 event.stopPropagation();
              }}
         >
             X

@@ -9,7 +9,7 @@ type propsType = {
 
 function InsertButton({text, icon: Icon, onClick}: propsType) {
     return (
-        <div className={s.InsertButton}>
+        <div className={s.InsertButton} onClick={onClick}>
             <div className={s.buttonIcon}>
                 <Icon />
             </div>

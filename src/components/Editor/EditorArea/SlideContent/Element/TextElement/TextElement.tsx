@@ -1,35 +1,59 @@
-import React from 'react';
+import React, {useState} from 'react';
 import s from './TextElement.module.css';
-import {fontPickerType, textBlockType} from "../../../../../../dataModel/editorDataModel";
+import {fontPickerType, idType, textBlockType} from "../../../../../../dataModel/editorDataModel";
 import {toStringColor} from "../../../../../../functions";
 
 type propsType = {
     element: textBlockType,
+    slideId: idType,
     fontSettings: fontPickerType,
+    isActive: boolean,
+    setNewTextValue: Function,
 }
 
-function TextElement({element, fontSettings}: propsType) {
+function TextElement({element, slideId, fontSettings, isActive, setNewTextValue}: propsType) {
+    const [newValue, setValue] = useState(element.value);
+
     return (
-        <svg id={element.id}
-             className={s.textElement}
-             width={element.width}
-             height={element.height}
-             style={{
-                 top: element.position.y,
-                 left: element.position.x,
-             }}
+        <div
+            id={element.id}
+            contentEditable={isActive}
+            suppressContentEditableWarning={true}
+            className={s.textElement}
+            style={{
+                'width':element.width,
+                'height':element.height,
+                'top': element.position.y,
+                'left': element.position.x,
+                'fontFamily': element.style.font ?? fontSettings.defaultFont,
+                'fontSize': element.style.size ?? fontSettings.defaultSize,
+                'color': toStringColor(element.style.color),
+                'backgroundColor': toStringColor(element.style.backgroundColor),
+            }}
+            onInput={(e: any) => {setValue(e.target.innerText)}}
+            onBlur={() => {setNewTextValue(newValue, slideId, element.id)}}
         >
-            <foreignObject x="0" y="0" width="100%" height="100%">
-                <div style={{
-                    'fontFamily': element.style.font ?? fontSettings.defaultFont,
-                    'fontSize': element.style.size ?? fontSettings.defaultSize,
-                    'color': toStringColor(element.style.color),
-                    'backgroundColor': toStringColor(element.style.backgroundColor),
-                }}>
-                    {element.value}
-                </div>
-            </foreignObject>
-        </svg>
+            {element.value}
+        </div>
+        // <textarea
+        //     id={element.id}
+        //     placeholder={'Введите ваш текст'}
+        //     defaultValue={newValue}
+        //     className={s.textElement}
+        //     style={{
+        //         'width':element.width,
+        //         'height':element.height,
+        //         'top': element.position.y,
+        //         'left': element.position.x,
+        //         'fontFamily': element.style.font ?? fontSettings.defaultFont,
+        //         'fontSize': element.style.size ?? fontSettings.defaultSize,
+        //         'color': toStringColor(element.style.color),
+        //         'backgroundColor': toStringColor(element.style.backgroundColor),
+        //     }}
+        //     onChange={(e) => setValue(e.target.value)}
+        //     onBlur={() => {setNewTextValue(newValue, slideId, element.id)}}
+        // />
+
     );
 }
 

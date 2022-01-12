@@ -1,6 +1,7 @@
 import {AnyAction} from "redux";
 import {
     colorType,
+    ElementType,
     figureTypeType,
     idType,
     PresentationType,
@@ -20,13 +21,19 @@ const SELECT_FIRST_SLIDE = 'SELECT_FIRST_SLIDE';
 const SELECT_NEXT_SLIDE = 'SELECT_NEXT_SLIDE';
 const SELECT_PREV_SLIDE = 'SELECT_PREV_SLIDE';
 const TRANSFORM_ELEMENT = 'TRANSFORM_ELEMENT';
-const ADD_FIGURE = 'ADD_FIGURE';
+const ADD_FIGURE_BLOCK = 'ADD_FIGURE_BLOCK';
+const ADD_TEXT_BLOCK = 'ADD_TEXT_BLOCK';
+const ADD_IMAGE_BLOCK = 'ADD_IMAGE_BLOCK';
+const SET_NEW_VALUE_TEXT_BLOCK = 'SET_NEW_VALUE_TEXT_BLOCK';
 
 const defaultBackgroundColor: colorType = {
     r: 255,
     g: 255,
     b: 255,
 }
+
+export type noneType = 'none';
+const none: noneType = 'none';
 
 const defaultColor: colorType = {
     r: 0,
@@ -36,6 +43,8 @@ const defaultColor: colorType = {
 
 const DEFAULT_FIGURE_WIDTH = 150;
 const DEFAULT_FIGURE_HEIGHT = 150;
+const DEFAULT_TEXT_WIDTH = 350;
+const DEFAULT_TEXT_HEIGHT = 200;
 
 const newSlideSelectionType: 'slide' = 'slide';
 const newElementSelectionType: 'element' = 'element';
@@ -289,7 +298,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 slides: {...newSlides},
             }
         }
-        case ADD_FIGURE: {
+        case ADD_FIGURE_BLOCK: {
             const slide = state.slides[state.activeSlide];
             if(!slide)
                 return state;
@@ -320,8 +329,127 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 },
                 elements: [...state.slides[state.activeSlide].elements, {
                     id: id,
-                    type: 'f',
+                    type: ElementType.FIGURE,
                 }]
+            }
+
+            return {
+                ...state,
+                slides: {...newSlides},
+            }
+        }
+        case ADD_TEXT_BLOCK: {
+            const slide = state.slides[state.activeSlide];
+            if(!slide)
+                return state;
+
+            let textBlocks = slide.textBlocks;
+            const id = uuidv4();
+            const newTextBlock = {
+                id: id,
+                position: {
+                    x: DEFAULT_SLIDE_SIZE.width / 2 - DEFAULT_TEXT_WIDTH / 2,
+                    y: DEFAULT_SLIDE_SIZE.height / 2 - DEFAULT_TEXT_HEIGHT / 2,
+                },
+                width: DEFAULT_TEXT_WIDTH,
+                height: DEFAULT_TEXT_HEIGHT,
+                value: 'Здесь должен быть ваш текст',
+                style: {
+                    color: defaultColor,
+                    backgroundColor: none,
+                    size: 40,
+                }
+            };
+
+            let newSlides = {
+                ...state.slides,
+            }
+            newSlides[state.activeSlide] =  {
+                ...state.slides[state.activeSlide],
+                textBlocks: {
+                    ...textBlocks,
+                    [id]: newTextBlock,
+                },
+                elements: [...state.slides[state.activeSlide].elements, {
+                    id: id,
+                    type: ElementType.TEXT,
+                }]
+            }
+
+            return {
+                ...state,
+                slides: {...newSlides},
+            }
+        }
+        case ADD_IMAGE_BLOCK: {
+            const slide = state.slides[state.activeSlide];
+            if(!slide)
+                return state;
+
+            let imageBlocks = slide.imageBlocks;
+            const id = uuidv4();
+            let newWidth = action.width
+            let newHeight = action.height
+            // вписывание картинки в размер слайда, если её размеры превышают слайд
+            const minRel = Math.min(...[
+                DEFAULT_SLIDE_SIZE.width / newWidth,
+                DEFAULT_SLIDE_SIZE.height / newHeight,
+            ])
+            if(minRel < 1) {
+                newWidth = newWidth * minRel;
+                newHeight = newHeight * minRel;
+            }
+            const newImageBlock = {
+                id: id,
+                position: {
+                    x: DEFAULT_SLIDE_SIZE.width / 2 - newWidth / 2,
+                    y: DEFAULT_SLIDE_SIZE.height / 2 - newHeight / 2,
+                },
+                width: newWidth,
+                height: newHeight,
+                image: action.dataURL,
+            };
+
+            let newSlides = {
+                ...state.slides,
+            }
+            newSlides[state.activeSlide] =  {
+                ...state.slides[state.activeSlide],
+                imageBlocks: {
+                    ...imageBlocks,
+                    [id]: newImageBlock,
+                },
+                elements: [...state.slides[state.activeSlide].elements, {
+                    id: id,
+                    type: ElementType.IMAGE,
+                }]
+            }
+
+            return {
+                ...state,
+                slides: {...newSlides},
+            }
+        }
+        case SET_NEW_VALUE_TEXT_BLOCK: {
+            const slide = state.slides[action.slideId];
+            if(!slide)
+                return state;
+
+            let textBlocks = slide.textBlocks;
+            const newTextBlock = {
+                ...textBlocks[action.elementId],
+                value: action.value,
+            };
+
+            let newSlides = {
+                ...state.slides,
+            }
+            newSlides[action.slideId] = {
+                ...state.slides[action.slideId],
+                textBlocks: {
+                    ...textBlocks,
+                    [action.elementId]: newTextBlock,
+                },
             }
 
             return {
@@ -359,4 +487,7 @@ export const setFirstSlideActiveAC = () => ({type: SELECT_FIRST_SLIDE});
 export const setNextSlideActiveAC = () => ({type: SELECT_NEXT_SLIDE});
 export const setPrevSlideActiveAC = () => ({type: SELECT_PREV_SLIDE});
 export const transformElementAC = ({slideId, elementId, newData}: transformElementPropsType) => ({type: TRANSFORM_ELEMENT, slideId, elementId, newData}); // &&&&&&&&&&&
-export const addFigureAC = (figureType: figureTypeType) => ({type: ADD_FIGURE, figureType});
+export const addFigureBlockAC = (figureType: figureTypeType) => ({type: ADD_FIGURE_BLOCK, figureType});
+export const addTextBlockAC = () => ({type: ADD_TEXT_BLOCK});
+export const addImageBlockAC = (dataURL: string, width: number, height: number) => ({type: ADD_IMAGE_BLOCK, dataURL, width, height});
+export const setNewValueTextBlockAC = (value: string, slideId: idType, elementId: idType) => ({type: SET_NEW_VALUE_TEXT_BLOCK, value, slideId, elementId});
