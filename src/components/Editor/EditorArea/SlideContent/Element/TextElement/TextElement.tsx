@@ -30,7 +30,10 @@ function TextElement({element, slideId, fontSettings, isActive, setNewTextValue}
                 'color': toStringColor(element.style.color),
                 'backgroundColor': toStringColor(element.style.backgroundColor),
             }}
-            onInput={(e: any) => {setValue(e.target.innerText)}}
+            onInput={(e: React.FormEvent) => {
+                const element: HTMLDivElement = e.target as HTMLDivElement
+                setValue(element.innerText)
+            }}
             onBlur={() => {setNewTextValue(newValue, slideId, element.id)}}
         >
             {element.value}
