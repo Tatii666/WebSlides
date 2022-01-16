@@ -1,8 +1,11 @@
 .imageElement
 {
     position: absolute;
+    cursor: pointer;
 }
-.imageElement g *:hover
+
+.imageElement
 {
+    position: absolute;
     cursor: pointer;
 }

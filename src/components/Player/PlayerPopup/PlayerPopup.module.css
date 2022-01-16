@@ -14,5 +14,5 @@
 
 .playerPopup:hover {
     opacity: 1;
-    transition: 0.5s;
+    transition: opacity 0.3s 0.3s;
 }

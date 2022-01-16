@@ -17,6 +17,7 @@ const CREATE_NEW_PRESENTATION = 'CREATE_NEW_PRESENTATION';
 const SAVE_PRESENTATION = 'SAVE_PRESENTATION';
 const LOAD_PRESENTATION = 'LOAD_PRESENTATION';
 const SELECT_SLIDE = 'SELECT_SLIDE';
+const SELECT_ELEMENT = 'SELECT_ELEMENT';
 const SELECT_FIRST_SLIDE = 'SELECT_FIRST_SLIDE';
 const SELECT_NEXT_SLIDE = 'SELECT_NEXT_SLIDE';
 const SELECT_PREV_SLIDE = 'SELECT_PREV_SLIDE';
@@ -160,7 +161,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 };
             } else {
                 // проверяем выделен ли уже слайд и снимаем выделение, если выделен, и наоборот
-                const slideIndex = newSelection.selectionItems.findIndex(id => id === action.slideId)
+                const slideIndex = newSelection.selectionItems.findIndex(id => id === action.slideId);
                 if (slideIndex === -1) {
                     newSelection.selectionItems.push(action.slideId);
                 } else {
@@ -174,6 +175,30 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 ...state,
                 selection: newSelection,
                 activeSlide: action.slideId,
+            }
+        }
+        case SELECT_ELEMENT: {
+            let newSelection: selectionType = {...state.selection};
+            if (!action.isCtrlPressed || state.selection.type === 'slide') {
+                newSelection = {
+                    type: newElementSelectionType,
+                    selectionItems: [action.elementId],
+                };
+            } else {
+                // проверяем выделен ли уже слайд и снимаем выделение, если выделен, и наоборот
+                const elementIndex = newSelection.selectionItems.findIndex(id => id === action.elementId);
+                if (elementIndex === -1) {
+                    newSelection.selectionItems.push(action.elementId);
+                } else {
+                    newSelection.selectionItems.splice(elementIndex, 1);
+                    if (!newSelection.selectionItems.length) {
+                        newSelection.selectionItems = [action.elementId];
+                    }
+                }
+            }
+            return {
+                ...state,
+                selection: newSelection,
             }
         }
         case SELECT_FIRST_SLIDE: {
@@ -459,7 +484,18 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
             }
         }
         case DELETE_SELECTED:
-            console.log('delete elements');
+            // if(state.selection.type === 'slide')
+            // {
+            //     return {
+            //         ...state,
+            //         slidesOrder: state.slidesOrder.filter((id) => !state.selection.selectionItems.includes(id)),
+            //
+            //     }
+            // }
+            // if(state.selection.type === 'element')
+            // {
+            //
+            // }
             return state;
         default:
             return state;
@@ -468,6 +504,10 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
 
 export type selectSlidePropsType = {
     slideId: string,
+    isCtrlPressed: boolean,
+}
+export type selectElementPropsType = {
+    elementId: string,
     isCtrlPressed: boolean,
 }
 export type transformElementPropsType = {
@@ -487,6 +527,7 @@ export const createNewPresentationAC = () => ({type: CREATE_NEW_PRESENTATION});
 export const savePresentationAC = () => ({type: SAVE_PRESENTATION});
 export const loadPresentationAC = (presentation: PresentationType) => ({type: LOAD_PRESENTATION, presentation});
 export const selectSlideAC = ({slideId, isCtrlPressed}: selectSlidePropsType) => ({type: SELECT_SLIDE, slideId, isCtrlPressed});
+export const selectElementAC = ({elementId, isCtrlPressed}: selectElementPropsType) => ({type: SELECT_ELEMENT, elementId, isCtrlPressed});
 export const setFirstSlideActiveAC = () => ({type: SELECT_FIRST_SLIDE});
 export const setNextSlideActiveAC = () => ({type: SELECT_NEXT_SLIDE});
 export const setPrevSlideActiveAC = () => ({type: SELECT_PREV_SLIDE});

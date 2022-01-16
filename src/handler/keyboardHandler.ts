@@ -69,10 +69,11 @@ export const keyboardHandler = (event: KeyboardEvent<HTMLDivElement>, dispatch: 
             }
             break;
         case "F5":
-            event.preventDefault();
-            if(state.model.mode === 'edit' && state.model.editor.presentation.slidesOrder.length > 0){
+            if(state.model.mode === 'edit' && state.model.editor.presentation.slidesOrder.length > 0 && !event.ctrlKey){
+                event.preventDefault();
                 dispatch(setViewModeAC());
             } else if(state.model.mode === 'view') {
+                event.preventDefault();
                 dispatch(setEditorModeAC());
             }
             break;

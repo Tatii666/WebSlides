@@ -6,11 +6,14 @@ import {Circle} from "./Triangle/Circle";
 import {Rectangle} from "./Rectangle/Rectangle";
 import {modifyElement, toStringColor} from "../../../../../../functions";
 import {dispatch, getEditor} from "../../../../../../editor";
+import commonStyles from "../../../../common/common.module.css";
 
 const STROKE_WIDTH = 3;
 
 type propsType = {
     element: figureBlockType,
+    isSelected: boolean,
+    selectElement: Function,
 }
 
 function switchFigure(figure: figureBlockType) {
@@ -32,7 +35,7 @@ function switchFigure(figure: figureBlockType) {
     }
 }
 
-function FigureElement({element}: propsType) {
+function FigureElement({element, selectElement, isSelected}: propsType) {
     const handleMouseDown = (e:any) => {
         document.addEventListener('mousemove', handleMouseMove);
     };
@@ -58,7 +61,10 @@ function FigureElement({element}: propsType) {
         <svg id={element.id}
              onMouseDown={handleMouseDown}
              onMouseUp={handleMouseUp}
-             className={s.figureElement}
+             onClick={(event) => {
+                 selectElement(element.id, event.ctrlKey);
+             }}
+             className={`${s.figureElement} ${commonStyles.element} ${isSelected ? commonStyles.selected : ''} `}
              width={element.width}
              height={element.height}
              viewBox={`${-STROKE_WIDTH} ${-STROKE_WIDTH} ${element.width + STROKE_WIDTH * 2} ${element.height + STROKE_WIDTH * 2}`}
