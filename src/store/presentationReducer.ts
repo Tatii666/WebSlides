@@ -25,6 +25,7 @@ const ADD_FIGURE_BLOCK = 'ADD_FIGURE_BLOCK';
 const ADD_TEXT_BLOCK = 'ADD_TEXT_BLOCK';
 const ADD_IMAGE_BLOCK = 'ADD_IMAGE_BLOCK';
 const SET_NEW_VALUE_TEXT_BLOCK = 'SET_NEW_VALUE_TEXT_BLOCK';
+const DELETE_SELECTED = 'DELETE_SELECTED';
 
 const defaultBackgroundColor: colorType = {
     r: 255,
@@ -457,6 +458,9 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 slides: {...newSlides},
             }
         }
+        case DELETE_SELECTED:
+            console.log('delete elements');
+            return state;
         default:
             return state;
     }
@@ -491,3 +495,4 @@ export const addFigureBlockAC = (figureType: figureTypeType) => ({type: ADD_FIGU
 export const addTextBlockAC = () => ({type: ADD_TEXT_BLOCK});
 export const addImageBlockAC = (dataURL: string, width: number, height: number) => ({type: ADD_IMAGE_BLOCK, dataURL, width, height});
 export const setNewValueTextBlockAC = (value: string, slideId: idType, elementId: idType) => ({type: SET_NEW_VALUE_TEXT_BLOCK, value, slideId, elementId});
+export const deleteSelectedAC = () => ({type: DELETE_SELECTED});

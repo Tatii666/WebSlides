@@ -1,5 +1,6 @@
 .playerPopup
 {
+    opacity: 0;
     position: absolute;
     width: 300px;
     background-color: #474747;
@@ -9,4 +10,9 @@
     display: flex;
     padding: 10px;
     border-radius: 5px;
+}
+
+.playerPopup:hover {
+    opacity: 1;
+    transition: 0.5s;
 }
