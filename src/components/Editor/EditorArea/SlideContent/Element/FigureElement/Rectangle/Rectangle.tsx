@@ -13,7 +13,7 @@ function Rectangle({element}: propsType) {
                 x={0} y={0}
                 width={element.width}
                 height={element.height}
-                pointer-events='visible'
+                pointerEvents='visible'
             />
         </g>
     );

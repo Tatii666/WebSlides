@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import s from './TextElement.module.css';
 import {fontPickerType, idType, textBlockType} from "../../../../../../dataModel/editorDataModel";
 import {toStringColor} from "../../../../../../functions";
@@ -13,12 +13,22 @@ type propsType = {
 
 function TextElement({element, slideId, fontSettings, isActive, setNewTextValue}: propsType) {
     const [newValue, setValue] = useState(element.value);
+    const [isEditable, setIsEditable] = useState(false);
+    const textRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (textRef && textRef.current) {
+            textRef.current.focus();
+        }
+    }, [isEditable]);
 
     return (
         <div
+            ref={textRef}
             id={element.id}
-            contentEditable={isActive}
+            contentEditable={isEditable}
             suppressContentEditableWarning={true}
+            dangerouslySetInnerHTML={{__html: element.value}}
             className={s.textElement}
             style={{
                 'width':element.width,
@@ -32,31 +42,25 @@ function TextElement({element, slideId, fontSettings, isActive, setNewTextValue}
             }}
             onInput={(e: React.FormEvent) => {
                 const element: HTMLDivElement = e.target as HTMLDivElement
-                setValue(element.innerText)
+                setValue(element.innerHTML)
             }}
-            onBlur={() => {setNewTextValue(newValue, slideId, element.id)}}
+            onDoubleClick={() => {
+                setIsEditable(true);
+            }}
+            onBlur={() => {
+                setNewTextValue(newValue, slideId, element.id);
+                setIsEditable(false);
+            }}
+            onKeyDown={(event) => {
+                if (event.code === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    document.execCommand("insertLineBreak");
+                }
+            }}
+            onClick={() => console.log('click')}
         >
-            {element.value}
-        </div>
-        // <textarea
-        //     id={element.id}
-        //     placeholder={'Введите ваш текст'}
-        //     defaultValue={newValue}
-        //     className={s.textElement}
-        //     style={{
-        //         'width':element.width,
-        //         'height':element.height,
-        //         'top': element.position.y,
-        //         'left': element.position.x,
-        //         'fontFamily': element.style.font ?? fontSettings.defaultFont,
-        //         'fontSize': element.style.size ?? fontSettings.defaultSize,
-        //         'color': toStringColor(element.style.color),
-        //         'backgroundColor': toStringColor(element.style.backgroundColor),
-        //     }}
-        //     onChange={(e) => setValue(e.target.value)}
-        //     onBlur={() => {setNewTextValue(newValue, slideId, element.id)}}
-        // />
 
+        </div>
     );
 }
 

@@ -11,7 +11,7 @@ function Triangle({element}: propsType) {
         <g>
             <polygon
                 points={`0 ${element.height}, ${element.width/2} 0, ${element.width} ${element.height}`}
-                pointer-events='visible'
+                pointerEvents='visible'
             />
         </g>
     );

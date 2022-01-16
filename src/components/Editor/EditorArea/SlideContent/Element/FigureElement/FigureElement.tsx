@@ -7,7 +7,6 @@ import {Rectangle} from "./Rectangle/Rectangle";
 import {modifyElement, toStringColor} from "../../../../../../functions";
 import {dispatch, getEditor} from "../../../../../../editor";
 
-
 const STROKE_WIDTH = 3;
 
 type propsType = {
