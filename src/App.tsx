@@ -4,10 +4,13 @@ import {Editor} from "./components/Editor/Editor";
 import {PlayerContainer} from "./components/Player/Player";
 import {editorModeType, EditorType} from "./dataModel/editorDataModel";
 import {connect} from "react-redux";
-import {stateType} from "./store/store";
+import {dispatchType, stateType} from "./store/store";
+import {keyboardHandler} from "./handler/keyboardHandler";
 
 type AppPropsType = {
     mode: editorModeType,
+    dispatch: dispatchType,
+    state: stateType,
 }
 
 function isEditMode(mode: editorModeType): boolean {
@@ -18,9 +21,14 @@ function isPlayerMode(mode: editorModeType): boolean {
     return mode === 'view'
 }
 
-function App({mode}: AppPropsType) {
+function App({mode, dispatch, state}: AppPropsType) {
   return (
-    <div className="App">
+    <div className="App"
+        onKeyDown={(e) => {
+            keyboardHandler(e, dispatch, state);
+        }}
+        tabIndex={0}
+    >
         {isEditMode(mode) && <Editor />}
         {isPlayerMode(mode) && <PlayerContainer />}
     </div>
@@ -30,8 +38,15 @@ function App({mode}: AppPropsType) {
 const mapStateToProps = (state: stateType) => {
     return {
         mode: state.model.mode,
+        state: state,
     }
 }
 
-const AppContainer = connect(mapStateToProps)(App)
+const mapDispatchToProps = (dispatch: dispatchType) => {
+    return {
+        dispatch: dispatch,
+    }
+}
+
+const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App)
 export default AppContainer;
