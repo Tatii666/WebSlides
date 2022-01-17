@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './EditorArea.module.css';
 import {SlideContent} from "./SlideContent/SlideContent";
-import {getSelectedElements, PresentationType} from "../../../dataModel/editorDataModel";
+import {PresentationType} from "../../../dataModel/editorDataModel";
 import {connect} from "react-redux";
 import {stateType} from "../../../store/store";
 
@@ -17,7 +17,6 @@ function EditorArea({presentation}: propsType) {
             <SlideContent
                 isEditor={true}
                 slide={slide}
-                selectedElements={getSelectedElements(presentation.selection)}
             />
         </div>
     );

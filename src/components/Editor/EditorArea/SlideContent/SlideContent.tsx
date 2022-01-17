@@ -1,19 +1,18 @@
 import React from 'react';
 import s from './SlideContent.module.css';
 import {DEFAULT_SLIDE_SIZE} from "../../../../dataModel/slideSizes";
-import {selectedElementsType, slideType} from "../../../../dataModel/editorDataModel";
+import {slideType} from "../../../../dataModel/editorDataModel";
 import {SlideElementContainer} from "./Element/SlideElement";
 
 type propsType = {
     isEditor: boolean,
     slide: (slideType|null),
-    selectedElements: selectedElementsType,
     scaleTransformValue?: number,
     width?: string,
     height?: string,
 }
 
-function SlideContent({isEditor, slide, selectedElements, scaleTransformValue, width, height}: propsType) {
+function SlideContent({isEditor, slide, scaleTransformValue, width, height}: propsType) {
     const slideContentEditorClass = isEditor ? s.slideContent_editor : s.slideContent_player;
     return slide? (
         <div
@@ -27,8 +26,8 @@ function SlideContent({isEditor, slide, selectedElements, scaleTransformValue, w
             contentEditable={false}
         >
             {slide.elements.map(el => <SlideElementContainer
+                isEditor={isEditor}
                 slide={slide}
-                selectedElements={selectedElements}
                 key={el.id}
                 element={el}
             /> )}

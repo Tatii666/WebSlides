@@ -1,11 +1,13 @@
 import {AnyAction} from "redux";
 import {
     colorType,
+    elementType,
     ElementType,
     figureTypeType,
     idType,
     PresentationType,
-    selectionType
+    selectionType,
+    slideType,
 } from "../dataModel/editorDataModel";
 import {v4 as uuidv4} from "uuid";
 import {DEFAULT_SLIDE_SIZE} from "../dataModel/slideSizes";
@@ -34,6 +36,7 @@ const defaultBackgroundColor: colorType = {
     b: 255,
 }
 
+export const emptySelection: selectionType = {type: 'slide', selectionItems: []};
 export type noneType = 'none';
 const none: noneType = 'none';
 
@@ -55,15 +58,25 @@ function toStringColor(color: colorType) {
     return color === 'none' ? 'none' : `rgb(${color.r}, ${color.g}, ${color.b})`;
 }
 
+export function getElementData(el: elementType, slide: slideType) {
+    switch (el.type) {
+        case ElementType.IMAGE:
+            return slide.imageBlocks[el.id]
+        case ElementType.TEXT:
+            return slide.textBlocks[el.id]
+        case ElementType.FIGURE:
+            return slide.figureBlocks[el.id]
+        default:
+            return null
+    }
+}
+
 const initalState: PresentationType = {
     title: '',
     slides: {},
     slidesOrder: [],
     activeSlide: '',
-    selection: {
-        type: 'slide',
-        selectionItems: [],
-    }
+    selection: emptySelection,
 };
 
 export const presentationReducer = (state = initalState, action: AnyAction): PresentationType => {
@@ -126,10 +139,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 slides: {...newSlide},
                 slidesOrder: [newId],
                 activeSlide: newId,
-                selection: {
-                    type: newSlideSelectionType,
-                    selectionItems: [],
-                }
+                selection: emptySelection,
             }
         }
         case SAVE_PRESENTATION: {

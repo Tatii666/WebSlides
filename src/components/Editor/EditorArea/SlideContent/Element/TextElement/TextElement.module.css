@@ -1,7 +1,15 @@
 .textElement
 {
     position: absolute;
+    box-sizing: border-box;
     overflow: hidden;
     display: inline-block;
     user-select: none;
+    padding: 5px;
+    outline: none;
+}
+
+.textElement[contenteditable='true']
+{
+    cursor: text;
 }

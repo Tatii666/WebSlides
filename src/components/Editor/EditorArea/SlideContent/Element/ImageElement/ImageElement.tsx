@@ -1,28 +1,18 @@
 import React from 'react';
 import s from './ImageElement.module.css';
-import commonStyles from '../../../../common/common.module.css'
 import {imageBlockType} from "../../../../../../dataModel/editorDataModel";
 
 type propsType = {
     element: imageBlockType,
-    isSelected: boolean,
-    selectElement: Function,
 }
 
-function ImageElement({element, selectElement, isSelected}: propsType) {
+function ImageElement({element}: propsType) {
     return (
         <img id={element.id}
-             className={`${s.imageElement} ${commonStyles.element} ${isSelected ? commonStyles.selected: ''}`}
+             className={`${s.imageElement}`}
              width={element.width}
              height={element.height}
              src={element.image}
-             style={{
-                 top: element.position.y,
-                 left: element.position.x,
-             }}
-             onClick={(event) => {
-                 selectElement(element.id, event.ctrlKey);
-             }}
         />
     );
 }

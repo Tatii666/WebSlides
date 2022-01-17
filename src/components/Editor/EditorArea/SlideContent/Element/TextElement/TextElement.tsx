@@ -2,19 +2,16 @@ import React, {useEffect, useRef, useState} from 'react';
 import s from './TextElement.module.css';
 import {fontPickerType, idType, textBlockType} from "../../../../../../dataModel/editorDataModel";
 import {toStringColor} from "../../../../../../functions";
-import commonStyles from "../../../../common/common.module.css";
 
 type propsType = {
     element: textBlockType,
     slideId: idType,
     fontSettings: fontPickerType,
     isActive: boolean,
-    isSelected: boolean,
     setNewTextValue: Function,
-    selectElement: Function,
 }
 
-function TextElement({element, slideId, fontSettings, isActive, isSelected, setNewTextValue, selectElement}: propsType) {
+function TextElement({element, slideId, fontSettings, isActive, setNewTextValue}: propsType) {
     const [newValue, setValue] = useState(element.value);
     const [isEditable, setIsEditable] = useState(false);
     const textRef = useRef<HTMLDivElement>(null);
@@ -32,12 +29,10 @@ function TextElement({element, slideId, fontSettings, isActive, isSelected, setN
             contentEditable={isEditable}
             suppressContentEditableWarning={true}
             dangerouslySetInnerHTML={{__html: element.value}}
-            className={`${s.textElement} ${commonStyles.element} ${isSelected ? commonStyles.selected: ''}`}
+            className={`${s.textElement}`}
             style={{
                 'width':element.width,
                 'height':element.height,
-                'top': element.position.y,
-                'left': element.position.x,
                 'fontFamily': element.style.font ?? fontSettings.defaultFont,
                 'fontSize': element.style.size ?? fontSettings.defaultSize,
                 'color': toStringColor(element.style.color),
@@ -59,9 +54,6 @@ function TextElement({element, slideId, fontSettings, isActive, isSelected, setN
                     event.preventDefault();
                     document.execCommand("insertLineBreak");
                 }
-            }}
-            onClick={(event) => {
-                selectElement(element.id, event.ctrlKey);
             }}
         >
 

@@ -39,7 +39,6 @@ function Player({presentation, setFirstSlideActive, setNextSlideActive, setPrevS
                 <SlideContent
                     isEditor={false}
                     slide={presentation.slides[activeSlideId]}
-                    selectedElements={[]}
                     scaleTransformValue={scaleKoef}
                 />
             </div>

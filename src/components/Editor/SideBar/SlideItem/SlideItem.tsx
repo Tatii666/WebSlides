@@ -35,7 +35,6 @@ function SlideItem({index, slide, isSelected, isActive, selectSlide, deleteSlide
                 <SlideContent
                     isEditor={false}
                     slide={slide}
-                    selectedElements={[]}
                     scaleTransformValue={MINIATURE_SLIDE_SIZE.width/DEFAULT_SLIDE_SIZE.width}
                 />
                 <DeleteButton slideId={slide.id} deleteSlide={deleteSlide}/>
