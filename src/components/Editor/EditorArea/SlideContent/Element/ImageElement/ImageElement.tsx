@@ -13,6 +13,7 @@ function ImageElement({element}: propsType) {
              width={element.width}
              height={element.height}
              src={element.image}
+             draggable={false}
         />
     );
 }

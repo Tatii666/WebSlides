@@ -6,6 +6,7 @@ import {
     slideType,
     selectedElementsType,
     getSelectedElements,
+    pointType,
 } from "../../../../../dataModel/editorDataModel";
 import {ImageElement} from "./ImageElement/ImageElement";
 import {TextElement} from "./TextElement/TextElement";
@@ -27,12 +28,16 @@ type propsType = {
     element: elementType,
     setNewTextValue: Function,
     selectElement: Function,
+    onDndStart?: Function,
+    dndDelta?: pointType,
 }
 
 type ownPropsType = {
     slide: slideType,
     element: elementType,
     isEditor: boolean,
+    onDndStart?: Function,
+    dndDelta?: pointType,
 }
 
 function switchElement(el: elementType, slide: slideType, isSelected: boolean, isActive: boolean, setNewTextValue: Function, selectElement: Function) {
@@ -71,7 +76,7 @@ function ResizeComponent() {
     </>
 }
 
-function SlideElement({slide, element: el, setNewTextValue, selectElement, selectedElements}: propsType) {
+function SlideElement({slide, element: el, setNewTextValue, selectElement, selectedElements, onDndStart, dndDelta}: propsType) {
     const elementData = getElementData(el, slide)
     if(!elementData)
         return <></>;
@@ -84,11 +89,14 @@ function SlideElement({slide, element: el, setNewTextValue, selectElement, selec
         style={{
             'width':elementData.width,
             'height':elementData.height,
-            'top': elementData.position.y,
-            'left': elementData.position.x,
+            'top': (isSelected && dndDelta) ? elementData.position.y + dndDelta.y : elementData.position.y,
+            'left': (isSelected && dndDelta) ? elementData.position.x + dndDelta.x : elementData.position.x,
         }}
-        onClick={(event) => {
+        onMouseDown={(event) => {
             selectElement(elementData.id, event.ctrlKey);
+            if (onDndStart) {
+                onDndStart(event);
+            }
         }}
     >
         {switchElement(el, slide, isActive, isSelected, setNewTextValue, selectElement)}

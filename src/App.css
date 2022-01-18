@@ -1,4 +1,5 @@
 .App {
   text-align: left;
   overflow: hidden;
+  user-select: none;
 }

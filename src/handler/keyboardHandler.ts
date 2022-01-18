@@ -6,8 +6,10 @@ import {
     createNewPresentationAC,
     deleteSelectedAC,
     savePresentationAC,
+    setEmptySelectionAC,
     setNextSlideActiveAC,
-    setPrevSlideActiveAC} from "../store/presentationReducer";
+    setPrevSlideActiveAC
+} from "../store/presentationReducer";
 import {doRedoAC, doUndoAC} from "../store/editorReducer";
 
 
@@ -16,6 +18,9 @@ export const keyboardHandler = (event: KeyboardEvent<HTMLDivElement>, dispatch: 
         case "Escape":
             if(state.model.mode === 'view'){
                 dispatch(setEditorModeAC());
+            }
+            if(state.model.mode === 'edit'){
+                dispatch(setEmptySelectionAC());
             }
             break;
         case "Delete":

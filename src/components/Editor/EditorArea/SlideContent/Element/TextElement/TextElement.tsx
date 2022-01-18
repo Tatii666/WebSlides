@@ -42,6 +42,11 @@ function TextElement({element, slideId, fontSettings, isActive, setNewTextValue}
                 const element: HTMLDivElement = e.target as HTMLDivElement
                 setValue(element.innerHTML)
             }}
+            onMouseDown={(e) => {
+                if(isEditable) {
+                    e.stopPropagation()
+                }
+            }}
             onDoubleClick={() => {
                 setIsEditable(true);
             }}
@@ -53,6 +58,12 @@ function TextElement({element, slideId, fontSettings, isActive, setNewTextValue}
                 if (event.code === 'Enter' && !event.shiftKey) {
                     event.preventDefault();
                     document.execCommand("insertLineBreak");
+                }
+                if (isEditable && (event.code === 'Delete' || event.code === 'Backspace') ) {
+                    event.stopPropagation();
+                }
+                if (isEditable && (event.code === 'Escape')) {
+                    setIsEditable(false);
                 }
             }}
         >

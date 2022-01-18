@@ -5,6 +5,7 @@ import {
     elementType,
     figureTypeType,
     idType,
+    pointType,
     PresentationType,
     selectionType,
     slideType,
@@ -20,6 +21,7 @@ const SAVE_PRESENTATION = 'SAVE_PRESENTATION';
 const LOAD_PRESENTATION = 'LOAD_PRESENTATION';
 const SELECT_SLIDE = 'SELECT_SLIDE';
 const SELECT_ELEMENT = 'SELECT_ELEMENT';
+const SET_EMPTY_SELECTION = 'SET_EMPTY_SELECTION';
 const SELECT_FIRST_SLIDE = 'SELECT_FIRST_SLIDE';
 const SELECT_NEXT_SLIDE = 'SELECT_NEXT_SLIDE';
 const SELECT_PREV_SLIDE = 'SELECT_PREV_SLIDE';
@@ -29,6 +31,7 @@ const ADD_TEXT_BLOCK = 'ADD_TEXT_BLOCK';
 const ADD_IMAGE_BLOCK = 'ADD_IMAGE_BLOCK';
 const SET_NEW_VALUE_TEXT_BLOCK = 'SET_NEW_VALUE_TEXT_BLOCK';
 const DELETE_SELECTED = 'DELETE_SELECTED';
+const MOVE_SELECTED_ELEMENTS = 'MOVE_SELECTED_ELEMENTS';
 
 const defaultBackgroundColor: colorType = {
     r: 255,
@@ -68,6 +71,64 @@ export function getElementData(el: elementType, slide: slideType) {
             return slide.figureBlocks[el.id]
         default:
             return null
+    }
+}
+
+function moveSlideElement(slide: slideType, elementId: idType, delta: pointType) {
+    const orderElement = slide.elements.find((el) => el.id === elementId);
+    if (!orderElement) {
+        return slide;
+    }
+
+    let imageBlocks = slide.imageBlocks;
+    let figureBlocks = slide.figureBlocks;
+    let textBlocks = slide.textBlocks;
+
+
+    switch (orderElement.type) {
+        case 'i':
+            imageBlocks = {
+                ...imageBlocks,
+                [elementId]: {
+                    ...imageBlocks[elementId],
+                    position: {
+                        x: imageBlocks[elementId].position.x + delta.x,
+                        y: imageBlocks[elementId].position.y + delta.y,
+                    },
+                }
+            }
+            break;
+        case 'f':
+            figureBlocks = {
+                ...figureBlocks,
+                [elementId]: {
+                    ...figureBlocks[elementId],
+                    position: {
+                        x: figureBlocks[elementId].position.x + delta.x,
+                        y: figureBlocks[elementId].position.y + delta.y,
+                    },
+                }
+            }
+            break;
+        case 't':
+            textBlocks = {
+                ...textBlocks,
+                [elementId]: {
+                    ...textBlocks[elementId],
+                    position: {
+                        x: textBlocks[elementId].position.x + delta.x,
+                        y: textBlocks[elementId].position.y + delta.y,
+                    },
+                }
+            }
+            break;
+    }
+
+    return {
+        ...slide,
+        imageBlocks: imageBlocks,
+        textBlocks: textBlocks,
+        figureBlocks: figureBlocks,
     }
 }
 
@@ -120,6 +181,11 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 ...state,
                 slidesOrder: state.slidesOrder.filter(id => id !== action.slideId),
                 slides: newSlides
+            }
+        case SET_EMPTY_SELECTION:
+            return {
+                ...state,
+                selection: emptySelection,
             }
         case CREATE_NEW_PRESENTATION: {
             const newId = uuidv4();
@@ -286,7 +352,6 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 width: action.newData.width,
                 height: action.newData.height,
             };
-
 
             switch (orderElement.type) {
                 case 'i':
@@ -521,6 +586,28 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 return newState;
             }
             return state;
+        case MOVE_SELECTED_ELEMENTS:
+            if(state.selection.type === 'slide' || !state.selection.selectionItems.length) {
+                return state;
+            }
+            const newState = {
+                ...state,
+                slides: {...state.slides}
+            };
+            let currentSlide = {
+                ...state.slides[state.activeSlide]
+            };
+
+            for(let i = 0; i < state.selection.selectionItems.length; i++) {
+                const element = currentSlide.elements.find((el) => el.id === state.selection.selectionItems[i])
+                if(!element) {
+                    continue;
+                }
+                currentSlide = moveSlideElement(currentSlide, element.id, action.delta)
+            }
+
+            newState.slides[state.activeSlide] = currentSlide;
+            return newState;
         default:
             return state;
     }
@@ -561,3 +648,5 @@ export const addTextBlockAC = () => ({type: ADD_TEXT_BLOCK});
 export const addImageBlockAC = (dataURL: string, width: number, height: number) => ({type: ADD_IMAGE_BLOCK, dataURL, width, height});
 export const setNewValueTextBlockAC = (value: string, slideId: idType, elementId: idType) => ({type: SET_NEW_VALUE_TEXT_BLOCK, value, slideId, elementId});
 export const deleteSelectedAC = () => ({type: DELETE_SELECTED});
+export const setEmptySelectionAC = () => ({type: SET_EMPTY_SELECTION});
+export const moveSelectedElementsAC = (delta: pointType) => ({type: MOVE_SELECTED_ELEMENTS, delta});

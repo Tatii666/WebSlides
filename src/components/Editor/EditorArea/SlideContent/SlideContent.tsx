@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './SlideContent.module.css';
 import {DEFAULT_SLIDE_SIZE} from "../../../../dataModel/slideSizes";
-import {slideType} from "../../../../dataModel/editorDataModel";
+import {pointType, slideType} from "../../../../dataModel/editorDataModel";
 import {SlideElementContainer} from "./Element/SlideElement";
 
 type propsType = {
@@ -10,9 +10,11 @@ type propsType = {
     scaleTransformValue?: number,
     width?: string,
     height?: string,
+    onDndStart?: Function,
+    dndDelta?: pointType,
 }
 
-function SlideContent({isEditor, slide, scaleTransformValue, width, height}: propsType) {
+function SlideContent({isEditor, slide, scaleTransformValue, width, height, onDndStart, dndDelta}: propsType) {
     const slideContentEditorClass = isEditor ? s.slideContent_editor : s.slideContent_player;
     return slide? (
         <div
@@ -30,6 +32,8 @@ function SlideContent({isEditor, slide, scaleTransformValue, width, height}: pro
                 slide={slide}
                 key={el.id}
                 element={el}
+                onDndStart={onDndStart}
+                dndDelta={dndDelta}
             /> )}
         </div>
     ) : null;
