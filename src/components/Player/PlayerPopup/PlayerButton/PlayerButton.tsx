@@ -3,18 +3,17 @@ import s from './PlayerButton.module.css';
 
 type propsType = {
     onClick: () => void,
-    value: string,
     isActive?: (boolean|undefined),
+    icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>,
 }
 
-function PlayerButton({onClick, value, isActive}: propsType) {
+function PlayerButton({onClick, icon: Icon, isActive}: propsType) {
 
     return (
-        <button className={`${s.playerButton} ${isActive? s.playerButton_active: ''}`} onClick={onClick}>
-            {value}
-        </button>
+        <div className={`${s.playerButton} ${isActive? s.playerButton_active: ''}`} onClick={onClick}>
+            <Icon />
+        </div>
     );
 }
-
 
 export {PlayerButton};
