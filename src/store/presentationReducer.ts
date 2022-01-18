@@ -499,15 +499,15 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 return {
                     ...state,
                     slidesOrder: state.slidesOrder.filter((id) => !state.selection.selectionItems.includes(id)),
-                    selection: {
-                            type: newSlideSelectionType,
-                            selectionItems: [],
-                        }
+                    selection: emptySelection,
                 }
             }
             if(state.selection.type === 'element')
             {
-                let newState = {...state};
+                let newState = {
+                    ...state,
+                    slides: {...state.slides}
+                };
 
                 const activeSlideId = state.activeSlide;
                 const currentSlide = {
@@ -517,6 +517,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 currentSlide.elements = currentSlide.elements.filter((element) => !state.selection.selectionItems.includes(element.id));
 
                 newState.slides[activeSlideId] = currentSlide;
+                newState.selection = emptySelection;
                 return newState;
             }
             return state;
