@@ -2,7 +2,19 @@
 {
     width: 64px;
     height: 64px;
-    background-color: #8b0000;
-    margin: 0 5px;
-    border-radius: 5px;
+    margin-left: 10px;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #3e3e3e;
+}
+
+.closeButton svg:hover
+{
+    fill: #8b0000;
+}
+
+.closeButton:hover
+{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
 }

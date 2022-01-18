@@ -3,13 +3,14 @@ import s from './CloseButton.module.css';
 
 type propsType = {
     setEditorMode: Function,
+    icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>,
 }
 
-function CloseButton ({setEditorMode}: propsType){
+function CloseButton ({setEditorMode, icon: Icon}: propsType){
     return (
-        <button className={s.closeButton} onClick={() => setEditorMode()}>
-            X
-        </button>
+        <div className={s.closeButton} onClick={() => setEditorMode()}>
+            <Icon />
+        </div>
     );
 }
 
