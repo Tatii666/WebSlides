@@ -1,8 +1,8 @@
 import {AnyAction} from "redux";
 import {
     colorType,
-    elementType,
     ElementType,
+    elementType,
     figureTypeType,
     idType,
     PresentationType,
@@ -494,18 +494,31 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
             }
         }
         case DELETE_SELECTED:
-            // if(state.selection.type === 'slide')
-            // {
-            //     return {
-            //         ...state,
-            //         slidesOrder: state.slidesOrder.filter((id) => !state.selection.selectionItems.includes(id)),
-            //
-            //     }
-            // }
-            // if(state.selection.type === 'element')
-            // {
-            //
-            // }
+            if(state.selection.type === 'slide')
+            {
+                return {
+                    ...state,
+                    slidesOrder: state.slidesOrder.filter((id) => !state.selection.selectionItems.includes(id)),
+                    selection: {
+                            type: newSlideSelectionType,
+                            selectionItems: [],
+                        }
+                }
+            }
+            if(state.selection.type === 'element')
+            {
+                let newState = {...state};
+
+                const activeSlideId = state.activeSlide;
+                const currentSlide = {
+                    ...state.slides[activeSlideId]
+                };
+
+                currentSlide.elements = currentSlide.elements.filter((element) => !state.selection.selectionItems.includes(element.id));
+
+                newState.slides[activeSlideId] = currentSlide;
+                return newState;
+            }
             return state;
         default:
             return state;
