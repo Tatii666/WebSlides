@@ -93,7 +93,9 @@ function SlideElement({slide, element: el, setNewTextValue, selectElement, selec
             'left': (isSelected && dndDelta) ? elementData.position.x + dndDelta.x : elementData.position.x,
         }}
         onMouseDown={(event) => {
-            selectElement(elementData.id, event.ctrlKey);
+            if(!event.altKey) {
+                selectElement(elementData.id, event.ctrlKey);
+            }
             if (onDndStart) {
                 onDndStart(event);
             }
