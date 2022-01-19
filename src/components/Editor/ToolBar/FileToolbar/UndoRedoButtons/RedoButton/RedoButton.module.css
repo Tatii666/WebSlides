@@ -1,13 +1,8 @@
 .redoButton
 {
-    border-radius: 3px;
-    background-color: #c3c3c3;
-    border-radius: 3px;
-    width: 64px;
     height: 24px;
     margin: 0 10px;
     padding: 0 10px;
-    cursor: pointer;
 }
 
 .redoButton img
@@ -18,8 +13,6 @@
 .redoButton:hover
 {
     background-color: #e0e8f5;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    cursor: pointer;
 }
 
 .redoButton_disabled

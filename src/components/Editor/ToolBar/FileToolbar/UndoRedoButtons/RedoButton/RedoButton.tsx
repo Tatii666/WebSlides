@@ -1,5 +1,6 @@
 import React from 'react';
 import s from './RedoButton.module.css';
+import commonStyle from '../../../../common/common.module.css';
 import {ReactComponent as RedoIcon} from '../../../../../../img/Redo2.svg'
 
 type propsType = {
@@ -13,12 +14,11 @@ function RedoButton({isDisabled, doRedo}: propsType) {
     }
 
     return (
-        <div className={`${s.redoButton} ${isDisabled? s.redoButton_disabled: ''}`}
+        <div className={`${commonStyle.standardButtonIcon} ${commonStyle.standardButtonHover} ${s.redoButton}  ${isDisabled? s.redoButton_disabled: ''}`}
              onClick={!isDisabled ? onRedoClick : () => {}}>
             <RedoIcon />
         </div>
     );
 }
-
 
 export {RedoButton};

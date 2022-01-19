@@ -561,6 +561,17 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
         case DELETE_SELECTED:
             if(state.selection.type === 'slide')
             {
+                let newState = {
+                    ...state,
+                };
+                let selectedItems = state.selection.selectionItems;
+
+                for(let i = 0; i < selectedItems.length; i++){
+                    if(selectedItems[i] === state.activeSlide){
+                        state.activeSlide = '';
+                    }
+                    delete newState.slides[selectedItems[i]];
+                }
                 return {
                     ...state,
                     slidesOrder: state.slidesOrder.filter((id) => !state.selection.selectionItems.includes(id)),
