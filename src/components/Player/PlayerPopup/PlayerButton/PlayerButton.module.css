@@ -2,20 +2,10 @@
 {
     margin-right: 10px;
     border-radius: 3px;
-    overflow: hidden;
-    width: 64px;
-    height: 64px;
-    background-color: #c3c3c3;
-}
-
-.playerButton:hover
-{
     background-color: #3e3e3e;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    cursor: pointer;
 }
 
 .playerButton_active
 {
-    box-shadow: 1px -1px 6px 9px #403cbe;
+    box-shadow: 1px -1px 6px 9px blueviolet;
 }
