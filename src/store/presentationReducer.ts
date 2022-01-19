@@ -576,7 +576,6 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                     ...state,
                     slidesOrder: state.slidesOrder.filter((id) => !state.selection.selectionItems.includes(id)),
                     selection: emptySelection,
-
                 }
             }
             if(state.selection.type === 'element')
