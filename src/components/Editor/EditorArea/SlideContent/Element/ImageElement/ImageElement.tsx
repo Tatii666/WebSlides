@@ -4,14 +4,16 @@ import {imageBlockType} from "../../../../../../dataModel/editorDataModel";
 
 type propsType = {
     element: imageBlockType,
+    deltaWidth?: number,
+    deltaHeight?: number,
 }
 
-function ImageElement({element}: propsType) {
+function ImageElement({element, deltaWidth = 0, deltaHeight = 0}: propsType) {
     return (
         <img id={element.id}
              className={`${s.imageElement}`}
-             width={element.width}
-             height={element.height}
+             width={element.width + deltaWidth}
+             height={element.height + deltaHeight}
              src={element.image}
              draggable={false}
         />

@@ -4,67 +4,53 @@ import {figureBlockType, figureType} from "../../../../../../dataModel/editorDat
 import {Triangle} from "./Circle/Triangle";
 import {Circle} from "./Triangle/Circle";
 import {Rectangle} from "./Rectangle/Rectangle";
-import {modifyElement, toStringColor} from "../../../../../../functions";
-import {dispatch, getEditor} from "../../../../../../editor";
+import {toStringColor} from "../../../../../../functions";
 
 const STROKE_WIDTH = 3;
 
 type propsType = {
     element: figureBlockType,
+    deltaWidth?: number,
+    deltaHeight?: number,
 }
 
-function switchFigure(figure: figureBlockType) {
+function switchFigure(figure: figureBlockType, deltaWidth: number, deltaHeight: number) {
     switch (figure.type) {
         case figureType.CIRCLE:
             return <Circle
                 element={figure}
+                deltaWidth={deltaWidth}
+                deltaHeight={deltaHeight}
             />
         case figureType.TRIANGLE:
             return <Triangle
                 element={figure}
+                deltaWidth={deltaWidth}
+                deltaHeight={deltaHeight}
             />
         case figureType.RECTANGLE:
             return <Rectangle
                 element={figure}
+                deltaWidth={deltaWidth}
+                deltaHeight={deltaHeight}
             />
         default:
             return null
     }
 }
 
-function FigureElement({element}: propsType) {
-    const handleMouseDown = (e:any) => {
-        document.addEventListener('mousemove', handleMouseMove);
-    };
-
-    const handleMouseUp = () => {
-        document.removeEventListener('mousemove', handleMouseMove);
-    };
-
-    const handleMouseMove = (e:any) => {
-        dispatch(modifyElement, {
-            slideId: getEditor().activeSlide,
-            elementId: element.id,
-            newData: {
-                x:  e.x - 600,
-                y:  e.y - 400,
-                width: element.width,
-                height: element.height,
-            }
-        })
-    };
-
+function FigureElement({element, deltaWidth = 0, deltaHeight = 0}: propsType) {
     return (
         <svg id={element.id}
              className={`${s.figureElement}`}
-             width={element.width}
-             height={element.height}
-             viewBox={`${-STROKE_WIDTH} ${-STROKE_WIDTH} ${element.width + STROKE_WIDTH * 2} ${element.height + STROKE_WIDTH * 2}`}
+             width={element.width + deltaWidth}
+             height={element.height + deltaHeight}
+             viewBox={`${-STROKE_WIDTH} ${-STROKE_WIDTH} ${element.width + deltaWidth + STROKE_WIDTH * 2} ${element.height + deltaHeight + STROKE_WIDTH * 2}`}
              fill={toStringColor(element.fillColor)}
              stroke={toStringColor(element.borderColor)}
              strokeWidth={`${STROKE_WIDTH}`}
         >
-            {switchFigure(element)}
+            {switchFigure(element, deltaWidth, deltaHeight)}
         </svg>
     );
 }

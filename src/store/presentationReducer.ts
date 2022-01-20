@@ -1,17 +1,21 @@
 import {AnyAction} from "redux";
+import {v4 as uuidv4} from "uuid";
 import {
     colorType,
     ElementType,
     elementType,
     figureTypeType,
+    figureBlockType,
+    imageBlockType,
+    textBlockType,
     idType,
     pointType,
     PresentationType,
     selectionType,
     slideType,
 } from "../dataModel/editorDataModel";
-import {v4 as uuidv4} from "uuid";
 import {DEFAULT_SLIDE_SIZE} from "../dataModel/slideSizes";
+import {transformElementProps} from "../components/Editor/EditorArea/EditorArea";
 
 const SET_PRESENTATION_TITLE = 'SET_PRESENTATION_TITLE';
 const ADD_NEW_SLIDE = 'ADD_NEW_SLIDE';
@@ -39,7 +43,7 @@ const defaultBackgroundColor: colorType = {
     b: 255,
 }
 
-export const emptySelection: selectionType = {type: 'slide', selectionItems: []};
+export const emptySelection: selectionType = {type: 'element', selectionItems: []};
 export type noneType = 'none';
 const none: noneType = 'none';
 
@@ -129,6 +133,18 @@ function moveSlideElement(slide: slideType, elementId: idType, delta: pointType)
         imageBlocks: imageBlocks,
         textBlocks: textBlocks,
         figureBlocks: figureBlocks,
+    }
+}
+
+function getTransformedData(el: figureBlockType|textBlockType|imageBlockType, delta: transformElementProps): figureBlockType|textBlockType|imageBlockType{
+    return {
+        ...el,
+        width: el.width + delta.width,
+        height: el.height + delta.height,
+        position: {
+            x: el.position.x + delta.x,
+            y: el.position.y + delta.y,
+        }
     }
 }
 
@@ -334,8 +350,13 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
             }
         }
         case TRANSFORM_ELEMENT: {
-            const slide = state.slides[action.slideId];
-            const orderElement = slide.elements.find((el) => el.id === action.elementId);
+            const slide = state.slides[state.activeSlide];
+            if (!slide || state.selection.type === 'slide' || !state.selection.selectionItems.length) {
+                return state;
+            }
+
+            const elementId = state.selection.selectionItems[state.selection.selectionItems.length - 1]
+            const orderElement = slide.elements.find((el) => el.id === elementId);
             if (!orderElement) {
                 return state;
             }
@@ -344,41 +365,26 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
             let figuresBlocks = slide.figureBlocks;
             let textsBlocks = slide.textBlocks;
 
-            const newElementProperties = {
-                position: {
-                    x: action.newData.x,
-                    y: action.newData.y,
-                },
-                width: action.newData.width,
-                height: action.newData.height,
-            };
-
             switch (orderElement.type) {
                 case 'i':
+                    const image = imagesBlocks[elementId]
                     imagesBlocks = {
                         ...imagesBlocks,
-                        [action.elementId]: {
-                            ...imagesBlocks[action.elementId],
-                            ...newElementProperties,
-                        }
+                        [elementId]: getTransformedData(image, action.delta) as imageBlockType,
                     }
                     break;
                 case 't':
+                    const text = textsBlocks[elementId]
                     textsBlocks = {
                         ...textsBlocks,
-                        [action.elementId]: {
-                            ...textsBlocks[action.elementId],
-                            ...newElementProperties,
-                        }
+                        [elementId]: getTransformedData(text, action.delta) as textBlockType,
                     }
                     break;
                 case 'f':
+                    const figure = figuresBlocks[elementId]
                     figuresBlocks = {
                         ...figuresBlocks,
-                        [action.elementId]: {
-                            ...figuresBlocks[action.elementId],
-                            ...newElementProperties,
-                        }
+                        [elementId]: getTransformedData(figure, action.delta) as figureBlockType,
                     }
                     break;
             }
@@ -387,8 +393,8 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 ...state.slides,
             }
 
-            newSlides[action.slideId] =  {
-                ...state.slides[action.slideId],
+            newSlides[state.activeSlide] =  {
+                ...state.slides[state.activeSlide],
                 imageBlocks: imagesBlocks,
                 textBlocks: textsBlocks,
                 figureBlocks: figuresBlocks,
@@ -592,6 +598,8 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
 
                 currentSlide.elements = currentSlide.elements.filter((element) => !state.selection.selectionItems.includes(element.id));
 
+                // Удалить сами элементы из данных слайда
+
                 newState.slides[activeSlideId] = currentSlide;
                 newState.selection = emptySelection;
                 return newState;
@@ -632,10 +640,8 @@ export type selectElementPropsType = {
     elementId: string,
     isCtrlPressed: boolean,
 }
-export type transformElementPropsType = {
-    slideId: string,
-    elementId: string,
-    newData: {
+export type transformElementACPropsType = {
+    delta: {
         x: number,
         y: number,
         width: number,
@@ -653,7 +659,7 @@ export const selectElementAC = ({elementId, isCtrlPressed}: selectElementPropsTy
 export const setFirstSlideActiveAC = () => ({type: SELECT_FIRST_SLIDE});
 export const setNextSlideActiveAC = () => ({type: SELECT_NEXT_SLIDE});
 export const setPrevSlideActiveAC = () => ({type: SELECT_PREV_SLIDE});
-export const transformElementAC = ({slideId, elementId, newData}: transformElementPropsType) => ({type: TRANSFORM_ELEMENT, slideId, elementId, newData}); // &&&&&&&&&&&
+export const transformElementAC = ({delta}: transformElementACPropsType) => ({type: TRANSFORM_ELEMENT, delta});
 export const addFigureBlockAC = (figureType: figureTypeType) => ({type: ADD_FIGURE_BLOCK, figureType});
 export const addTextBlockAC = () => ({type: ADD_TEXT_BLOCK});
 export const addImageBlockAC = (dataURL: string, width: number, height: number) => ({type: ADD_IMAGE_BLOCK, dataURL, width, height});

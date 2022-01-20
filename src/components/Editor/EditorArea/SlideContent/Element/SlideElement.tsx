@@ -11,6 +11,7 @@ import {
 import {ImageElement} from "./ImageElement/ImageElement";
 import {TextElement} from "./TextElement/TextElement";
 import {FigureElement} from "./FigureElement/FigureElement";
+import {ResizeComponent} from "./ResizeComponent/ResizeComponent";
 import {getEditor} from "../../../../../editor";
 import {dispatchType, stateType} from "../../../../../store/store";
 import {
@@ -21,6 +22,7 @@ import {
 } from "../../../../../store/presentationReducer";
 import {connect} from "react-redux";
 import s from "./SlideElement.module.css";
+import {resizeDeltaType} from "../../../../../customHooks/useElementResize";
 
 type propsType = {
     slide: slideType,
@@ -30,6 +32,8 @@ type propsType = {
     selectElement: Function,
     onDndStart?: Function,
     dndDelta?: pointType,
+    onResizeStart?: Function,
+    resizeDelta?: resizeDeltaType,
 }
 
 type ownPropsType = {
@@ -38,13 +42,17 @@ type ownPropsType = {
     isEditor: boolean,
     onDndStart?: Function,
     dndDelta?: pointType,
+    onResizeStart?: Function,
+    resizeDelta?: resizeDeltaType,
 }
 
-function switchElement(el: elementType, slide: slideType, isSelected: boolean, isActive: boolean, setNewTextValue: Function, selectElement: Function) {
+function switchElement(el: elementType, slide: slideType, isSelected: boolean, isActive: boolean, setNewTextValue: Function, deltaWidth?: number, deltaHeight?: number) {
     switch (el.type) {
         case ElementType.IMAGE:
             return <ImageElement
                 element={slide.imageBlocks[el.id]}
+                deltaWidth={deltaWidth}
+                deltaHeight={deltaHeight}
             />
         case ElementType.TEXT:
             return <TextElement
@@ -53,30 +61,21 @@ function switchElement(el: elementType, slide: slideType, isSelected: boolean, i
                 fontSettings={getEditor().fontPicker}
                 isActive={true}
                 setNewTextValue={setNewTextValue}
+                deltaWidth={deltaWidth}
+                deltaHeight={deltaHeight}
             />
         case ElementType.FIGURE:
             return <FigureElement
                 element={slide.figureBlocks[el.id]}
+                deltaWidth={deltaWidth}
+                deltaHeight={deltaHeight}
             />
         default:
             return null
     }
 }
 
-function ResizeComponent() {
-    return <>
-        <div className={`${s.resizePointer} ${s.resizePointer_TopLeft}`}></div>
-        <div className={`${s.resizePointer} ${s.resizePointer_TopMiddle}`}></div>
-        <div className={`${s.resizePointer} ${s.resizePointer_TopRight}`}></div>
-        <div className={`${s.resizePointer} ${s.resizePointer_RightMiddle}`}></div>
-        <div className={`${s.resizePointer} ${s.resizePointer_BottomRight}`}></div>
-        <div className={`${s.resizePointer} ${s.resizePointer_BottomMiddle}`}></div>
-        <div className={`${s.resizePointer} ${s.resizePointer_BottomLeft}`}></div>
-        <div className={`${s.resizePointer} ${s.resizePointer_LeftMiddle}`}></div>
-    </>
-}
-
-function SlideElement({slide, element: el, setNewTextValue, selectElement, selectedElements, onDndStart, dndDelta}: propsType) {
+function SlideElement({slide, element: el, setNewTextValue, selectElement, selectedElements, onDndStart, dndDelta, onResizeStart, resizeDelta}: propsType) {
     const elementData = getElementData(el, slide)
     if(!elementData)
         return <></>;
@@ -84,13 +83,22 @@ function SlideElement({slide, element: el, setNewTextValue, selectElement, selec
     const isActive = !!selectedElements.length && selectedElements[selectedElements.length - 1] === el.id;
     const isSelected = selectedElements.includes(el.id);
 
+    const deltaWidth = isActive && resizeDelta ? resizeDelta.width : 0;
+    const deltaHeight = isActive && resizeDelta ? resizeDelta.height : 0;
+    const deltaPositionX = isActive && resizeDelta && (resizeDelta.x || resizeDelta.y) ? resizeDelta.x
+                            : isSelected && dndDelta ? dndDelta.x
+                                : 0;
+    const deltaPositionY = isActive && resizeDelta && (resizeDelta.x || resizeDelta.y) ? resizeDelta.y
+                            : isSelected && dndDelta ? dndDelta.y
+                                : 0;
+
     return <div
         className={`${s.element} ${isSelected ? s.selected: ''}`}
         style={{
-            'width':elementData.width,
-            'height':elementData.height,
-            'top': (isSelected && dndDelta) ? elementData.position.y + dndDelta.y : elementData.position.y,
-            'left': (isSelected && dndDelta) ? elementData.position.x + dndDelta.x : elementData.position.x,
+            'width': elementData.width + deltaWidth,
+            'height': elementData.height + deltaHeight,
+            'top': elementData.position.y + deltaPositionY,
+            'left': elementData.position.x + deltaPositionX,
         }}
         onMouseDown={(event) => {
             if(!event.altKey) {
@@ -101,8 +109,8 @@ function SlideElement({slide, element: el, setNewTextValue, selectElement, selec
             }
         }}
     >
-        {switchElement(el, slide, isActive, isSelected, setNewTextValue, selectElement)}
-        {isActive && <ResizeComponent />}
+        {switchElement(el, slide, isActive, isSelected, setNewTextValue, deltaWidth, deltaHeight)}
+        {isActive && <ResizeComponent onResizeStart={onResizeStart} width={elementData.width} height={elementData.height}/>}
     </div>
 }
 

@@ -9,9 +9,11 @@ type propsType = {
     fontSettings: fontPickerType,
     isActive: boolean,
     setNewTextValue: Function,
+    deltaWidth?: number,
+    deltaHeight?: number,
 }
 
-function TextElement({element, slideId, fontSettings, isActive, setNewTextValue}: propsType) {
+function TextElement({element, slideId, fontSettings, isActive, setNewTextValue, deltaWidth = 0, deltaHeight = 0}: propsType) {
     const [newValue, setValue] = useState(element.value);
     const [isEditable, setIsEditable] = useState(false);
     const textRef = useRef<HTMLDivElement>(null);
@@ -31,8 +33,8 @@ function TextElement({element, slideId, fontSettings, isActive, setNewTextValue}
             dangerouslySetInnerHTML={{__html: element.value}}
             className={`${s.textElement}`}
             style={{
-                'width':element.width,
-                'height':element.height,
+                'width':element.width + deltaWidth,
+                'height':element.height + deltaHeight,
                 'fontFamily': element.style.font ?? fontSettings.defaultFont,
                 'fontSize': element.style.size ?? fontSettings.defaultSize,
                 'color': toStringColor(element.style.color),
