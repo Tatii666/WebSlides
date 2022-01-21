@@ -13,7 +13,7 @@ const defaultBackgroundColor: colorType = {
 }
 
 function toStringColor(color: colorType) {
-    return color === 'none' ? 'none' : `rgb(${color.r}, ${color.g}, ${color.b})`;
+    return color === 'none' ? 'transparent' : `rgb(${color.r}, ${color.g}, ${color.b})`;
 }
 
 /**

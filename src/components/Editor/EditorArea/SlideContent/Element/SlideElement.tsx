@@ -58,8 +58,6 @@ function switchElement(el: elementType, slide: slideType, isSelected: boolean, i
             return <TextElement
                 element={slide.textBlocks[el.id]}
                 slideId={slide.id}
-                fontSettings={getEditor().fontPicker}
-                isActive={true}
                 setNewTextValue={setNewTextValue}
                 deltaWidth={deltaWidth}
                 deltaHeight={deltaHeight}
@@ -92,7 +90,8 @@ function SlideElement({slide, element: el, setNewTextValue, selectElement, selec
                             : isSelected && dndDelta ? dndDelta.y
                                 : 0;
 
-    return <div
+    return (
+    <div
         className={`${s.element} ${isSelected ? s.selected: ''}`}
         style={{
             'width': elementData.width + deltaWidth,
@@ -111,7 +110,7 @@ function SlideElement({slide, element: el, setNewTextValue, selectElement, selec
     >
         {switchElement(el, slide, isActive, isSelected, setNewTextValue, deltaWidth, deltaHeight)}
         {isActive && <ResizeComponent onResizeStart={onResizeStart} width={elementData.width} height={elementData.height}/>}
-    </div>
+    </div>)
 }
 
 const mapStateToProps = (state: stateType, ownProps: ownPropsType) => {

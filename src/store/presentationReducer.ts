@@ -36,17 +36,17 @@ const ADD_IMAGE_BLOCK = 'ADD_IMAGE_BLOCK';
 const SET_NEW_VALUE_TEXT_BLOCK = 'SET_NEW_VALUE_TEXT_BLOCK';
 const DELETE_SELECTED = 'DELETE_SELECTED';
 const MOVE_SELECTED_ELEMENTS = 'MOVE_SELECTED_ELEMENTS';
+const MOVE_SLIDE_IN_ORDER = 'MOVE_SLIDE_IN_ORDER';
+const MOVE_ELEMENT_LAYER = 'MOVE_ELEMENT_LAYER';
 
-const defaultBackgroundColor: colorType = {
-    r: 255,
-    g: 255,
-    b: 255,
-}
 
 export const emptySelection: selectionType = {type: 'element', selectionItems: []};
 export type noneType = 'none';
 const none: noneType = 'none';
 
+const defaultFont = 'Arial';
+const defaultFontSize = 30;
+const defaultBackgroundColor: colorType = 'none';
 const defaultColor: colorType = {
     r: 0,
     g: 0,
@@ -421,8 +421,10 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 },
                 width: DEFAULT_FIGURE_WIDTH,
                 height: DEFAULT_FIGURE_HEIGHT,
-                borderColor: defaultColor,
-                fillColor: defaultBackgroundColor,
+                styles: {
+                    color: defaultColor,
+                    backgroundColor: defaultBackgroundColor
+                }
             };
 
             let newSlides = {
@@ -461,10 +463,10 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 width: DEFAULT_TEXT_WIDTH,
                 height: DEFAULT_TEXT_HEIGHT,
                 value: 'Здесь должен быть ваш текст',
-                style: {
+                styles: {
                     color: defaultColor,
                     backgroundColor: none,
-                    size: 40,
+                    fontSize: defaultFontSize,
                 }
             };
 
@@ -515,6 +517,10 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 width: newWidth,
                 height: newHeight,
                 image: action.dataURL,
+                styles: {
+                    color: none,
+                    backgroundColor: none,
+                }
             };
 
             let newSlides = {
@@ -605,8 +611,8 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 return newState;
             }
             return state;
-        case MOVE_SELECTED_ELEMENTS:
-            if(state.selection.type === 'slide' || !state.selection.selectionItems.length) {
+        case MOVE_SELECTED_ELEMENTS: {
+            if (state.selection.type === 'slide' || !state.selection.selectionItems.length) {
                 return state;
             }
             const newState = {
@@ -617,9 +623,9 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 ...state.slides[state.activeSlide]
             };
 
-            for(let i = 0; i < state.selection.selectionItems.length; i++) {
+            for (let i = 0; i < state.selection.selectionItems.length; i++) {
                 const element = currentSlide.elements.find((el) => el.id === state.selection.selectionItems[i])
-                if(!element) {
+                if (!element) {
                     continue;
                 }
                 currentSlide = moveSlideElement(currentSlide, element.id, action.delta)
@@ -627,6 +633,84 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
 
             newState.slides[state.activeSlide] = currentSlide;
             return newState;
+        }
+        case MOVE_SLIDE_IN_ORDER: {
+            const slideIndex = state.slidesOrder.findIndex(id => id === action.slideId);
+            if (slideIndex < 0) {
+                return state;
+            }
+            const newSlideOrder = [...state.slidesOrder];
+            const temp = state.slidesOrder[slideIndex];
+            switch (action.toWhere) {
+                case 'prev':
+                    if (slideIndex === 0) {
+                        return state;
+                    }
+                    //меняем местами с предыдущим
+                    newSlideOrder[slideIndex] = newSlideOrder[slideIndex - 1];
+                    newSlideOrder[slideIndex - 1] = temp;
+                    break;
+                case 'next':
+                    if (slideIndex === newSlideOrder.length - 1) {
+                        return state;
+                    }
+                    //меняем местами со следующим
+                    newSlideOrder[slideIndex] = newSlideOrder[slideIndex + 1];
+                    newSlideOrder[slideIndex + 1] = temp;
+                    break;
+            }
+            const newState = {
+                ...state,
+                slidesOrder: newSlideOrder,
+            };
+            return newState;
+        }
+        case MOVE_ELEMENT_LAYER: {
+            if (!state.activeSlide || state.selection.type === 'slide' || !state.selection.selectionItems.length) {
+                return state;
+            }
+            const newState = {
+                ...state,
+                slides: {...state.slides}
+            };
+            const currentSlide = {
+                ...state.slides[state.activeSlide]
+            };
+            if (!currentSlide) {
+                return state;
+            }
+
+            const elementIndex = currentSlide.elements.findIndex(el => el.id === state.selection.selectionItems[state.selection.selectionItems.length - 1]);
+            if (elementIndex < 0) {
+                return state;
+            }
+            const newElementsArray = [...currentSlide.elements];
+            const temp = newElementsArray[elementIndex];
+            switch (action.toWhere) {
+                case 'down':
+                    if (elementIndex === 0) {
+                        return state;
+                    }
+                    //меняем местами с предыдущим
+                    newElementsArray[elementIndex] = newElementsArray[elementIndex - 1];
+                    newElementsArray[elementIndex - 1] = temp;
+                    break;
+                case 'up':
+                    if (elementIndex === newElementsArray.length - 1) {
+                        return state;
+                    }
+                    //меняем местами со следующим
+                    newElementsArray[elementIndex] = newElementsArray[elementIndex + 1];
+                    newElementsArray[elementIndex + 1] = temp;
+                    break;
+            }
+
+            newState.slides[state.activeSlide] = {
+                ...currentSlide,
+                elements: newElementsArray,
+            };
+            return newState;
+        }
         default:
             return state;
     }
@@ -667,3 +751,5 @@ export const setNewValueTextBlockAC = (value: string, slideId: idType, elementId
 export const deleteSelectedAC = () => ({type: DELETE_SELECTED});
 export const setEmptySelectionAC = () => ({type: SET_EMPTY_SELECTION});
 export const moveSelectedElementsAC = (delta: pointType) => ({type: MOVE_SELECTED_ELEMENTS, delta});
+export const moveSlideInOrdersAC = (slideId: idType, toWhere: 'next'|'prev') => ({type: MOVE_SLIDE_IN_ORDER, slideId, toWhere});
+export const moveElementLayerAC = (toWhere: 'up'|'down') => ({type: MOVE_ELEMENT_LAYER, toWhere});

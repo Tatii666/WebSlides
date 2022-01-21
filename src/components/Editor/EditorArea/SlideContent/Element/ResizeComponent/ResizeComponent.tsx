@@ -14,7 +14,7 @@ function ResizeComponent({onResizeStart, width, height}: resizePropsType) {
         }
     }
 
-    return <>
+    return <div className={`${s.resizeWrapper}`}>
         <div className={`${s.resizePointer} ${s.resizePointer_TopLeft}`} onMouseDown={onMouseDown} data-resize-point={1}></div>
         <div className={`${s.resizePointer} ${s.resizePointer_TopMiddle}`} onMouseDown={onMouseDown} data-resize-point={2}></div>
         <div className={`${s.resizePointer} ${s.resizePointer_TopRight}`} onMouseDown={onMouseDown} data-resize-point={3}></div>
@@ -23,7 +23,7 @@ function ResizeComponent({onResizeStart, width, height}: resizePropsType) {
         <div className={`${s.resizePointer} ${s.resizePointer_BottomMiddle}`} onMouseDown={onMouseDown} data-resize-point={6}></div>
         <div className={`${s.resizePointer} ${s.resizePointer_BottomLeft}`} onMouseDown={onMouseDown} data-resize-point={7}></div>
         <div className={`${s.resizePointer} ${s.resizePointer_LeftMiddle}`} onMouseDown={onMouseDown} data-resize-point={8}></div>
-    </>
+    </div>
 }
 
 export {ResizeComponent}

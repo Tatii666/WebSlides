@@ -24,7 +24,7 @@ function SlideItem({index, slide, isSelected, isActive, selectSlide, deleteSlide
 
     return (
         <div className={s.slideItem + selectedClass + activeClass}
-             onClick={(event) => {
+            onClick={(event) => {
                 selectSlide({slideId: slide.id, isCtrlPressed: event.ctrlKey});
             }}
         >

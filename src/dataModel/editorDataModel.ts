@@ -81,7 +81,19 @@ export type imageBlockType = {
     width: number,
     height: number,
     image: string,
+    styles: stylesType,
 };
+
+export type stylesType = {
+    color: colorType,
+    backgroundColor: colorType,
+}
+
+export type fontStylesType = {
+    fontSize?: number,
+    font?: string,
+}
+
 
 export type textsElementsType = {[id: idType]: textBlockType};
 
@@ -91,12 +103,7 @@ export type textBlockType = {
     width: number,
     height: number,
     value: string,
-    style: {
-        color: colorType,
-        backgroundColor: colorType,
-        size?: number,
-        font?: string,
-    }
+    styles: stylesType & fontStylesType,
 };
 
 export type figuresElementsType = {[id: idType]: figureBlockType};
@@ -109,8 +116,7 @@ export type figureBlockType = {
     position: pointType,
     width: number,
     height: number,
-    borderColor: colorType,
-    fillColor: colorType,
+    styles: stylesType,
 };
 
 export type colorType  = {

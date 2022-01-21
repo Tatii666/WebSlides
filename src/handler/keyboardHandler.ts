@@ -1,6 +1,9 @@
 import {dispatchType, stateType} from "../store/store";
 import {KeyboardEvent} from 'react';
-import {setEditorModeAC, setViewModeAC} from "../store/modeReducer";
+import {
+    setEditorModeAC,
+    setViewModeAC,
+} from "../store/modeReducer";
 import {
     addNewSlideAC,
     createNewPresentationAC,
@@ -8,10 +11,9 @@ import {
     savePresentationAC,
     setEmptySelectionAC,
     setNextSlideActiveAC,
-    setPrevSlideActiveAC
+    setPrevSlideActiveAC,
 } from "../store/presentationReducer";
 import {doRedoAC, doUndoAC} from "../store/editorReducer";
-
 
 export const keyboardHandler = (event: KeyboardEvent<HTMLDivElement>, dispatch: dispatchType, state: stateType) => {
     switch (event.code) {

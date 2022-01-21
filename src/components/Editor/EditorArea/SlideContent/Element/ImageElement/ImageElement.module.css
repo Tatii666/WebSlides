@@ -1,4 +1,5 @@
 .imageElement
 {
     position: absolute;
+    box-sizing: border-box;
 }

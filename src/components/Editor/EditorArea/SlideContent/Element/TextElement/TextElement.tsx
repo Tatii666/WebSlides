@@ -1,19 +1,17 @@
 import React, {useEffect, useRef, useState} from 'react';
 import s from './TextElement.module.css';
-import {fontPickerType, idType, textBlockType} from "../../../../../../dataModel/editorDataModel";
+import {idType, textBlockType} from "../../../../../../dataModel/editorDataModel";
 import {toStringColor} from "../../../../../../functions";
 
 type propsType = {
     element: textBlockType,
     slideId: idType,
-    fontSettings: fontPickerType,
-    isActive: boolean,
     setNewTextValue: Function,
     deltaWidth?: number,
     deltaHeight?: number,
 }
 
-function TextElement({element, slideId, fontSettings, isActive, setNewTextValue, deltaWidth = 0, deltaHeight = 0}: propsType) {
+function TextElement({element, slideId, setNewTextValue, deltaWidth = 0, deltaHeight = 0}: propsType) {
     const [newValue, setValue] = useState(element.value);
     const [isEditable, setIsEditable] = useState(false);
     const textRef = useRef<HTMLDivElement>(null);
@@ -35,10 +33,10 @@ function TextElement({element, slideId, fontSettings, isActive, setNewTextValue,
             style={{
                 'width':element.width + deltaWidth,
                 'height':element.height + deltaHeight,
-                'fontFamily': element.style.font ?? fontSettings.defaultFont,
-                'fontSize': element.style.size ?? fontSettings.defaultSize,
-                'color': toStringColor(element.style.color),
-                'backgroundColor': toStringColor(element.style.backgroundColor),
+                'fontFamily': element.styles.font,
+                'fontSize': element.styles.fontSize,
+                'color': toStringColor(element.styles.color),
+                'backgroundColor': toStringColor(element.styles.backgroundColor),
             }}
             onInput={(e: React.FormEvent) => {
                 const element: HTMLDivElement = e.target as HTMLDivElement

@@ -46,8 +46,8 @@ function FigureElement({element, deltaWidth = 0, deltaHeight = 0}: propsType) {
              width={element.width + deltaWidth}
              height={element.height + deltaHeight}
              viewBox={`${-STROKE_WIDTH} ${-STROKE_WIDTH} ${element.width + deltaWidth + STROKE_WIDTH * 2} ${element.height + deltaHeight + STROKE_WIDTH * 2}`}
-             fill={toStringColor(element.fillColor)}
-             stroke={toStringColor(element.borderColor)}
+             fill={toStringColor(element.styles.backgroundColor)}
+             stroke={toStringColor(element.styles.color)}
              strokeWidth={`${STROKE_WIDTH}`}
         >
             {switchFigure(element, deltaWidth, deltaHeight)}

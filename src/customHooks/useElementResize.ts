@@ -9,7 +9,10 @@ function useElementResize(action: Function) {
     const [resizeMode, setResizeMode] = useState(0);
     const [initalSize, setInitalSize] = useState({width: 0, height: 0});
     const [resizeDelta, setResizeDelta] = useState({x: 0, y: 0, width: 0, height: 0});
-    const {delta, handleMouseDown, handleMouseUp, handleMouseMove} = useDownUp(({x, y}: pointType) => {} );
+    const {delta, handleMouseDown, handleMouseUp, handleMouseMove} = useDownUp(({x, y}: pointType) => {
+        calculateDelta(resizeMode, x, y, initalSize.width, initalSize.height);
+        action(resizeDelta);
+    } );
     const handleMouseDownResize = (e: React.MouseEvent<HTMLDivElement>, width: number, height: number) => {
         const target: HTMLDivElement = e.target as HTMLDivElement;
         handleMouseDown(e);
@@ -23,8 +26,6 @@ function useElementResize(action: Function) {
         }
         handleMouseUp(e);
 
-        setResizeDelta(calculateDelta(resizeMode, delta.x, delta.y, initalSize.width, initalSize.height));
-        action(resizeDelta);
         setResizeDelta({x: 0, y: 0, width: 0, height: 0});
         setResizeMode(0);
     }
