@@ -9,3 +9,8 @@
 {
     box-shadow: 1px -1px 6px 9px blueviolet;
 }
+
+.playerButton_active svg
+{
+    fill: #8b0000;
+}
