@@ -5,7 +5,12 @@
     background-color: #3e3e3e;
 }
 
-.playerButton_active
+/*.playerButton_active*/
+/*{*/
+/*    box-shadow: 1px -1px 6px 9px blueviolet;*/
+/*}*/
+
+.playerButton_active svg
 {
-    box-shadow: 1px -1px 6px 9px blueviolet;
+    fill: #8b0000;
 }
