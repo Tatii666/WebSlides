@@ -10,7 +10,7 @@
     box-shadow: 1px -1px 6px 9px blueviolet;
 }
 
-.playerButton_active svg
+.playerButton svg path
 {
-    fill: #8b0000;
+    transition: fill 0.3s;
 }

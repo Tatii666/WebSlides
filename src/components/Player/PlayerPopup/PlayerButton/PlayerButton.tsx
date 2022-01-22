@@ -11,8 +11,8 @@ type propsType = {
 function PlayerButton({onClick, icon: Icon, isActive}: propsType) {
 
     return (
-        <div className={`${commonStyle.buttonIcon} ${commonStyle.standardButtonHover} ${s.playerButton}  ${isActive? s.playerButton_active: ''}`} onClick={onClick}>
-            <Icon />
+        <div className={`${commonStyle.buttonIcon} ${commonStyle.standardButtonHover} ${s.playerButton} ${isActive? s.playerButton_active : ''}`} onClick={onClick}>
+            <Icon className={isActive ? 'active' : ''}/>
         </div>
     );
 }
