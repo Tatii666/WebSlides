@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import {Editor} from "./components/Editor/Editor";
 import {PlayerContainer} from "./components/Player/Player";
-import {editorModeType, EditorType} from "./dataModel/editorDataModel";
+import {editorModeType} from "./dataModel/editorDataModel";
 import {connect} from "react-redux";
 import {dispatchType, stateType} from "./store/store";
 import {keyboardHandler} from "./handler/keyboardHandler";

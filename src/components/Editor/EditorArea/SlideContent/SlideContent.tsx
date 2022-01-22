@@ -4,6 +4,7 @@ import {DEFAULT_SLIDE_SIZE} from "../../../../dataModel/slideSizes";
 import {pointType, slideType} from "../../../../dataModel/editorDataModel";
 import {SlideElementContainer} from "./Element/SlideElement";
 import {resizeDeltaType} from "../../../../customHooks/useElementResize";
+import {toStringColor} from "../../../../functions";
 
 type propsType = {
     isEditor: boolean,
@@ -18,8 +19,12 @@ type propsType = {
 }
 
 function SlideContent({isEditor, slide, scaleTransformValue, width, height, onDndStart, dndDelta, onResizeStart, resizeDelta}: propsType) {
+    if (!slide) {
+        return null;
+    }
+
     const slideContentEditorClass = isEditor ? s.slideContent_editor : s.slideContent_player;
-    return slide? (
+    return (
         <div
             className={s.slideContent + ' ' + slideContentEditorClass}
             key={`slide-${slide.id}`}
@@ -27,6 +32,8 @@ function SlideContent({isEditor, slide, scaleTransformValue, width, height, onDn
                 'width': width || DEFAULT_SLIDE_SIZE.width,
                 'height': height || DEFAULT_SLIDE_SIZE.height,
                 'transform': `scale(${scaleTransformValue ?? 1})`,
+                'backgroundColor': slide.styles.backgroundColor !== 'none' ? toStringColor(slide.styles.backgroundColor) : '',
+                'backgroundImage': slide.styles.backgroundImage ? `url("${slide.styles.backgroundImage}")` : '',
             }}
             contentEditable={false}
         >
@@ -41,7 +48,7 @@ function SlideContent({isEditor, slide, scaleTransformValue, width, height, onDn
                 resizeDelta={resizeDelta}
             /> )}
         </div>
-    ) : null;
+    );
 }
 
 

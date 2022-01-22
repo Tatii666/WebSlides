@@ -38,6 +38,8 @@ const DELETE_SELECTED = 'DELETE_SELECTED';
 const MOVE_SELECTED_ELEMENTS = 'MOVE_SELECTED_ELEMENTS';
 const MOVE_SLIDE_IN_ORDER = 'MOVE_SLIDE_IN_ORDER';
 const MOVE_ELEMENT_LAYER = 'MOVE_ELEMENT_LAYER';
+const CHANGE_SLIDE_BACKGROUND_IMAGE = 'CHANGE_SLIDE_BACKGROUND_IMAGE';
+const CHANGE_COLORS_SELECTED = 'CHANGE_COLORS_SELECTED';
 
 
 export const emptySelection: selectionType = {type: 'element', selectionItems: []};
@@ -136,7 +138,7 @@ function moveSlideElement(slide: slideType, elementId: idType, delta: pointType)
     }
 }
 
-function getTransformedData(el: figureBlockType|textBlockType|imageBlockType, delta: transformElementProps): figureBlockType|textBlockType|imageBlockType{
+function setTransformedData(el: figureBlockType|textBlockType|imageBlockType, delta: transformElementProps): figureBlockType|textBlockType|imageBlockType{
     return {
         ...el,
         width: el.width + delta.width,
@@ -144,6 +146,16 @@ function getTransformedData(el: figureBlockType|textBlockType|imageBlockType, de
         position: {
             x: el.position.x + delta.x,
             y: el.position.y + delta.y,
+        }
+    }
+}
+
+function setChangedColors(el: figureBlockType|textBlockType|imageBlockType, color?: colorType, backgroundColor?: colorType): figureBlockType|textBlockType|imageBlockType{
+    return {
+        ...el,
+        styles: {
+            color: color ? color : el.styles.color,
+            backgroundColor: backgroundColor ? backgroundColor : el.styles.backgroundColor,
         }
     }
 }
@@ -172,7 +184,9 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                     imageBlocks: {},
                     textBlocks: {},
                     figureBlocks: {},
-                    backgroundColor: defaultBackgroundColor,
+                    styles: {
+                        backgroundColor: defaultBackgroundColor,
+                    },
                 }
             }
 
@@ -187,7 +201,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                     ...newSlide
                 },
             }
-        case DELETE_SLIDE:
+        case DELETE_SLIDE: {
             const newSlides = {
                 ...state.slides,
             }
@@ -198,6 +212,25 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 slidesOrder: state.slidesOrder.filter(id => id !== action.slideId),
                 slides: newSlides
             }
+        }
+        case CHANGE_SLIDE_BACKGROUND_IMAGE: {
+            const newSlides = {
+                ...state.slides,
+            }
+
+            newSlides[action.slideId] = {
+                ...newSlides[action.slideId],
+                styles: {
+                    ...newSlides[action.slideId].styles,
+                    backgroundImage: action.image || '',
+                }
+            }
+
+            return {
+                ...state,
+                slides: newSlides
+            }
+        }
         case SET_EMPTY_SELECTION:
             return {
                 ...state,
@@ -212,7 +245,9 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                     imageBlocks: {},
                     textBlocks: {},
                     figureBlocks: {},
-                    backgroundColor: defaultBackgroundColor,
+                    styles: {
+                        backgroundColor: defaultBackgroundColor,
+                    },
                 }
             }
 
@@ -370,21 +405,21 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                     const image = imagesBlocks[elementId]
                     imagesBlocks = {
                         ...imagesBlocks,
-                        [elementId]: getTransformedData(image, action.delta) as imageBlockType,
+                        [elementId]: setTransformedData(image, action.delta) as imageBlockType,
                     }
                     break;
                 case 't':
                     const text = textsBlocks[elementId]
                     textsBlocks = {
                         ...textsBlocks,
-                        [elementId]: getTransformedData(text, action.delta) as textBlockType,
+                        [elementId]: setTransformedData(text, action.delta) as textBlockType,
                     }
                     break;
                 case 'f':
                     const figure = figuresBlocks[elementId]
                     figuresBlocks = {
                         ...figuresBlocks,
-                        [elementId]: getTransformedData(figure, action.delta) as figureBlockType,
+                        [elementId]: setTransformedData(figure, action.delta) as figureBlockType,
                     }
                     break;
             }
@@ -393,7 +428,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 ...state.slides,
             }
 
-            newSlides[state.activeSlide] =  {
+            newSlides[state.activeSlide] = {
                 ...state.slides[state.activeSlide],
                 imageBlocks: imagesBlocks,
                 textBlocks: textsBlocks,
@@ -404,6 +439,76 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 ...state,
                 slides: {...newSlides},
             }
+        }
+        case CHANGE_COLORS_SELECTED: {
+            const newState: PresentationType = {...state};
+
+            if (state.selection.type === 'slide') {
+                if (!state.selection.selectionItems.length || !action.backgroundColor) {
+                    return state;
+                }
+                const selectedSlides = state.selection.selectionItems;
+                newState.slides = {...newState.slides};
+
+                for(let i = 0; i < selectedSlides.length; i++) {
+                    const slideData = {...newState.slides[selectedSlides[i]]};
+                    slideData.styles = {...slideData.styles, backgroundColor: action.backgroundColor};
+                }
+            }
+
+            if (state.selection.type === 'element') {
+                if (!state.selection.selectionItems.length) {
+                    return state;
+                }
+                newState.slides = {...state.slides};
+                const slide = state.slides[state.activeSlide];
+                const selectedElements = state.selection.selectionItems;
+
+                let imagesBlocks = slide.imageBlocks;
+                let figuresBlocks = slide.figureBlocks;
+                let textsBlocks = slide.textBlocks;
+
+                for(let i = 0; i < selectedElements.length; i++) {
+                    const elementId = selectedElements[i]
+                    const orderElement = slide.elements.find((el) => el.id === elementId);
+                    if (!orderElement) {
+                        continue;
+                    }
+
+                    switch (orderElement.type) {
+                        case 'i':
+                            const image = imagesBlocks[elementId]
+                            imagesBlocks = {
+                                ...imagesBlocks,
+                                [elementId]: setChangedColors(image, action.color, action.backgroundColor) as imageBlockType,
+                            }
+                            break;
+                        case 't':
+                            const text = textsBlocks[elementId]
+                            textsBlocks = {
+                                ...textsBlocks,
+                                [elementId]: setChangedColors(text, action.color, action.backgroundColor) as textBlockType,
+                            }
+                            break;
+                        case 'f':
+                            const figure = figuresBlocks[elementId]
+                            figuresBlocks = {
+                                ...figuresBlocks,
+                                [elementId]: setChangedColors(figure, action.color, action.backgroundColor) as figureBlockType,
+                            }
+                            break;
+                    }
+                }
+
+                newState.slides[state.activeSlide] = {
+                    ...state.slides[state.activeSlide],
+                    imageBlocks: imagesBlocks,
+                    textBlocks: textsBlocks,
+                    figureBlocks: figuresBlocks,
+                }
+            }
+
+            return newState;
         }
         case ADD_FIGURE_BLOCK: {
             const slide = state.slides[state.activeSlide];
@@ -575,6 +680,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
             {
                 let newState = {
                     ...state,
+                    slides: {...state.slides},
                 };
                 let selectedItems = state.selection.selectionItems;
 
@@ -744,6 +850,8 @@ export const setFirstSlideActiveAC = () => ({type: SELECT_FIRST_SLIDE});
 export const setNextSlideActiveAC = () => ({type: SELECT_NEXT_SLIDE});
 export const setPrevSlideActiveAC = () => ({type: SELECT_PREV_SLIDE});
 export const transformElementAC = ({delta}: transformElementACPropsType) => ({type: TRANSFORM_ELEMENT, delta});
+export const changeColorsSelectedAC = (color?: colorType, backgroundColor?: colorType) => ({type: CHANGE_COLORS_SELECTED, color, backgroundColor});
+export const changeSlideBackgroundImageAC = (slideId: idType, image?: string) => ({type: CHANGE_SLIDE_BACKGROUND_IMAGE, image});
 export const addFigureBlockAC = (figureType: figureTypeType) => ({type: ADD_FIGURE_BLOCK, figureType});
 export const addTextBlockAC = () => ({type: ADD_TEXT_BLOCK});
 export const addImageBlockAC = (dataURL: string, width: number, height: number) => ({type: ADD_IMAGE_BLOCK, dataURL, width, height});

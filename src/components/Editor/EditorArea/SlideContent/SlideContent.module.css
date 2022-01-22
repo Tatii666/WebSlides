@@ -1,10 +1,13 @@
 .slideContent
 {
-    background-color: #ffffff;
     z-index: 0;
     color: #000000;
     position: relative;
     overflow: visible;
+    background-color: #ffffff;
+    background-position: center;
+    background-size: auto;
+    background-repeat: repeat;
 }
 
 .slideContent_player

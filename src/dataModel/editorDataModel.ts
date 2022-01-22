@@ -70,7 +70,7 @@ export type slideType = {
 	imageBlocks: imagesElementsType,
 	textBlocks: textsElementsType,
 	figureBlocks: figuresElementsType,
-    backgroundColor: colorType,
+    styles: slideStylesType,
 };
 
 export type imagesElementsType = {[id: idType]: imageBlockType};
@@ -89,11 +89,15 @@ export type stylesType = {
     backgroundColor: colorType,
 }
 
+export type slideStylesType = {
+    backgroundColor: colorType,
+    backgroundImage?: string,
+}
+
 export type fontStylesType = {
     fontSize?: number,
     font?: string,
 }
-
 
 export type textsElementsType = {[id: idType]: textBlockType};
 

@@ -89,8 +89,8 @@ function calculateDelta(mode: number, dx: number, dy: number, initalWidth: numbe
     return {
         x: initalWidth - deltaX < 1 ? initalWidth : deltaX,
         y: initalHeight - deltaY < 1 ? initalHeight : deltaY,
-        width: initalWidth + deltaWidth > 1 ? deltaWidth : -initalWidth + 1,
-        height: initalHeight + deltaHeight > 1 ? deltaHeight : -initalHeight + 1,
+        width: initalWidth + deltaWidth > 1 ? deltaWidth : -initalWidth,
+        height: initalHeight + deltaHeight > 1 ? deltaHeight : -initalHeight,
     };
 }
 
