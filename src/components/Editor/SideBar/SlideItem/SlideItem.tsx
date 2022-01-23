@@ -32,7 +32,7 @@ function SlideItem({index, slide, isSelected, isActive, selectSlide, deleteSlide
         >
             <div className={s.slideButtonsContainer}>
                 <div className={s.slideIndex}>{index + 1}</div>
-                <SlideButtons className={s.slideButtons} slideId={slide.id} moveSlide={moveSlide}/>
+                <SlideButtons className={s.slideButtons} slideId={slide.id} moveSlide={moveSlide} isBackground={!!slide.styles.backgroundImage}/>
             </div>
 
             <div className={s.slideMiniature} style={slideMiniatureStyle}>
