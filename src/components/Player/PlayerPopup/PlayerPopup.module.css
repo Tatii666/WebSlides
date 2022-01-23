@@ -1,5 +1,6 @@
 .playerPopup
 {
+    transition: opacity 0.2s 0.2s;
     opacity: 0;
     position: absolute;
     width: 300px;

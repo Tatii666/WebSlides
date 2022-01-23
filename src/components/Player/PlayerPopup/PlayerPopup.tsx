@@ -19,7 +19,9 @@ type propsType = {
 
 function PlayerPopup({pointer, setNextSlideActive, setPrevSlideActive, setEditorMode}: propsType) {
     return (
-        <div className={s.playerPopup}>
+        <div className={s.playerPopup}
+            onClick={(e) => e.stopPropagation()}
+        >
             <PlayerButton icon={prevSlideIcon} onClick={() => setPrevSlideActive()}/>
             <PlayerButton icon={pointerIcon} isActive={pointer.statePointer} onClick={() => {pointer.setStatePointer(!pointer.statePointer)}}/>
             <PlayerButton icon={nextSlideIcon} onClick={() => setNextSlideActive()}/>
