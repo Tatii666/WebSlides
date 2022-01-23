@@ -10,7 +10,12 @@ import {
 } from "../../../dataModel/editorDataModel";
 import {connect} from "react-redux";
 import {dispatchType, stateType} from "../../../store/store";
-import {deleteSlideAC, selectSlideAC, selectSlidePropsType} from "../../../store/presentationReducer";
+import {
+    deleteSlideAC,
+    moveSlideInOrdersAC,
+    selectSlideAC,
+    selectSlidePropsType,
+} from "../../../store/presentationReducer";
 
 type propsType = {
     slides: slidesType,
@@ -19,9 +24,10 @@ type propsType = {
     activeSlide: idType,
     selectSlide: Function,
     deleteSlide: Function,
+    moveSlide: Function,
 }
 
-function SideBar({slides, slidesOrder, selection, activeSlide, selectSlide, deleteSlide}: propsType) {
+function SideBar({slides, slidesOrder, selection, activeSlide, selectSlide, deleteSlide, moveSlide}: propsType) {
     const selectedSlides = getSelectedSlides(selection)
     return (
         <div className={s.sidebar}>
@@ -34,6 +40,7 @@ function SideBar({slides, slidesOrder, selection, activeSlide, selectSlide, dele
                     index={index}
                     selectSlide={selectSlide}
                     deleteSlide={deleteSlide}
+                    moveSlide={moveSlide}
                 />
             })}
         </div>
@@ -51,7 +58,8 @@ const mapStateToProps = (state: stateType) => {
 const mapDispatchToProps = (dispatch: dispatchType) => {
     return {
         selectSlide: ({slideId, isCtrlPressed}: selectSlidePropsType) => dispatch(selectSlideAC({slideId, isCtrlPressed})),
-        deleteSlide: (slideId: idType) => dispatch(deleteSlideAC(slideId))
+        deleteSlide: (slideId: idType) => dispatch(deleteSlideAC(slideId)),
+        moveSlide: (slideId: idType, toWhere: 'next'|'prev') => dispatch(moveSlideInOrdersAC(slideId, toWhere)),
     }
 }
 
