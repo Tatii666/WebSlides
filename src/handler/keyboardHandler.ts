@@ -8,6 +8,7 @@ import {
     addNewSlideAC,
     createNewPresentationAC,
     deleteSelectedAC,
+    moveElementLayerAC,
     savePresentationAC,
     setEmptySelectionAC,
     setNextSlideActiveAC,
@@ -84,7 +85,16 @@ export const keyboardHandler = (event: KeyboardEvent<HTMLDivElement>, dispatch: 
                 dispatch(setEditorModeAC());
             }
             break;
-
+        case "ArrowUp":
+            if(event.ctrlKey === true){
+                dispatch(moveElementLayerAC('up'));
+            }
+            break;
+        case "ArrowDown":
+            if(event.ctrlKey === true){
+                dispatch(moveElementLayerAC('down'));
+            }
+            break;
         default:
             break;
     }
