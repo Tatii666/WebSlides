@@ -708,6 +708,10 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                     ...state.slides[activeSlideId]
                 };
 
+                if(!state.activeSlide || !currentSlide){
+                    return state;
+                }
+
                 currentSlide.elements = currentSlide.elements.filter((element) => !state.selection.selectionItems.includes(element.id));
 
                 // Удалить сами элементы из данных слайда

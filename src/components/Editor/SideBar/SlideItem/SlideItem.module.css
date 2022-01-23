@@ -8,10 +8,21 @@
     transition: background-color 0.2s ease-out;
 }
 
+.slideButtons
+{
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
 .slideItem:hover
 {
     color: #000000;
     background-color: #bababa;
+}
+
+.slideItem:hover .slideButtons
+{
+    opacity: 1;
 }
 
 .slideItem_selected,
@@ -41,3 +52,15 @@
 {
     border: 4px solid #6699cc;
 }
+
+.slideIndex
+{
+    padding-left: 15px;
+}
+
+.slideButtonsContainer
+{
+    display: flex;
+    flex-direction: column;
+}
+

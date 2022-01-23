@@ -1,0 +1,18 @@
+.slideButtons
+{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-evenly;
+}
+
+.backgroundImg
+{
+    padding: 0 !important;
+}
+
+.backgroundImg svg
+{
+    width: 34px !important;
+    height: 34px !important;
+}

@@ -1,0 +1,21 @@
+.slideButton
+{
+    height: 34px;
+    width: 34px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 3px;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+.slideButton:hover
+{
+    background-color: #d5d5d5;
+}
+
+.slideButton svg
+{
+    height: 30px;
+    width: 30px;
+}

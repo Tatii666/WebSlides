@@ -4,6 +4,7 @@ import {DEFAULT_SLIDE_SIZE, MINIATURE_SLIDE_SIZE} from "../../../../dataModel/sl
 import {slideType} from "../../../../dataModel/editorDataModel";
 import {SlideContent} from "../../EditorArea/SlideContent/SlideContent";
 import {DeleteButton} from "./DeleteButton/DeleteButton";
+import {SlideButtons} from "./SlideButtons/SlideButtons";
 
 type propsType = {
     index: number,
@@ -12,9 +13,10 @@ type propsType = {
     isActive: boolean,
     selectSlide: Function,
     deleteSlide: Function,
+    moveSlide: Function,
 }
 
-function SlideItem({index, slide, isSelected, isActive, selectSlide, deleteSlide}: propsType) {
+function SlideItem({index, slide, isSelected, isActive, selectSlide, deleteSlide, moveSlide}: propsType) {
     const slideMiniatureStyle = {
         width: `${MINIATURE_SLIDE_SIZE.width}px`,
         height: `${MINIATURE_SLIDE_SIZE.height}px`,
@@ -28,9 +30,11 @@ function SlideItem({index, slide, isSelected, isActive, selectSlide, deleteSlide
                 selectSlide({slideId: slide.id, isCtrlPressed: event.ctrlKey});
             }}
         >
-            <div>
-                {index + 1}
+            <div className={s.slideButtonsContainer}>
+                <div className={s.slideIndex}>{index + 1}</div>
+                <SlideButtons className={s.slideButtons} slideId={slide.id} moveSlide={moveSlide} isBackground={!!slide.styles.backgroundImage}/>
             </div>
+
             <div className={s.slideMiniature} style={slideMiniatureStyle}>
                 <SlideContent
                     isEditor={false}
