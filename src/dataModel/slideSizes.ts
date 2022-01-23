@@ -3,7 +3,7 @@ export const DEFAULT_SLIDE_SIZE = {
     height: 540,
 }
 
-const MINIATURE_SLIDE_WIDTH = 370;
+const MINIATURE_SLIDE_WIDTH = 350;
 
 export const MINIATURE_SLIDE_SIZE = {
     width: MINIATURE_SLIDE_WIDTH,
