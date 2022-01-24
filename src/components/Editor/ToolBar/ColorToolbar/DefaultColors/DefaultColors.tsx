@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './DefaultColors.module.css';
 import {colorType} from "../../../../../dataModel/editorDataModel";
-import {toStringColor} from "../../../../../functions";
+import {toStringColor} from "../../../../../store/presentationReducer";
 
 type propsType = {
     changeColors: Function,
@@ -14,7 +14,7 @@ function DefaultColors({changeColors, colors}: propsType) {
             {colors.map(color => {
                 return (
                     <div
-                        className={s.colorItem}
+                        className={`${s.colorItem} ${color === 'none' ? s.colorItem_transparent : ''}`}
                         onClick={e => changeColors({color: color})}
                         onContextMenu={e => {
                             e.preventDefault();

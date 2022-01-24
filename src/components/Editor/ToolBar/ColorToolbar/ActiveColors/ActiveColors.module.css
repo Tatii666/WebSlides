@@ -60,10 +60,17 @@
     top: 10px;
     left: 60px;
     border-radius: 6px;
-    background-color: #c3c3c3;
+    background-color: #6699cc;
     padding: 5px;
     white-space: nowrap;
     text-transform: uppercase;
+    z-index: 100;
+}
+
+.colorInput:focus
+{
+    background-color: #6699cc;
+    border-color: #6699cc;
 }
 
 .colorInput:hover + label,

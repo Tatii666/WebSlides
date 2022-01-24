@@ -14,9 +14,11 @@ type propsType = {
     selectSlide: Function,
     deleteSlide: Function,
     moveSlide: Function,
+    changeSlideBackgroundImage: Function,
+    onLoadImageClickRef: React.MutableRefObject<Function>,
 }
 
-function SlideItem({index, slide, isSelected, isActive, selectSlide, deleteSlide, moveSlide}: propsType) {
+function SlideItem({index, slide, isSelected, isActive, selectSlide, deleteSlide, moveSlide, changeSlideBackgroundImage, onLoadImageClickRef}: propsType) {
     const slideMiniatureStyle = {
         width: `${MINIATURE_SLIDE_SIZE.width}px`,
         height: `${MINIATURE_SLIDE_SIZE.height}px`,
@@ -32,7 +34,14 @@ function SlideItem({index, slide, isSelected, isActive, selectSlide, deleteSlide
         >
             <div className={s.slideButtonsContainer}>
                 <div className={s.slideIndex}>{index + 1}</div>
-                <SlideButtons className={s.slideButtons} slideId={slide.id} moveSlide={moveSlide} isBackground={!!slide.styles.backgroundImage}/>
+                <SlideButtons
+                    className={s.slideButtons}
+                    slideId={slide.id}
+                    moveSlide={moveSlide}
+                    isBackground={!!slide.styles.backgroundImage}
+                    changeSlideBackgroundImage={changeSlideBackgroundImage}
+                    onLoadImageClickRef={onLoadImageClickRef}
+                />
             </div>
 
             <div className={s.slideMiniature} style={slideMiniatureStyle}>

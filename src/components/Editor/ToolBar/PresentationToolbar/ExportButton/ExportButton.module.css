@@ -25,13 +25,12 @@
     background-color: #efefef;
 }
 
-
 .exportButton_disabled,
 .exportButton_disabled:hover,
 .exportButton_disabled:active
 {
     box-shadow: none;
     cursor: default;
+    opacity: 0.5;
     background-color: #c3c3c3;
-    color: #888888;
 }

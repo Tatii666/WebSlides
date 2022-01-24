@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import s from './TextElement.module.css';
 import {idType, textBlockType} from "../../../../../../dataModel/editorDataModel";
-import {toStringColor} from "../../../../../../functions";
+import {toStringColor} from "../../../../../../store/presentationReducer";
 
 type propsType = {
     element: textBlockType,
@@ -10,6 +10,8 @@ type propsType = {
     deltaWidth?: number,
     deltaHeight?: number,
 }
+
+const TEXT_PLACEHOLDER = 'Please, enter your text';
 
 function TextElement({element, slideId, setNewTextValue, deltaWidth = 0, deltaHeight = 0}: propsType) {
     const [newValue, setValue] = useState(element.value);
@@ -28,7 +30,7 @@ function TextElement({element, slideId, setNewTextValue, deltaWidth = 0, deltaHe
             id={element.id}
             contentEditable={isEditable}
             suppressContentEditableWarning={true}
-            dangerouslySetInnerHTML={{__html: element.value}}
+            dangerouslySetInnerHTML={{__html: !isEditable && !element.value ? TEXT_PLACEHOLDER : element.value}}
             className={`${s.textElement}`}
             style={{
                 'width':element.width + deltaWidth,

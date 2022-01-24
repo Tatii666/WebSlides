@@ -67,7 +67,6 @@ export function toStringColor(color: colorType) {
     return color === 'none' ? 'none' : `rgb(${color.r}, ${color.g}, ${color.b})`;
 }
 
-
 export function toHexStringColor(color: colorType) {
     function componentToHex(c: number) {
         let hex = c.toString(16);
@@ -189,11 +188,14 @@ const initalState: PresentationType = {
 export const presentationReducer = (state = initalState, action: AnyAction): PresentationType => {
     switch (action.type) {
         case SET_PRESENTATION_TITLE:
-            return {
+            return state.title ? {
                 ...state,
                 title: action.newTitle,
-            }
+            } : state;
         case ADD_NEW_SLIDE:
+            if (!state.title) {
+                return state;
+            }
             const newId = uuidv4();
             const newSlide = {
                 [newId]: {
@@ -279,18 +281,19 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
             }
         }
         case SAVE_PRESENTATION: {
-            const type = 'data:application/octet-stream;base64, ';
-            const text = JSON.stringify(state);
-            const base = btoa(unescape(encodeURIComponent(text)))
-            const res = type + base;
-            const link = document.createElement('a');
+            if (state.title) {
+                const type = 'data:application/octet-stream;base64, ';
+                const text = JSON.stringify(state);
+                const base = btoa(unescape(encodeURIComponent(text)))
+                const res = type + base;
+                const link = document.createElement('a');
 
-            link.href = res;
-            link.download = state.title + '.json';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
+                link.href = res;
+                link.download = state.title + '.json';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
             return state;
         }
         case LOAD_PRESENTATION: {
@@ -587,7 +590,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 },
                 width: DEFAULT_TEXT_WIDTH,
                 height: DEFAULT_TEXT_HEIGHT,
-                value: 'Please, enter your text',
+                value: '',
                 styles: {
                     color: defaultColor,
                     backgroundColor: none,
@@ -636,8 +639,8 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
             const newImageBlock = {
                 id: id,
                 position: {
-                    x: DEFAULT_SLIDE_SIZE.width / 2 - newWidth / 2,
-                    y: DEFAULT_SLIDE_SIZE.height / 2 - newHeight / 2,
+                    x: DEFAULT_SLIDE_SIZE.width / 2 - newWidth / 2 - 3,
+                    y: DEFAULT_SLIDE_SIZE.height / 2 - newHeight / 2 - 3,
                 },
                 width: newWidth,
                 height: newHeight,
@@ -732,7 +735,15 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                     return state;
                 }
 
-                currentSlide.elements = currentSlide.elements.filter((element) => !state.selection.selectionItems.includes(element.id));
+                currentSlide.elements = currentSlide.elements.filter((element) => {
+                    const isSelected = state.selection.selectionItems.includes(element.id);
+                    if (isSelected) {
+                        delete currentSlide.imageBlocks[element.id];
+                        delete currentSlide.textBlocks[element.id];
+                        delete currentSlide.figureBlocks[element.id];
+                    }
+                    return !isSelected
+                });
 
                 // Удалить сами элементы из данных слайда
 
@@ -879,7 +890,7 @@ export const setNextSlideActiveAC = () => ({type: SELECT_NEXT_SLIDE});
 export const setPrevSlideActiveAC = () => ({type: SELECT_PREV_SLIDE});
 export const transformElementAC = ({delta}: transformElementACPropsType) => ({type: TRANSFORM_ELEMENT, delta});
 export const changeColorsSelectedAC = (colors: changeColorsSelectedACPropsType) => ({type: CHANGE_COLORS_SELECTED, ...colors});
-export const changeSlideBackgroundImageAC = (slideId: idType, image?: string) => ({type: CHANGE_SLIDE_BACKGROUND_IMAGE, image});
+export const changeSlideBackgroundImageAC = (slideId: idType, image?: string) => ({type: CHANGE_SLIDE_BACKGROUND_IMAGE, slideId, image});
 export const addFigureBlockAC = (figureType: figureTypeType) => ({type: ADD_FIGURE_BLOCK, figureType});
 export const addTextBlockAC = () => ({type: ADD_TEXT_BLOCK});
 export const addImageBlockAC = (dataURL: string, width: number, height: number) => ({type: ADD_IMAGE_BLOCK, dataURL, width, height});

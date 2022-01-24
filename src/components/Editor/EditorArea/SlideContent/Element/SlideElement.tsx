@@ -12,7 +12,6 @@ import {ImageElement} from "./ImageElement/ImageElement";
 import {TextElement} from "./TextElement/TextElement";
 import {FigureElement} from "./FigureElement/FigureElement";
 import {ResizeComponent} from "./ResizeComponent/ResizeComponent";
-import {getEditor} from "../../../../../editor";
 import {dispatchType, stateType} from "../../../../../store/store";
 import {
     emptySelection,

@@ -4,7 +4,7 @@ import {DEFAULT_SLIDE_SIZE} from "../../../../dataModel/slideSizes";
 import {pointType, slideType} from "../../../../dataModel/editorDataModel";
 import {SlideElementContainer} from "./Element/SlideElement";
 import {resizeDeltaType} from "../../../../customHooks/useElementResize";
-import {toStringColor} from "../../../../functions";
+import {toStringColor} from "../../../../store/presentationReducer";
 
 type propsType = {
     isEditor: boolean,

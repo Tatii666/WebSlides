@@ -4,7 +4,7 @@ import {figureBlockType, figureType} from "../../../../../../dataModel/editorDat
 import {Triangle} from "./Circle/Triangle";
 import {Circle} from "./Triangle/Circle";
 import {Rectangle} from "./Rectangle/Rectangle";
-import {toStringColor} from "../../../../../../functions";
+import {toStringColor} from "../../../../../../store/presentationReducer";
 
 const STROKE_WIDTH = 3;
 

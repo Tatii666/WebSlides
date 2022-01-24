@@ -10,7 +10,7 @@ import {connect} from "react-redux";
 import {addFigureBlockAC, addImageBlockAC, addTextBlockAC} from "../../../../store/presentationReducer";
 import {figureTypeType} from "../../../../dataModel/editorDataModel";
 
-const IMAGE_FILE_EXTENTION = ['jpg', 'png', 'bmp'];
+export const IMAGE_FILE_EXTENTION = ['jpg', 'png', 'bmp'];
 
 type propsType = {
     addFigure: Function,

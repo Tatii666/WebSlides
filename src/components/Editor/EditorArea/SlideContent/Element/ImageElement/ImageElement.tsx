@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './ImageElement.module.css';
 import {imageBlockType} from "../../../../../../dataModel/editorDataModel";
-import {toStringColor} from "../../../../../../functions";
+import {toStringColor} from "../../../../../../store/presentationReducer";
 
 type propsType = {
     element: imageBlockType,
