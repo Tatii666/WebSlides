@@ -54,7 +54,7 @@ function ColorToolbar({presentation, changeColorsSelected, addUserColor, colors}
                 <ActiveColors changeColors={changeColorsSelected} addUserColor={addUserColor} currentColors={getColorLastSelected(presentation)}/>
                 <DefaultColors changeColors={changeColorsSelected} colors={colors}/>
             </div>
-            <ToolbarText text="цвет" />
+            <ToolbarText text="color" />
         </div>
     );
 }

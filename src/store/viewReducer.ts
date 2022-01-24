@@ -1,7 +1,7 @@
 import {AnyAction} from "redux";
 import {colorType, viewType} from "../dataModel/editorDataModel";
 
-const userMaxColors = 5;
+const userMaxColors = 6;
 const white = {r: 255, g: 255, b: 255};
 const black = {r: 0, g: 0, b: 0};
 const gray = {r: 160, g: 160, b: 160};
@@ -11,12 +11,14 @@ const lightBlue = {r: 51, g: 255, b: 255};
 const green = {r: 51, g: 255, b: 51};
 const yellow = {r: 255, g: 255, b: 51};
 const red = {r: 255, g: 51, b: 51};
+const orange = {r: 255, g: 155, b: 33};
+const pink = {r: 255, g: 89, b: 233};
 
 const ADD_USER_COLOR = 'ADD_USER_COLOR';
 
 const initalState: viewType = {
     colorPicker: {
-        defaultColors: ['none', black, blue, purple, green, white, gray, lightBlue, red, yellow],
+        defaultColors: ['none', black, blue, purple, pink, orange, white, gray, lightBlue, red, yellow, green],
         userColors: Array(userMaxColors).fill(white),
         userMaxColors: userMaxColors,
     },
