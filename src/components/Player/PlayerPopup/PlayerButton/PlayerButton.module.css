@@ -5,11 +5,6 @@
     background-color: #3e3e3e;
 }
 
-.playerButton_active
-{
-    box-shadow: 1px -1px 6px 9px blueviolet;
-}
-
 .playerButton svg path
 {
     transition: fill 0.3s;

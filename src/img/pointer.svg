@@ -1,11 +1,11 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
     <style>
         svg.active path#circle {
-            fill: #8b0000;
+            fill: #f20505;
         }
 
         svg.active path#tail {
-            fill: #a31a1a;
+            fill: #de1d1d;
         }
 
         svg:not(.active):hover path#circle,

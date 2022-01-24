@@ -61,7 +61,7 @@ function InsertToolbar({addFigure, addText, addImage}: propsType) {
 
     return (
         <div className={s.insertToolbar} >
-            <ToolbarText text='вставка' />
+            <ToolbarText text='insert' />
             <InsertButton icon={PictureIcon} text={'PICTURE'} onClick={onLoadImageClick}/>
             <FigureInsertButtons addFigure={addFigure}/>
             <InsertButton icon={TextIcon} text={'TEXT'} onClick={() => {addText()}}/>

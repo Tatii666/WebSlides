@@ -10,7 +10,7 @@ type propsType = {
 function NewSlideButton({addNewSlide}: propsType) {
     return (
         <div className={`${s.newSlideButton} ${commonStyle.standardButtonHover}`} contentEditable={false} onClick={addNewSlide}>
-            <ToolbarText text="слайд" />
+            <ToolbarText text="slide" />
             <div className={`${commonStyle.standardButtonIcon} ${s.buttonIcon}`}>
                 NEW SLIDE
             </div>

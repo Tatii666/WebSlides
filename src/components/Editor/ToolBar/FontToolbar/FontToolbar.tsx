@@ -11,7 +11,7 @@ function FontToolbar() {
                 <FontSelect />
                 <FontSizeSelect />
             </div>
-            <ToolbarText text="шрифт" />
+            <ToolbarText text="font" />
         </div>
     );
 }

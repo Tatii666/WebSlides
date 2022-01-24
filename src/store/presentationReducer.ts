@@ -587,7 +587,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 },
                 width: DEFAULT_TEXT_WIDTH,
                 height: DEFAULT_TEXT_HEIGHT,
-                value: 'Здесь должен быть ваш текст',
+                value: 'Please, enter your text',
                 styles: {
                     color: defaultColor,
                     backgroundColor: none,
