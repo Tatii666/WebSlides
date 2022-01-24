@@ -138,11 +138,22 @@ export type palettePickerType = {
     activeColor: colorType,
 };
 
+export type colorPickerType = {
+    defaultColors: Array<colorType>,
+    userColors: Array<colorType>,
+    userMaxColors: number,
+};
+
+export type viewType = {
+    colorPicker: colorPickerType,
+    fontPicker: fontPickerType,
+}
+
+export type alignType = 'left'|'center'|'right';
+
 export type fontPickerType = {
     sizes: Array<number>,
-    defaultSize: number,
-    defaultFont: string,
-    activeSize: number,
+    fonts: Array<string>,
 };
 
 export type figurePickerType = Array<triangleType|circleType|rectangleType>; //TODO

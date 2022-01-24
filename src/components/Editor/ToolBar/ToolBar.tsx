@@ -4,7 +4,7 @@ import {FileToolbarContainer} from "./FileToolbar/FileToolbar";
 import {SlideToolbarContainer} from "./SlideToolbar/SlideToolbar";
 import {InsertToolbarContainer} from "./InsertToolbar/InsertToolbar";
 import {FontToolbar} from "./FontToolbar/FontToolbar";
-import {ColorToolbar} from "./ColorToolbar/ColorToolbar";
+import {ColorToolbarContainer} from "./ColorToolbar/ColorToolbar";
 import {PresentationToolbarContainer} from "./PresentationToolbar/PresentationToolbar";
 import {connect} from "react-redux";
 import {dispatchType, stateType} from "../../../store/store";
@@ -19,7 +19,7 @@ function ToolBar({}: propsType) {
             <SlideToolbarContainer />
             <InsertToolbarContainer />
             <FontToolbar/>
-            <ColorToolbar />
+            <ColorToolbarContainer />
             <PresentationToolbarContainer />
         </div>
     );

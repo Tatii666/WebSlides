@@ -63,8 +63,25 @@ const DEFAULT_TEXT_HEIGHT = 200;
 const newSlideSelectionType: 'slide' = 'slide';
 const newElementSelectionType: 'element' = 'element';
 
-function toStringColor(color: colorType) {
+export function toStringColor(color: colorType) {
     return color === 'none' ? 'none' : `rgb(${color.r}, ${color.g}, ${color.b})`;
+}
+
+
+export function toHexStringColor(color: colorType) {
+    function componentToHex(c: number) {
+        let hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    }
+    return color === 'none' ? '#FFFFFF' : `#${componentToHex(color.r)}${componentToHex(color.g)}${componentToHex(color.b)}`;
+}
+
+export function parseColor(color: string): colorType {
+    const r = parseInt(color.substr(1,2), 16)
+    const g = parseInt(color.substr(3,2), 16)
+    const b = parseInt(color.substr(5,2), 16)
+
+    return {r, g, b};
 }
 
 export function getElementData(el: elementType, slide: slideType) {
@@ -154,8 +171,9 @@ function setChangedColors(el: figureBlockType|textBlockType|imageBlockType, colo
     return {
         ...el,
         styles: {
-            color: color ? color : el.styles.color,
-            backgroundColor: backgroundColor ? backgroundColor : el.styles.backgroundColor,
+            ...el.styles,
+            color: color || el.styles.color,
+            backgroundColor: backgroundColor || el.styles.backgroundColor,
         }
     }
 }
@@ -200,6 +218,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                     ...state.slides,
                     ...newSlide
                 },
+                activeSlide: newId,
             }
         case DELETE_SLIDE: {
             const newSlides = {
@@ -453,6 +472,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 for(let i = 0; i < selectedSlides.length; i++) {
                     const slideData = {...newState.slides[selectedSlides[i]]};
                     slideData.styles = {...slideData.styles, backgroundColor: action.backgroundColor};
+                    newState.slides[selectedSlides[i]] = slideData;
                 }
             }
 
@@ -842,6 +862,10 @@ export type transformElementACPropsType = {
         height: number,
     }
 }
+export type changeColorsSelectedACPropsType = {
+    color?: colorType,
+    backgroundColor?: colorType,
+}
 export const setPresentationTitleAC = (newTitle: string) => ({type: SET_PRESENTATION_TITLE, newTitle});
 export const addNewSlideAC = () => ({type: ADD_NEW_SLIDE});
 export const deleteSlideAC = (slideId: idType) => ({type: DELETE_SLIDE, slideId});
@@ -854,7 +878,7 @@ export const setFirstSlideActiveAC = () => ({type: SELECT_FIRST_SLIDE});
 export const setNextSlideActiveAC = () => ({type: SELECT_NEXT_SLIDE});
 export const setPrevSlideActiveAC = () => ({type: SELECT_PREV_SLIDE});
 export const transformElementAC = ({delta}: transformElementACPropsType) => ({type: TRANSFORM_ELEMENT, delta});
-export const changeColorsSelectedAC = (color?: colorType, backgroundColor?: colorType) => ({type: CHANGE_COLORS_SELECTED, color, backgroundColor});
+export const changeColorsSelectedAC = (colors: changeColorsSelectedACPropsType) => ({type: CHANGE_COLORS_SELECTED, ...colors});
 export const changeSlideBackgroundImageAC = (slideId: idType, image?: string) => ({type: CHANGE_SLIDE_BACKGROUND_IMAGE, image});
 export const addFigureBlockAC = (figureType: figureTypeType) => ({type: ADD_FIGURE_BLOCK, figureType});
 export const addTextBlockAC = () => ({type: ADD_TEXT_BLOCK});

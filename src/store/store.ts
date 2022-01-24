@@ -9,7 +9,6 @@ let redusers = combineReducers({
 
 export const store = createStore(redusers);
 
-
 export type stateType = ReturnType<typeof store.getState>;
 
 export type dispatchType = typeof store.dispatch;
