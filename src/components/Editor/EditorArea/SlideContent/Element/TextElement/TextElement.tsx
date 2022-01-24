@@ -65,6 +65,10 @@ function TextElement({element, slideId, setNewTextValue, deltaWidth = 0, deltaHe
                 if (isEditable && (event.code === 'Escape')) {
                     setIsEditable(false);
                 }
+                if (event.ctrlKey && (event.code === 'KeyB' || event.code === 'KeyI' || event.code === 'KeyU')) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
             }}
         >
 
