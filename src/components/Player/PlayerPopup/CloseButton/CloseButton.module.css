@@ -15,6 +15,7 @@
 
 .closeButton:hover
 {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-color: rgba(135, 135, 135, 0.5);
+    box-shadow: 0 0 10px rgba(135, 135, 135, 0.5);
     cursor: pointer;
 }
