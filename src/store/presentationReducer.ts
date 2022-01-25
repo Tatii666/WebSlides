@@ -222,6 +222,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                     ...newSlide
                 },
                 activeSlide: newId,
+                selection: emptySelection,
             }
         case DELETE_SLIDE: {
             const newSlides = {
@@ -361,6 +362,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
             return {
                 ...state,
                 activeSlide: newActiveSlide,
+                selection: emptySelection,
             }
         }
         case SELECT_NEXT_SLIDE: {
@@ -384,6 +386,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
             return {
                 ...state,
                 activeSlide: newActiveSlide,
+                selection: emptySelection,
             }
         }
         case SELECT_PREV_SLIDE: {
@@ -405,6 +408,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
             return {
                 ...state,
                 activeSlide: newActiveSlide,
+                selection: emptySelection,
             }
         }
         case TRANSFORM_ELEMENT: {
@@ -574,6 +578,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
             return {
                 ...state,
                 slides: {...newSlides},
+                selection: emptySelection,
             }
         }
         case ADD_TEXT_BLOCK: {
@@ -619,6 +624,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
             return {
                 ...state,
                 slides: {...newSlides},
+                selection: emptySelection,
             }
         }
         case ADD_IMAGE_BLOCK: {
@@ -672,6 +678,7 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
             return {
                 ...state,
                 slides: {...newSlides},
+                selection: emptySelection,
             }
         }
         case SET_NEW_VALUE_TEXT_BLOCK: {
