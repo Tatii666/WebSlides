@@ -47,7 +47,7 @@ export type noneType = 'none';
 const none: noneType = 'none';
 
 const defaultFont = 'Arial';
-const defaultFontSize = 30;
+const defaultFontSize = 28;
 const defaultBackgroundColor: colorType = 'none';
 const defaultColor: colorType = {
     r: 0,
