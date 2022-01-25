@@ -11,9 +11,9 @@ function FontSizeSelect({sizes, changeFontStyles}: propsType) {
         <div className={s.fontSelectContainer}>
             <select className={s.fontSelect}
                 onChange={(e) => changeFontStyles({size: e.target.value})}
-                defaultValue={'-'}
+                defaultValue={28}
             >
-                {sizes.map((size) => <option key={'id_' + size} value={size}>{size + 'px'}</option>)}
+                {sizes.map((size) => <option key={'id_' + size} value={size} selected={size === 28}>{size + 'px'}</option>)}
             </select>
         </div>
     );
