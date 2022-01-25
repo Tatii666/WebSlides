@@ -9,5 +9,11 @@
 
 .fontToolbarButtons
 {
-    margin: 0 0 22px 0;
+    margin: 0 0 10px 0;
+}
+
+.alignButtons
+{
+    display: flex;
+    padding: 0 15px;
 }

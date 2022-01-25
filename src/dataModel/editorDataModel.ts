@@ -97,6 +97,7 @@ export type slideStylesType = {
 export type fontStylesType = {
     fontSize?: number,
     font?: string,
+    align?: 'left'|'center'|'right',
 }
 
 export type textsElementsType = {[id: idType]: textBlockType};

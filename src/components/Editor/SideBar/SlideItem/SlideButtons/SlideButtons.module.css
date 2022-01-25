@@ -13,6 +13,7 @@
 
 .backgroundImg svg
 {
-    width: 34px !important;
-    height: 34px !important;
+    width: 40px !important;
+    height: 40px !important;
+    margin: -2px 0 0 -4px;
 }

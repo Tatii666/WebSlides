@@ -4,7 +4,7 @@ import {ToolbarText} from "../ToolbarText/ToolbarText";
 import {ActiveColors} from "./ActiveColors/ActiveColors";
 import {dispatchType, stateType} from "../../../../store/store";
 import {connect} from "react-redux";
-import {colorType, PresentationType, stylesType} from "../../../../dataModel/editorDataModel";
+import {colorType, PresentationType} from "../../../../dataModel/editorDataModel";
 import {
     changeColorsSelectedAC,
     changeColorsSelectedACPropsType,

@@ -3,6 +3,7 @@
     margin-right: 10px;
     border-radius: 3px;
     background-color: #3e3e3e;
+    font-size: 0;
 }
 
 .playerButton svg path

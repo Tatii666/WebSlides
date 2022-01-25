@@ -6,6 +6,7 @@
     border-radius: 3px;
     overflow: hidden;
     background-color: #3e3e3e;
+    font-size: 0;
 }
 
 .closeButton svg:hover

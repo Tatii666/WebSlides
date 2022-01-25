@@ -40,7 +40,7 @@ const MOVE_SLIDE_IN_ORDER = 'MOVE_SLIDE_IN_ORDER';
 const MOVE_ELEMENT_LAYER = 'MOVE_ELEMENT_LAYER';
 const CHANGE_SLIDE_BACKGROUND_IMAGE = 'CHANGE_SLIDE_BACKGROUND_IMAGE';
 const CHANGE_COLORS_SELECTED = 'CHANGE_COLORS_SELECTED';
-
+const CHANGE_FONT_STYLES_SELECTED = 'CHANGE_FONT_STYLES_SELECTED';
 
 export const emptySelection: selectionType = {type: 'element', selectionItems: []};
 export type noneType = 'none';
@@ -54,6 +54,7 @@ const defaultColor: colorType = {
     g: 0,
     b: 0,
 }
+const leftAlign: 'left' = 'left';
 
 const DEFAULT_FIGURE_WIDTH = 150;
 const DEFAULT_FIGURE_HEIGHT = 150;
@@ -64,13 +65,13 @@ const newSlideSelectionType: 'slide' = 'slide';
 const newElementSelectionType: 'element' = 'element';
 
 export function toStringColor(color: colorType) {
-    return color === 'none' ? 'none' : `rgb(${color.r}, ${color.g}, ${color.b})`;
+    return color === 'none' ? 'transparent' : `rgb(${color.r}, ${color.g}, ${color.b})`;
 }
 
 export function toHexStringColor(color: colorType) {
     function componentToHex(c: number) {
         let hex = c.toString(16);
-        return hex.length == 1 ? "0" + hex : hex;
+        return hex.length === 1 ? "0" + hex : hex;
     }
     return color === 'none' ? '#FFFFFF' : `#${componentToHex(color.r)}${componentToHex(color.g)}${componentToHex(color.b)}`;
 }
@@ -595,6 +596,8 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                     color: defaultColor,
                     backgroundColor: none,
                     fontSize: defaultFontSize,
+                    font: defaultFont,
+                    align: leftAlign,
                 }
             };
 
@@ -698,6 +701,47 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                 slides: {...newSlides},
             }
         }
+        case CHANGE_FONT_STYLES_SELECTED: {
+            if(state.selection.type === 'element')
+            {
+                let newState = {
+                    ...state,
+                    slides: {...state.slides}
+                };
+
+                const activeSlideId = state.activeSlide;
+                const currentSlide = {
+                    ...state.slides[activeSlideId]
+                };
+
+                const newTextBlocks = {...currentSlide.textBlocks};
+                if(!state.activeSlide || !currentSlide){
+                    return state;
+                }
+
+                const textBlocks = currentSlide.elements.filter((element) => {
+                    const isSelected = state.selection.selectionItems.includes(element.id);
+                    return isSelected && element.type === 't';
+                });
+
+                for(let i = 0; i < textBlocks.length; i++) {
+                    const currentBlock = {
+                        ...newTextBlocks[textBlocks[i].id],
+                        styles: newTextBlocks[textBlocks[i].id].styles,
+                    }
+                    if (action.font) currentBlock.styles.font = action.font;
+                    if (action.size) currentBlock.styles.fontSize = action.size;
+                    if (action.align) currentBlock.styles.align = action.align;
+
+                    newTextBlocks[textBlocks[i].id] = currentBlock;
+                }
+                currentSlide.textBlocks = newTextBlocks;
+
+                newState.slides[activeSlideId] = currentSlide;
+                return newState;
+            }
+            return state;
+        }
         case DELETE_SELECTED:
             if(state.selection.type === 'slide')
             {
@@ -744,8 +788,6 @@ export const presentationReducer = (state = initalState, action: AnyAction): Pre
                     }
                     return !isSelected
                 });
-
-                // Удалить сами элементы из данных слайда
 
                 newState.slides[activeSlideId] = currentSlide;
                 newState.selection = emptySelection;
@@ -877,6 +919,11 @@ export type changeColorsSelectedACPropsType = {
     color?: colorType,
     backgroundColor?: colorType,
 }
+export type changeFontStylesACPropsType = {
+    font?: string,
+    size?: number,
+    align?: string,
+}
 export const setPresentationTitleAC = (newTitle: string) => ({type: SET_PRESENTATION_TITLE, newTitle});
 export const addNewSlideAC = () => ({type: ADD_NEW_SLIDE});
 export const deleteSlideAC = (slideId: idType) => ({type: DELETE_SLIDE, slideId});
@@ -891,6 +938,7 @@ export const setPrevSlideActiveAC = () => ({type: SELECT_PREV_SLIDE});
 export const transformElementAC = ({delta}: transformElementACPropsType) => ({type: TRANSFORM_ELEMENT, delta});
 export const changeColorsSelectedAC = (colors: changeColorsSelectedACPropsType) => ({type: CHANGE_COLORS_SELECTED, ...colors});
 export const changeSlideBackgroundImageAC = (slideId: idType, image?: string) => ({type: CHANGE_SLIDE_BACKGROUND_IMAGE, slideId, image});
+export const changeFontStylesAC = ({font, size, align}: changeFontStylesACPropsType) => ({type: CHANGE_FONT_STYLES_SELECTED, font, size, align});
 export const addFigureBlockAC = (figureType: figureTypeType) => ({type: ADD_FIGURE_BLOCK, figureType});
 export const addTextBlockAC = () => ({type: ADD_TEXT_BLOCK});
 export const addImageBlockAC = (dataURL: string, width: number, height: number) => ({type: ADD_IMAGE_BLOCK, dataURL, width, height});

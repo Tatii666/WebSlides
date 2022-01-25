@@ -39,7 +39,6 @@ function ActiveColors({changeColors, currentColors, addUserColor}: propsType) {
                        }}
                        onContextMenu={event => event.preventDefault()}
                        onChange={e => setC(e.target.value)}
-                       defaultValue={DEFAULT_COLOR}
                        value={c}
                 />
                 <label className={s.colorLabel}>Color</label>
@@ -54,7 +53,6 @@ function ActiveColors({changeColors, currentColors, addUserColor}: propsType) {
                        }}
                        onContextMenu={event => event.preventDefault()}
                        onChange={e => setBc(e.target.value)}
-                       defaultValue={DEFAULT_BACKGROUND_COLOR}
                        value={bc}
                 />
                 <label className={s.colorLabel}>Background color</label>

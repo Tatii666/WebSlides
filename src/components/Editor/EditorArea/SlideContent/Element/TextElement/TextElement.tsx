@@ -36,9 +36,10 @@ function TextElement({element, slideId, setNewTextValue, deltaWidth = 0, deltaHe
                 'width':element.width + deltaWidth,
                 'height':element.height + deltaHeight,
                 'fontFamily': element.styles.font,
-                'fontSize': element.styles.fontSize,
+                'fontSize': element.styles.fontSize + 'px',
                 'color': toStringColor(element.styles.color),
                 'backgroundColor': toStringColor(element.styles.backgroundColor),
+                'textAlign': element.styles.align,
             }}
             onInput={(e: React.FormEvent) => {
                 const element: HTMLDivElement = e.target as HTMLDivElement

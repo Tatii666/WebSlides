@@ -11,9 +11,10 @@ type propsType = {
 function DefaultColors({changeColors, colors}: propsType) {
     return (
         <div className={s.defaultColor}>
-            {colors.map(color => {
+            {colors.map((color, i) => {
                 return (
                     <div
+                        key={'' + i + '_' + color}
                         className={`${s.colorItem} ${color === 'none' ? s.colorItem_transparent : ''}`}
                         onClick={e => changeColors({color: color})}
                         onContextMenu={e => {

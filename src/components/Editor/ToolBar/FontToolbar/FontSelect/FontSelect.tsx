@@ -1,14 +1,19 @@
 import React from 'react';
 import s from './FontSelect.module.css';
 
-function FontSelect() {
+type propsType = {
+    fonts: Array<string>,
+    changeFontStyles: Function,
+}
+
+function FontSelect({fonts, changeFontStyles}: propsType) {
     return (
         <div className={s.fontSelectContainer}>
-            <select className={s.fontSelect} name="" id="">
-                <option value="arial">Arial</option>
-                <option value="times">Times New Roman</option>
-                <option value="tahoma">Tahoma</option>
-                <option value="comic">Comic</option>
+            <select className={s.fontSelect}
+                onChange={(e) => changeFontStyles({font: e.target.value})}
+                defaultValue={'-'}
+            >
+                {fonts.map((font) => <option key={'id_' + font} value={font}>{font}</option>)}
             </select>
         </div>
     );
